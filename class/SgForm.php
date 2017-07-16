@@ -6,7 +6,7 @@ class SgForm extends SgPanel{
 	public $title = "FORM 3.0";
 	
 	public function render(){
-		
+		$titulo = "";
 		
 		
 		//print_r($s);

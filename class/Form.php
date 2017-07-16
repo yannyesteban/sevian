@@ -79,7 +79,7 @@ class Tab{
 	public $value = 0;
 	
 	public $css = "";
-	public $tab = array();
+	public $_tab = array();
 	public $body = array();
 	private $_ref = "tab";
 	
@@ -127,10 +127,10 @@ class Tab{
 	public function add($title = "", $body = false){
 		
 		
-		$this->tab[$this->nTab] = new HTML("a");
-		$this->tab[$this->nTab]->appendChild($title);
-		$this->tab[$this->nTab]->href = "javascript:void(0);";
-		$this->tab[$this->nTab]->class = "sg-tab-imenu";
+		$this->_tab[$this->nTab] = new HTML("a");
+		$this->_tab[$this->nTab]->appendChild($title);
+		$this->_tab[$this->nTab]->href = "javascript:void(0);";
+		$this->_tab[$this->nTab]->class = "sg-tab-imenu";
 		
 		
 		$this->body[$this->nTab] = new HTML("div");
@@ -143,7 +143,7 @@ class Tab{
 		$this->_menu->appendChild("\n\t");
 		$this->_body->appendChild("\n");
 
-		$this->_menu->appendChild($this->tab[$this->nTab]);
+		$this->_menu->appendChild($this->_tab[$this->nTab]);
 		$this->_body->appendChild($this->body[$this->nTab]);
 
 		return $this->body[$this->nTab++];
@@ -152,8 +152,8 @@ class Tab{
 	
 	
 	public function getIMenu($index){
-		if(isset($this->tab[$index])){
-			return $this->tab[$index];
+		if(isset($this->_tab[$index])){
+			return $this->_tab[$index];
 		}else{
 			return false;
 		}
@@ -166,6 +166,26 @@ class Tab{
 		}else{
 			return false;
 		}
+		
+	}
+	
+	public function reqJSON(){
+		
+		$a = [];
+		
+		$a["sgTab"] = [
+			"id"=>"tab_4_01",
+			"class"=>"summer",
+			"value"=>0,
+			
+				
+			
+			
+			
+		];
+		
+		
+		$json = "{id='tab_01'}";
 		
 	}
 	
@@ -230,7 +250,25 @@ class Form{
 	
 }
 
+/*
 
+$f = new Form("form_p4");
 
+$f->setClass("clean1");
 
+$f->setCaption("personas");
+
+$f->setTab("x");
+
+$f->addTabPage("basico");
+
+$f->addField('{
+	"type"=>"text",
+	"name"=>"cedula"
+	"valid"=>true,
+	
+
+}');
+
+*/
 ?>
