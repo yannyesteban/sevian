@@ -141,7 +141,7 @@ Valid::initMsg("spa",
 			"greatestequal"	=>"El campo {=title} debe ser mayor o igual que {=value}",
 			"lessequal"		=>"El campo {=title} debe ser menor o igual que {=value}",
 			"condition"		=>"El campo {=title} no cumple la condición predefinida",
-			"date"			=>"El campo {=title} no es una fecha válida",
+			
 			)
 		)
 	);
