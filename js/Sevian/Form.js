@@ -61,20 +61,21 @@ if(!Sevian){
 			
 			if(!this.useRow){
 				this._input = createInput(this.input);
-				this._main = this._input;
+				this._main = $(this._input.get());
+				
 				return true;
 				
 			}
 			
 			this._main = $.create("div");
-
+			this._main.addClass("tr");
 			if(this.caption !== false){
 				this.setCaption(this.caption);
 				
 			}
 			
 			var input = this._main.create("div");
-			
+			input.addClass("td");
 			this._input = createInput(this.input);
 			
 			input.append(this._input.get());
@@ -87,6 +88,7 @@ if(!Sevian){
 			if(!this._caption){
 				this._caption = this._main.create("div");
 				this._caption.addClass("caption");
+				this._caption.addClass("td");
 			}
 			
 			this._caption.text(caption);
@@ -108,9 +110,27 @@ if(!Sevian){
 			this.mode = mode;
 		},
 		
+		
+		
 		getMode: function(){
 			return this.mode;	
 		},
+		
+		setStatus: function(status){
+			this._main.removeClass(this.status);
+			this._main.addClass(status);
+			this.status = status;
+		},
+		getStatus: function(){
+			return this.status;
+		},
+		
+		valid: function(){
+			
+			
+		},
+		
+		
 		
 	};
 	
@@ -209,7 +229,9 @@ if(!Sevian){
 		appendChild: function(e){
 			this._body.append(e);	
 		},
-		
+		append: function(e){
+			this._body.append(e);	
+		},
 		
 		
 		
@@ -229,7 +251,7 @@ if(!Sevian){
 		
 		this.form = false;
 		
-		
+		this.fields = [];
 		this._fields = [];
 		
 		this._last = false;
@@ -240,6 +262,7 @@ if(!Sevian){
 		
 		
 		
+		this.fieldCount = 0;
 		this.tabCount = 0;
 		this.pageCount = 0;
 		
@@ -298,36 +321,60 @@ if(!Sevian){
 		
 		
 		setValue: function(data){
-			
+			for(var name in data){
+				if(this.fields[name]){
+					this.fields[name].getInput().setValue(data[name]);
+				}
+
+			}	
+		},
+		reset: function(data){
+			for(var name in data){
+				if(this.fields[name]){
+					this.fields[name].getInput().reset();
+				}
+
+			}	
 		},
 		getValue: function(){
 			
 		},
 		
-		
-		
-		addField: function(opt){
-			var field = this._fields[opt.name || opt.id] = new Field(opt);
+		getField: function(name){
 			
-			if(field.locateTab !== false && this.tabs[field.locateTab] && this.tabs[field.locateTab].item[field.locatePage]){
-				this._setPage(this.tabs[field.locateTab].item[field.locatePage].iBody, field.locatePage, field.locateTab);
-			}else if(field.locatePage !== false && this.pages[field.locatePage]){
-				this._setPage(this.pages[field.locatePage], field.locatePage, field.locateTab);
-			}else if(field.locatePage === -1){
-				this.setMain();
-			}else{
-				
-				
+			if(this.fields[name]){
+				return this.fields[name];
 			}
 			
+			return false;
 			
+		},
+		
+		addField: function(opt){
+			var field = this._fields[this.fieldCount] = new Field(opt);
+			
+			if(field.input.name){
+				this.fields[field.input.name] = field;
+			}else{
+				this.fields[this.fieldCount] = field;
+			}
+			
+			this.fieldCount++;
+			
+			if(opt.locatePage || opt.locatePage >=0){
+				this._setLocate(opt.locatePage, opt.locateTab || false);
+			}
+			
+			field.locateTab = this._lastTab;
+			field.locatePage = this._lastPage;
 			
 			this.getPage().append(field.get());
 		},
 		
 		addInput: function(opt){
-			new namespace.Input(opt);
-			//this._fields[opt.name || opt.id] = new namespace.Input(opt);
+			opt.useRow = false;
+			
+			this.addField(opt);
 		},
 		
 		setMain: function(){
@@ -338,14 +385,17 @@ if(!Sevian){
 		
 		setPage: function(index){
 			
-			if(typeof(index) === "object"){
-				this._lastPage = index;
-			}else if(this.pages[index]){
-				this._lastPage = this.pages[index];
-			}
+			this._setLocate(index, false);
 
 		},
 		addPage: function(opt){
+			
+			
+			
+			if(opt.locatePage || opt.locatePage >=0){
+				this._setLocate(opt.locatePage, opt.locateTab || false);
+			}
+			
 			opt.target = this.getPage();
 			this._page = new Page(opt);
 			this._setPage(this._page, this.pageCount, false);
@@ -355,6 +405,11 @@ if(!Sevian){
 		},
 		
 		addTab: function(opt){
+			
+			if(opt.locatePage || opt.locatePage >=0){
+				this._setLocate(opt.locatePage, opt.locateTab || false);
+			}
+			
 			opt.target = this.getPage();
 			var tab = this._tab = new Tab(opt);
 			this.lastTab = this.tabCount;
@@ -375,12 +430,21 @@ if(!Sevian){
 			return this._last;
 		},
 		
+		_setLocate: function(pageIndex, tabIndex){
+			
+			if(pageIndex === -1){
+				this.setMain();
+			}else if(tabIndex >= 0 && this.tabs[tabIndex] && this.tabs[tabIndex].item[pageIndex]){
+				this._setPage(this.tabs[tabIndex].item[pageIndex].iBody, pageIndex, tabIndex);
+			}else if(pageIndex >= 0 && this.pages[pageIndex]){
+				this._setPage(this.pages[pageIndex], pageIndex, false);
+			}
+			
+		},
 		_setPage: function(page, pageIndex, tabIndex){
 			this._last = page;
 			this._lastPage = pageIndex;
 			this._lastTab = tabIndex;
-			
-			//if(type)
 		},
 		
 		valid: function(){
@@ -396,7 +460,7 @@ if(!Sevian){
 					
 					if(msg){
 						
-						field.setMode("invalid");
+						field.setStatus("invalid");
 						if(field.locateTab !== false){
 							
 							if(this.tabs[field.locateTab].item[field.locatePage]){
@@ -406,15 +470,16 @@ if(!Sevian){
 						
 						alert(msg);
 						field.getInput().focus();
+						return false;
 						
 					}else{
-						field.setMode("valid");
+						field.setStatus("valid");
 					}
 				}
 					
 				
 			}	
-			
+			return true;
 		},
 		
 	};

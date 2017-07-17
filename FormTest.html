@@ -87,6 +87,9 @@ var f = new Sevian.Form({
 	
 });	
 
+	
+f.addPage({caption:"Datos Básicos"});
+	
 f.addField({
 	caption: "Mi Cédula",
 	className: "x22",
@@ -170,11 +173,11 @@ f.addInput({
 	f.addTabPage({title:"opcion 02"});
 	
 	f.addField({
-		caption: "Estado",
+		caption: "Estado (email)",
 		className: "nombre",
 		id:"_nombre_c279",
 		
-		_rules:{
+		rules:{
 			email:true,	
 		},
 		input:{
@@ -204,7 +207,7 @@ f.addField({
 	caption: "Fecha de Nacimiento",
 	className: "x22",
 	id:"ccedula",
-	_rules:{
+	rules:{
 		required:{msg:'Error {=title}'},	
 		email:{},
 	},

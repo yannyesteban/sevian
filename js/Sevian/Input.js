@@ -19,6 +19,7 @@ var ssInput = false;
 		this.className = false;
 		this.title = "";
 		this.value = "";
+		this.default = "";
 		
 		this.target = false;
 		
@@ -96,7 +97,7 @@ var ssInput = false;
 		
 		init: function(){
 			
-			if($.byId(this.id)){
+			if(this.id && $.byId(this.id)){
 				this._main = $("#" + this.id);
 			}else{
 				
@@ -202,6 +203,10 @@ var ssInput = false;
 	
 		setData:function(data){
 			
+		},
+		
+		reset: function(){
+			this.setValue(this.default);	
 		},
 		
 		valid: function(){
