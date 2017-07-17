@@ -91,7 +91,7 @@ f.addField({
 	caption: "Mi Cédula",
 	className: "x22",
 	id:"c011",
-	rules:{
+	_rules:{
 		required:{msg:'Error {=title}'},	
 		email_:{},
 	},
@@ -174,7 +174,7 @@ f.addInput({
 		className: "nombre",
 		id:"_nombre_c279",
 		
-		rules:{
+		_rules:{
 			email:true,	
 		},
 		input:{
@@ -204,9 +204,9 @@ f.addField({
 	caption: "Fecha de Nacimiento",
 	className: "x22",
 	id:"ccedula",
-	rules:{
+	_rules:{
 		required:{msg:'Error {=title}'},	
-		email_:{},
+		email:{},
 	},
 	input:{
 		type: "text",
@@ -223,14 +223,14 @@ f.addField({
 	
 	
 f.addField({
-	caption: "Lugar",
+	caption: "Edad",
 	className: "x22",
 	locateTab:0,
 	locatePage:4,
 	id:"x2",
 	rules:{
-		required:{msg:'Error {=title}'},	
-		email_:{},
+		integer:{msg:'Error es Integral {=title}'},	
+		_email:{},
 	},
 	input:{
 		type: "text",

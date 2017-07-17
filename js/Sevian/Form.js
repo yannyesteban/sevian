@@ -232,10 +232,13 @@ if(!Sevian){
 		
 		this._fields = [];
 		
+		this._last = false;
 		this._lastPage = false;
-		this._lastPageType = "";
 		this._lastTab = false;
-		this._lastTabIndex = false;
+		
+		
+		
+		
 		
 		this.tabCount = 0;
 		this.pageCount = 0;
@@ -257,7 +260,8 @@ if(!Sevian){
 			
 			//Page.create.call(this.)
 			this.create();
-			this._lastPage = this._body;
+			this._setPage(this._body, false, false);
+			//this._lastPage = this._body;
 			
 		}
 		
@@ -306,15 +310,19 @@ if(!Sevian){
 			var field = this._fields[opt.name || opt.id] = new Field(opt);
 			
 			if(field.locateTab !== false && this.tabs[field.locateTab] && this.tabs[field.locateTab].item[field.locatePage]){
-				this._lastPage = this.tabs[field.locateTab].item[field.locatePage].iBody;
-			}else if(field.locatePage !== false){
-				this._lastPage = this.pages[field.locatePage];
+				this._setPage(this.tabs[field.locateTab].item[field.locatePage].iBody, field.locatePage, field.locateTab);
+			}else if(field.locatePage !== false && this.pages[field.locatePage]){
+				this._setPage(this.pages[field.locatePage], field.locatePage, field.locateTab);
 			}else if(field.locatePage === -1){
 				this.setMain();
+			}else{
+				
+				
 			}
 			
 			
-			this._lastPage.append(field.get());
+			
+			this.getPage().append(field.get());
 		},
 		
 		addInput: function(opt){
@@ -323,8 +331,8 @@ if(!Sevian){
 		},
 		
 		setMain: function(){
-			this._lastPage = this._body;
 			
+			this._setPage(this._body, false, false);
 			
 		},
 		
@@ -338,19 +346,19 @@ if(!Sevian){
 
 		},
 		addPage: function(opt){
-			opt.target = this._lastPage;
+			opt.target = this.getPage();
 			this._page = new Page(opt);
-			this._lastPage = this._page;
-			
+			this._setPage(this._page, this.pageCount, false);
 			
 			this.pages[this.pageCount++] = this._page;
 			
 		},
 		
 		addTab: function(opt){
-			opt.target = this._lastPage;
+			opt.target = this.getPage();
 			var tab = this._tab = new Tab(opt);
-			this.tabs.push(tab);
+			this.lastTab = this.tabCount;
+			this.tabs[this.tabCount++] = tab;
 			return tab;
 		},
 		
@@ -358,11 +366,19 @@ if(!Sevian){
 			var tabPage = this._tab.add(opt);
 			
 			this._lastPage = tabPage.iBody;
+			
+			this._setPage(tabPage.iBody, this._tab.item.length-1, this.lastTab);
 		},
 		
-		setPage: function(page, type){
-			this._lastPage = page;
-			this._lastType = type;
+		getPage: function(){
+			
+			return this._last;
+		},
+		
+		_setPage: function(page, pageIndex, tabIndex){
+			this._last = page;
+			this._lastPage = pageIndex;
+			this._lastTab = tabIndex;
 			
 			//if(type)
 		},
@@ -381,10 +397,18 @@ if(!Sevian){
 					if(msg){
 						
 						field.setMode("invalid");
-						this._tab.show(1);
+						if(field.locateTab !== false){
+							
+							if(this.tabs[field.locateTab].item[field.locatePage]){
+								this.tabs[field.locateTab].show(field.locatePage);
+							}
+						}
+						
 						alert(msg);
 						field.getInput().focus();
 						
+					}else{
+						field.setMode("valid");
 					}
 				}
 					
