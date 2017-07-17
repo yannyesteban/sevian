@@ -90,14 +90,14 @@ var f = new Sevian.Form({
 f.addField({
 	caption: "Mi Cédula",
 	className: "x22",
-	id:"ccedula",
+	id:"c011",
 	rules:{
 		required:{msg:'Error {=title}'},	
 		email_:{},
 	},
 	input:{
 		type: "text",
-		id:"cccedula",
+		id:" sdcccedula",
 		value: "12474737",
 		events:{
 			_click: function(){
@@ -111,13 +111,13 @@ f.addField({
 f.addField({
 	caption: "MI Nombre",
 	className: "nombre",
-	id:"_nombre_c",
+	id:"_nombre_c01",
 	
 	
 	
 	input:{
 		type: "text",
-		id:"_nombre",
+		id:"4_nombre",
 		name:"_nombre",
 		value: "Yanny",
 		events:{
@@ -153,7 +153,7 @@ f.addInput({
 	f.addField({
 		caption: "Ciudad",
 		className: "nombre",
-		id:"_nombre_c",
+		id:"_nombre_c23",
 		input:{
 			type: "text",
 			id:"_nombre",
@@ -172,7 +172,7 @@ f.addInput({
 	f.addField({
 		caption: "Estado",
 		className: "nombre",
-		id:"_nombre_c2",
+		id:"_nombre_c279",
 		
 		rules:{
 			email:true,	
@@ -193,6 +193,57 @@ f.addInput({
 f.addTabPage({title:"opcion 03"});
 f.addTabPage({title:"opcion 04"});
 f.addTabPage({title:"opcion 05"});
+	
+	
+f.setMain();	
+f.addTab({});
+f.addTabPage({title:"p1"});
+f.addTabPage({title:"P 05"});	
+
+f.addField({
+	caption: "Fecha de Nacimiento",
+	className: "x22",
+	id:"ccedula",
+	rules:{
+		required:{msg:'Error {=title}'},	
+		email_:{},
+	},
+	input:{
+		type: "text",
+		id:"x3",
+		value: "24/10/1975",
+		events:{
+			_click: function(){
+				alert(99);
+			},
+		},
+	
+	}
+});
+	
+	
+f.addField({
+	caption: "Lugar",
+	className: "x22",
+	locateTab:0,
+	locatePage:4,
+	id:"x2",
+	rules:{
+		required:{msg:'Error {=title}'},	
+		email_:{},
+	},
+	input:{
+		type: "text",
+		id:"cccedula",
+		value: "Caracas",
+		events:{
+			_click: function(){
+				alert(99);
+			},
+		},
+	
+	}
+});	
 	
 (function(){
 	

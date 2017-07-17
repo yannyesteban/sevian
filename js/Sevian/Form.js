@@ -25,10 +25,17 @@ if(!Sevian){
 		this.rules = false;
 		this.input = {};
 		
+		//this.locate = {page:1};
+		this.locateTab = false;
+		this.locatePage = false;
+		
 		this.id = false;
 		this.target = false;
 		
 		this.mode = "";
+		this.status = "";
+		
+		this.useRow = true;
 		
 		for(var x in opt){
 			if(this.hasOwnProperty(x)) {
@@ -50,6 +57,14 @@ if(!Sevian){
 		},
 		
 		create: function(){
+			
+			
+			if(!this.useRow){
+				this._input = createInput(this.input);
+				this._main = this._input;
+				return true;
+				
+			}
 			
 			this._main = $.create("div");
 
@@ -191,6 +206,10 @@ if(!Sevian){
 			this._caption.text(caption);
 		},
 		
+		appendChild: function(e){
+			this._body.append(e);	
+		},
+		
 		
 		
 		
@@ -218,7 +237,11 @@ if(!Sevian){
 		this._lastTab = false;
 		this._lastTabIndex = false;
 		
+		this.tabCount = 0;
+		this.pageCount = 0;
+		
 		this.tabs = [];
+		this.pages = [];
 		
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
@@ -280,13 +303,48 @@ if(!Sevian){
 		
 		
 		addField: function(opt){
-			this._fields[opt.name || opt.id] = new Field(opt);
-			this._lastPage.append(this._fields[opt.id].get());
+			var field = this._fields[opt.name || opt.id] = new Field(opt);
+			
+			if(field.locateTab !== false && this.tabs[field.locateTab] && this.tabs[field.locateTab].item[field.locatePage]){
+				this._lastPage = this.tabs[field.locateTab].item[field.locatePage].iBody;
+			}else if(field.locatePage !== false){
+				this._lastPage = this.pages[field.locatePage];
+			}else if(field.locatePage === -1){
+				this.setMain();
+			}
+			
+			
+			this._lastPage.append(field.get());
 		},
 		
 		addInput: function(opt){
 			new namespace.Input(opt);
 			//this._fields[opt.name || opt.id] = new namespace.Input(opt);
+		},
+		
+		setMain: function(){
+			this._lastPage = this._body;
+			
+			
+		},
+		
+		setPage: function(index){
+			
+			if(typeof(index) === "object"){
+				this._lastPage = index;
+			}else if(this.pages[index]){
+				this._lastPage = this.pages[index];
+			}
+
+		},
+		addPage: function(opt){
+			opt.target = this._lastPage;
+			this._page = new Page(opt);
+			this._lastPage = this._page;
+			
+			
+			this.pages[this.pageCount++] = this._page;
+			
 		},
 		
 		addTab: function(opt){
