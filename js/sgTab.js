@@ -43,6 +43,11 @@ var sgTab = false;
 	};
 	
 	sgTab.prototype = {
+		
+		getType: function(){
+			return this.type;	
+		},
+		
 		create: function(){
 			
 			if(this.target){
