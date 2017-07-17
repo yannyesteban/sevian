@@ -3,6 +3,7 @@ var sgTab = false;
 (function($){
 	
 	sgTab = function(opt){
+		this.type =  "tab";
 		
 		this.target = false;
 		this.id = false;
