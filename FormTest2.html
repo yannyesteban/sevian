@@ -226,20 +226,41 @@
 		input:{
 			type:"text",
 			name:"home",
+			default: "",
 		}
 		
 	});
 
 	f.addField({
-		caption: "todo",
-		
+		locatePage:0,
+		locateTab:1,
+		caption: "<--casa-->",
+		rules:{
+			required:true,
+			integer:true,
+		},
 		input:{
 			name: "casa",
 			type:"text",
+			default: "LUZ",
 		}
 		
 	});
 	
+	f.addInput({
+	locatePage:-1,
+		caption:"Valid",
+		input:{
+			type:"button",
+			value:"VALID",
+			events:{
+				click: function(){
+					f.valid();
+					//f.reset();
+				}
+			}
+		}
+	});
 	
 }());
 

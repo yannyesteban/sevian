@@ -269,6 +269,10 @@ if(!Sevian){
 		this.tabs = [];
 		this.pages = [];
 		
+		this.onValid = function(){};
+		this.onReset = function(){};
+		this.onValue = function(){};
+		
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
@@ -364,8 +368,9 @@ if(!Sevian){
 			
 			this.fieldCount++;
 			
-			if(opt.locatePage || opt.locatePage >=0){
-				this._setLocate(opt.locatePage, opt.locateTab || false);
+			if(field.locatePage || field.locatePage >=0){
+				
+				this._setLocate(opt.locatePage, field.locateTab);
 			}
 			
 			field.locateTab = this._lastTab;
@@ -451,13 +456,13 @@ if(!Sevian){
 		},
 		
 		valid: function(){
-			var field = false, msg = false;
+			var field = false,
+				msg = false;
 			for(var x in this._fields){
 				
 				if(this._fields[x].rules){
 					
 					field = this._fields[x];
-
 					
 					msg = namespace.Valid.send(field.rules, field.getInput().getValue(), field.caption, this.getValue());
 					
@@ -473,15 +478,16 @@ if(!Sevian){
 						
 						alert(msg);
 						field.getInput().focus();
+						this.onValid(false);
 						return false;
 						
 					}else{
 						field.setStatus("valid");
 					}
 				}
-					
 				
-			}	
+			}
+			this.onValid(true);
 			return true;
 		},
 		
