@@ -19,7 +19,7 @@ var ssInput = false;
 		this.className = false;
 		this.title = "";
 		this.value = "";
-		this.default = "";
+		this.default = false;
 		
 		this.target = false;
 		
@@ -46,6 +46,9 @@ var ssInput = false;
 			}
 				
 		}
+		
+		
+		
 		this._main = false;
 		this._target = false;
 		this.init();
@@ -206,7 +209,10 @@ var ssInput = false;
 		},
 		
 		reset: function(){
-			this.setValue(this.default);	
+			if(this.default !== false){
+				this.setValue(this.default);
+			}
+				
 		},
 		
 		valid: function(){

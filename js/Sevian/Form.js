@@ -328,11 +328,14 @@ if(!Sevian){
 
 			}	
 		},
-		reset: function(data){
-			for(var name in data){
-				if(this.fields[name]){
+		reset: function(){
+			for(var name in this.fields){
+				if(this.fields.hasOwnProperty(name)){
+					
 					this.fields[name].getInput().reset();
 				}
+				
+				
 
 			}	
 		},
