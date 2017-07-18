@@ -48,3 +48,40 @@ body {
   .sg-form-main .sg-page-main > .caption {
     background-color: rgba(255, 255, 255, 0.17);
     text-align: center; }
+
+.sgPopup.sg-tips-popup {
+  margin: 4px;
+  padding: 4px;
+  min-width: 160px;
+  min-height: 60px;
+  box-shadow: 5px 5px 5px rgba(132, 132, 132, 0.5);
+  _border: 2px solid gray;
+  border-radius: 4px; }
+  .sgPopup.sg-tips-popup {
+    background-color: #0696c1; }
+    .sgPopup.sg-tips-popup .note-title {
+      color: #b3e4ff; }
+  .sgPopup.sg-tips-popup.holy {
+    background-color: #c12305; }
+    .sgPopup.sg-tips-popup.holy .note-title {
+      color: #ffc1b3; }
+  .sgPopup.sg-tips-popup .note-title {
+    text-align: right;
+    border-bottom: 1px solid #b3e4ff; }
+  .sgPopup.sg-tips-popup .note-body {
+    color: white; }
+
+.sg-tips-popup-btn {
+  background-color: #0696c1;
+  border: 1px solid #55d4f9;
+  border-radius: 6px;
+  color: #b3e4ff;
+  padding: 2px;
+  margin-left: 4px;
+  font-weight: bold;
+  width: 30px;
+  display: inline-block;
+  text-align: center;
+  cursor: help; }
+  .sg-tips-popup-btn:hover {
+    background-color: #046d8c; }

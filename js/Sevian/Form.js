@@ -4,8 +4,44 @@ if(!Sevian){
 	var Sevian = {};
 }
 
-(function(namespace, $, Tab){
+(function(namespace, $, Tab, popup){
+	var tip = false;
+	
+	
+	(function(){
+		
+		var tipPopup = new popup({id:"yanny", className:"sg-tips-popup"});
+		
 
+		
+		var _title = $.create("div").addClass("note-title");
+		var _body = $.create("div").addClass("note-body");
+		//this.popup = new sgPopup({target:this._main, className:"sg-tips-popup"});
+		tipPopup.append(_title);	
+		tipPopup.append(_body);			
+
+		tip = {
+			
+			init: function(ref, title, body){
+				return function(event){
+					event.preventDefault();
+				event.returnValue = false;
+				event.cancelBubble = true;
+					_title.text(title);
+					_body.text(body);
+					db(tipPopup.id)
+					tipPopup.show({ref:ref, left:"front", top:"middle"});
+					
+				}	
+			},
+			
+		};
+		
+		
+	}());
+	
+	
+	
 	var createInput = function(opt){
 		return new namespace.Input(opt);
 	}
@@ -34,6 +70,8 @@ if(!Sevian){
 		
 		this.mode = "";
 		this.status = "";
+		
+		this.comment = false;
 		
 		this.useRow = true;
 		
@@ -79,6 +117,29 @@ if(!Sevian){
 			this._input = createInput(this.input);
 			
 			input.append(this._input.get());
+			
+			if(this.comment){
+				var ME = this;
+				var comm = input.create("div");
+				comm.addClass("sg-tips-popup-btn");
+				comm.text(" ? ");
+				comm.on("click", tip.init(comm.get(), this.caption, this.comment));
+				
+				comm.on("_click", function(event){
+
+					event.preventDefault();
+					event.returnValue = false;
+					event.cancelBubble = true;
+
+					sgTips._title.text(ME.caption);
+					sgTips._body.text(ME.comment);
+					//ME.popup.setBody(info);
+					//sgTips.popup.setClass(type || "holy");
+					sgTips.popup.show({ref:comm.get(), left:"front", top:"middle"});		
+
+				});
+				
+			}
 
 			
 			
@@ -499,4 +560,4 @@ if(!Sevian){
 	namespace.Form = Form;
 	
 	
-}(Sevian, _sgQuery, sgTab));
+}(Sevian, _sgQuery, sgTab, sgPopup));
