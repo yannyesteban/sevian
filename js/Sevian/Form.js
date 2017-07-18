@@ -25,8 +25,8 @@ if(!Sevian){
 			init: function(ref, title, body){
 				return function(event){
 					event.preventDefault();
-				event.returnValue = false;
-				event.cancelBubble = true;
+					event.returnValue = false;
+					event.cancelBubble = true;
 					_title.text(title);
 					_body.text(body);
 					db(tipPopup.id)
@@ -119,25 +119,12 @@ if(!Sevian){
 			input.append(this._input.get());
 			
 			if(this.comment){
-				var ME = this;
+				
 				var comm = input.create("div");
 				comm.addClass("sg-tips-popup-btn");
 				comm.text(" ? ");
 				comm.on("click", tip.init(comm.get(), this.caption, this.comment));
 				
-				comm.on("_click", function(event){
-
-					event.preventDefault();
-					event.returnValue = false;
-					event.cancelBubble = true;
-
-					sgTips._title.text(ME.caption);
-					sgTips._body.text(ME.comment);
-					//ME.popup.setBody(info);
-					//sgTips.popup.setClass(type || "holy");
-					sgTips.popup.show({ref:comm.get(), left:"front", top:"middle"});		
-
-				});
 				
 			}
 
