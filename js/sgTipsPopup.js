@@ -13,7 +13,7 @@ var sgTipsPopup = false;
 	sgTipsPopup.prototype = {
 		show: function(opt){
 				
-						tip.on("click", function(event){
+			tip.on("click", function(event){
 				event.preventDefault();
 				event.returnValue = false;
 				event.cancelBubble = true;

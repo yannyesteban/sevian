@@ -354,8 +354,8 @@ var _sgFloat, _sgDrag;
 			}// end switch
 
 			if(fixed){
-				left = left - sL;	
-				top = top - sT;	
+				//left = left - sL;	
+				//top = top - sT;	
 			}// end if
 
 			left = left + deltaX;

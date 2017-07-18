@@ -665,7 +665,7 @@ var sgPopup;
 	
 	sgPopup.prototype = {
 		
-		create: function(){
+		create: function(){db(this.id+"....", "red")
 			if(this.target){
 				this._main = this.target.create("div");
 			}else{
