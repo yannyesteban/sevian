@@ -353,10 +353,10 @@ var _sgFloat, _sgDrag;
 					top = c.top + c.height - 10;	
 			}// end switch
 
-			if(fixed){
-				//left = left - sL;	
-				//top = top - sT;	
-			}// end if
+			if(!fixed){
+				top = top + sT;	
+				left = left + sL;
+			}
 
 			left = left + deltaX;
 			top = top + deltaY;

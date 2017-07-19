@@ -623,7 +623,7 @@ var sgPopup;
 		if(this.autoClose){
 			var ME = this;
 			$(document).on("scroll", function(event){
-				if(!ME._active){
+				if(true || !ME._active){
 					ME.hide();
 				}
 				
