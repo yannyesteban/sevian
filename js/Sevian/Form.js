@@ -5,18 +5,16 @@ if(!Sevian){
 }
 
 (function(namespace, $, Tab, popup){
-	var tip = false;
 	
+	var tip = false;
 	
 	(function(){
 		
 		var tipPopup = new popup({id:"yanny", className:"sg-tips-popup"});
 		
-
-		
 		var _title = $.create("div").addClass("note-title");
 		var _body = $.create("div").addClass("note-body");
-		//this.popup = new sgPopup({target:this._main, className:"sg-tips-popup"});
+
 		tipPopup.append(_title);	
 		tipPopup.append(_body);			
 
@@ -29,10 +27,10 @@ if(!Sevian){
 					event.cancelBubble = true;
 					_title.text(title);
 					_body.text(body);
-					db(tipPopup.id)
+					
 					tipPopup.show({ref:ref, left:"front", top:"middle"});
 					
-				}	
+				};	
 			},
 			
 		};
