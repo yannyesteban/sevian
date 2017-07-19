@@ -5,7 +5,9 @@ if(!Sevian){
 }
 
 (function(namespace, $, Tab, popup){
-	
+	/*$(document).on("wheel", function(event){
+				
+	});*/
 	var tip = false;
 	
 	(function(){
@@ -41,8 +43,16 @@ if(!Sevian){
 	
 	
 	var createInput = function(opt){
-		return new namespace.Input(opt);
-	}
+		
+		if(opt.input){
+			db(opt.input)
+			return new namespace[opt.input](opt);
+		}else{
+			return new namespace.Input(opt);
+		}
+		
+		
+	};
 	
 	var mixin = function(source, target){
 		for(var x in source){
@@ -50,7 +60,7 @@ if(!Sevian){
 				target[x] = source[x];
 			}
 		}
-	}
+	};
 	
 	var Field = function(opt){
 		

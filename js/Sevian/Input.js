@@ -274,3 +274,356 @@ var ssInput = false;
 	
 	
 }(Sevian, _sgQuery));
+
+var ssDateInput = false;
+(function(namespace, $, Calendar, Window){
+	
+	
+	var ssDateInput = function(opt){
+		
+		
+		
+		
+		this.type = "";
+		
+		this.id = "";
+		this.name = "";
+		this.className = false;
+		this.title = "";
+		this.value = "";
+		this.default = false;
+		
+		this.target = false;
+		
+		
+		this.title = "";
+		
+		this.data = [];
+		this.parent = false;
+		this.propertys = {};
+		this.style = {};
+		this.events = {};
+		this.rules = {};
+		
+		this.modeInit = 1;
+		
+		this.placeholder = false;
+		
+		this.status = "normal";
+		this.mode = "request";		
+		
+		for(var x in opt){
+			if(this.hasOwnProperty(x)){
+				this[x] = opt[x];
+			}
+				
+		}
+		
+		
+		
+		this._main = false;
+		this._target = false;
+		this.init();
+		
+		
+	};
+	
+	//ssDateInput.prototype = Object.create(Calendar.prototype);
+	//ssDateInput.prototype.constructor = ssDateInput;
+	
+	
+	ssDateInput.prototype = {
+		
+		get: function(){
+			return this._main;
+		},
+		
+		create: function(){
+			
+			var opt = {};
+			
+			switch(this.type){
+				case "calendar":
+				case "select":
+				case "text":
+				case "button":
+				case "submit":
+					opt.tagName = "input";
+					opt.type = this.type;
+					
+					break;
+				case "select":
+					opt.tagName = this.type;
+					break;
+				case "multiple":
+					opt.tagName = "select";
+					this.propertys.multiple = "multiple";
+					break;
+				case "textarea":
+					opt.tagName = this.type;
+					break;
+				default:
+					opt.tagName = "input";
+					opt.type = "text";
+				
+			}
+			
+			this.modeInit = 1;
+			
+			
+			
+			this._main = $.create("span");
+			this._input = this._main.create(opt);
+			
+			
+			opt = {};
+			opt.visible = true;
+		
+			this._popup = new Window({
+				className: "alfa1",
+				classImage: "clock",
+				mode: "auto",
+				visible: false,
+				caption:"Calendario",
+				autoClose: true,
+				delay:0,
+				//id: this.id,
+
+			});
+
+			opt.target = this._popup.getBody();
+			var ME = this;
+			opt.onselectday = function(date){
+				
+				ME._mask.get().value = this.evalFormat(date.y, date.m, date.d, "%d/%m/%yy");
+				ME._input.get().value = this.evalFormat(date.y, date.m, date.d, "%yy-%mm-%dd");
+				ME._popup.hide();
+			};
+		
+			this.cal = new Calendar(opt);
+			
+			this._mask = this._main.create({tagName:"input", type:"text", placeholder:"24/10/1975"});
+			
+			
+			var btn = this._main.create({tagName:"input", type:"button"});
+			//btn.type = "button";
+			
+			var ME = this;
+			btn.on("click", function(){
+				var opt = {};
+				opt.ref = this;
+				opt.left = "front";
+				opt.top = "middle";
+				var aux = "", _test = false;
+				if(ME._input.get().value){
+					aux = ME._input.get().value.split("-");
+
+					_test = new Date(aux[0]*1, aux[1]*1, aux[2]*1);
+
+					if(isNaN(_test.getDay())){
+
+						aux[0] = (new Date()).getFullYear();
+						aux[1] = (new Date()).getMonth();
+						aux[2] = (new Date()).getDate();
+
+					}else{
+						ME.cal.setValue({y:aux[0]*1, m: aux[1]*1, d: aux[2]*1});
+
+					}
+
+
+
+
+
+					ME.cal.setCal(aux[0]*1, aux[1]*1, aux[2]*1);
+				}
+
+				ME._popup.setMode("auto");
+
+				ME._popup.show(opt);
+			
+				
+			});
+			
+			
+		},
+		
+		init: function(){
+			
+			if(this.id && $.byId(this.id)){
+				this._main = $("#" + this.id);
+			}else{
+				
+				this.create();	
+			}
+			if(this.target){
+			
+				$(this.target).append(this._main);	
+			}
+			
+			if(this.modeInit === 1){
+				if(this.name){
+				this._main.get().name = this.name;	
+				}
+				if(this.id){
+					this._main.get().id = this.id;	
+				}
+				if(this.className){
+					this._main.addClass(this.className);
+				}
+				if(this.placeholder){
+					this._main.get().placeholder = this.placeholder;	
+				}
+				
+				
+			}
+			
+			
+			
+			for(var x in this.events){
+				this.on(x, this.events[x]);
+			}
+			
+			this._main.prop(this.propertys);
+			this._main.style(this.style);
+			
+			if(this.type === "select"){
+				this.createOptions(this.value, false);
+			}
+			
+			this.setValue(this.value);
+			
+			this.setStatus(this.status);
+			this.setMode(this.mode);	
+			
+				
+		},
+		
+		setValue: function(value){
+			this._input.get().value = value;
+		},
+		getValue: function(){
+			return this._main.get().value;
+		},
+		setClass: function(value){
+			
+		},
+		getClass: function(){
+			
+		},
+		
+		on: function(event, fn){
+			if(typeof(fn) === "function"){
+				this._main.on(event, fn.bind(this));
+			}else if(typeof(fn) === "string"){
+				this._main.on(event, Function(fn).bind(this));
+			}
+		},
+		off: function(event, fn){
+			
+		},
+		
+		getText: function(){
+			if(this.type === "select"){
+				return this._main.get().options[this._main.get().selectedIndex].text;	
+			}
+			return this._main.get().value;
+		},
+		
+		readOnly:function(value){
+			
+		},
+		disabled:function(value){
+			
+		},
+	
+		setStatus:function(value){
+			this.status = value;
+			this._main.ds("status", value);
+		},	
+		setMode:function(value){
+			this.mode = value;
+			this._main.ds("mode", value);
+		},	
+		
+		show:function(value){
+			
+		},	
+	
+		focus:function(value){
+			this._main.get().focus();
+		},	
+	
+		setData:function(data){
+			
+		},
+		
+		reset: function(){
+			if(this.default !== false){
+				this.setValue(this.default);
+			}
+				
+		},
+		
+		valid: function(){
+			
+			var result = valid.valid(this.rules, this.getValue(), this.title);
+			
+			if(result){
+					
+				this.focus();
+				this.setStatus("invalid");
+				return false;
+			}else{
+				this.setStatus("valid");
+				
+			}
+			
+			return true;
+			
+			
+		},	
+		
+		createOptions: function(value, parentValue){
+		
+			var i = 0,
+				option = false,
+				vParent = [],
+				_ele = this._main.get();
+			
+			_ele.length = 0;
+			
+			if(this.parent){
+				var aux = (parentValue + "").split(",");
+
+				for(i = 0; i < aux.length; i++){
+					vParent[aux[i]] = true;
+				}
+			}
+	
+			if(this.placeholder){
+				option = document.createElement("OPTION");
+				option.value = "";
+				option.text = this.placeholder;
+				_ele.options.add(option);
+			}
+			
+			for (i in this.data){
+				if(vParent[this.data[i][2]] || !this.parent || this.data[i][2] === "*"){
+					option = document.createElement("OPTION");
+					option.value = this.data[i][0];
+					option.text = this.data[i][1];
+					_ele.options.add(option);
+				}
+			}
+			
+		},
+		
+	};
+	
+	//mixin(_prototype, ssDateInput.prototype);
+	
+	namespace.DateInput = ssDateInput;
+	
+	
+}(Sevian, _sgQuery, sgCalendar, sgWindow));

@@ -38,6 +38,7 @@
 <script src="js/sgTab.js"></script>
 
 <script src="js/Sevian/Valid.js"></script>
+<script src="js/sgCalendar.js"></script>
 <script src="js/Sevian/Form.js"></script>
 <script src="js/Sevian/Input.js"></script>
 
@@ -82,6 +83,28 @@
 
 	f.addPage({caption:"Datos Básicos", locatePage:3});
 	f.setPage(-1);
+	f.addField({
+		//locatePage:-1,
+		caption: "Fecha",
+		className: "x22",
+		id:"c011",
+		_rules:{
+			required:{msg:'Error {=title}'},	
+			email_:{},
+		},
+		input:{
+			input : "DateInput",
+			type: "calendar",
+			id:"fecha",
+			value: "1975-10-24",
+			events:{
+				_click: function(){
+					alert(99);
+				},
+			},
+
+		}
+	});
 	f.addField({
 		//locatePage:-1,
 		caption: "Mi Cédula",
