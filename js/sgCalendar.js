@@ -225,6 +225,10 @@ var sgCalendar = false, sgDate = false, sgDatePicker = false;
 		return query;	
 	};
 	
+	sgDate.getDateFrom = getDateFrom;
+	
+	sgDate.evalFormat = evalFormat;
+	
 	sgCalendar = function(opt){
 		
 		this.year = false;

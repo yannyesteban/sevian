@@ -284,7 +284,7 @@ var ssDateInput = false;
 		
 		
 		
-		this.type = "";
+		this.type = "calendar";
 		
 		this.id = "";
 		this.name = "";
@@ -295,6 +295,8 @@ var ssDateInput = false;
 		
 		this.target = false;
 		
+		this.format = "%yy-%m-%d";
+		this.maskFormat = "%d/%m/%yy";
 		
 		this.title = "";
 		
@@ -311,6 +313,9 @@ var ssDateInput = false;
 		
 		this.status = "normal";
 		this.mode = "request";		
+		
+		this._popup = false;
+		this._mask = false;
 		
 		for(var x in opt){
 			if(this.hasOwnProperty(x)){
@@ -338,70 +343,81 @@ var ssDateInput = false;
 			return this._main;
 		},
 		
-		create: function(){
+		
+		setDate: function(date){
+			
+			//ME._mask.get().value = this.evalFormat(date.y, date.m, date.d, "%d/%m/%yy");
+			this.setValue(sgDate.evalFormat(date.y, date.m, date.d, this.format));
+		},
+		
+		createCalendar: function(target){
+			
+			var ME = this;
 			
 			var opt = {};
 			
-			switch(this.type){
-				case "calendar":
-				case "select":
-				case "text":
-				case "button":
-				case "submit":
-					opt.tagName = "input";
-					opt.type = this.type;
+		
+			this.cal = new Calendar({
+				visible: true,
+				target: target,
+				onselectday: function(date){
 					
-					break;
-				case "select":
-					opt.tagName = this.type;
-					break;
-				case "multiple":
-					opt.tagName = "select";
-					this.propertys.multiple = "multiple";
-					break;
-				case "textarea":
-					opt.tagName = this.type;
-					break;
-				default:
-					opt.tagName = "input";
-					opt.type = "text";
-				
-			}
+					ME.setDate(date);
+					if(ME._popup){
+						ME._popup.hide();
+					}
+				}
+			});	
 			
-			this.modeInit = 1;
+		},
+		
+		createPopup: function(){
 			
 			
-			
-			this._main = $.create("span");
-			this._input = this._main.create(opt);
-			
-			
-			opt = {};
-			opt.visible = true;
 		
 			this._popup = new Window({
 				className: "alfa1",
 				classImage: "clock",
 				mode: "auto",
 				visible: false,
-				caption:"Calendario",
+				caption: this.title,
 				autoClose: true,
 				delay:0,
 				//id: this.id,
 
 			});
-
-			opt.target = this._popup.getBody();
-			var ME = this;
-			opt.onselectday = function(date){
-				
-				ME._mask.get().value = this.evalFormat(date.y, date.m, date.d, "%d/%m/%yy");
-				ME._input.get().value = this.evalFormat(date.y, date.m, date.d, "%yy-%mm-%dd");
-				ME._popup.hide();
-			};
-		
-			this.cal = new Calendar(opt);
 			
+			this.createCalendar(this._popup.getBody());
+			
+			
+		},
+		
+		createPicker: function(){
+			
+			
+		},
+		
+		create: function(){
+			
+			this._main = $.create("span");
+			
+			
+			this._input = this._main.create({tagName: "input", type: "text"});
+			
+			
+			if(this.type === "calendar" || this.type === "text"){
+				this.createPopup();
+				
+				
+				//this.createCalendar(this._popup);
+				
+				
+			}
+			
+			
+			this.modeInit = 1;
+			
+		
 			this._mask = this._main.create({tagName:"input", type:"text", placeholder:"24/10/1975"});
 			
 			
@@ -500,7 +516,17 @@ var ssDateInput = false;
 		},
 		
 		setValue: function(value){
+			db(value, "red")
+			
 			this._input.get().value = value;
+			
+			if(this._mask){
+				db(this.format)
+				var aux = sgDate.getDateFrom(value, this.format);
+				db(aux.year)
+				this._mask.get().value = sgDate.evalFormat(aux.year, aux.month, aux.day, this.maskFormat);
+			}
+			
 		},
 		getValue: function(){
 			return this._main.get().value;
