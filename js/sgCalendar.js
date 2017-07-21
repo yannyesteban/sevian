@@ -195,6 +195,60 @@ var sgCalendar = false, sgDate = false, sgDatePicker = false;
 		return aux;
 	};
 	
+	
+	var dateFrom = sgDate.dateFrom = function(query, pattern){
+		var 
+			aux = {},
+			date = / /,
+			pattern_ = false,
+			result = false;
+		
+		pattern_ = pattern.replace(/%dd/g,"([0-9]{1,2})");
+		pattern_ = pattern_.replace(/%mm/g,"[0-9]{1,2}");
+		pattern_ = pattern_.replace(/%yy/g,"[0-9]{4}");
+		
+		pattern_ = pattern_.replace(/%d/g,"([0-9]{1,2})");
+		pattern_ = pattern_.replace(/%m/g,"[0-9]{1,2}");
+		pattern_ = pattern_.replace(/%y/g,"[0-9]{4}");
+
+		date.compile(pattern_);
+		if((result = date.exec(query))){
+			aux.day = result[1] *1;
+		}else{
+			return {day: false, month: false, year: false};
+		}
+	
+		pattern_ = pattern.replace(/%dd/g,"[0-9]{1,2}");
+		pattern_ = pattern_.replace(/%mm/g,"([0-9]{1,2})");
+		pattern_ = pattern_.replace(/%yy/g,"[0-9]{4}");
+		pattern_ = pattern_.replace(/%d/g,"[0-9]{1,2}");
+		pattern_ = pattern_.replace(/%m/g,"([0-9]{1,2})");
+		pattern_ = pattern_.replace(/%y/g,"[0-9]{4}");
+
+		date.compile(pattern_);
+		if((result = date.exec(query))){
+			aux.month = result[1] *1;
+		}else{
+			return {day: false, month: false, year: false};
+		}
+		pattern_ = pattern.replace(/%dd/g,"[0-9]{1,2}");
+		pattern_ = pattern_.replace(/%mm/g,"[0-9]{1,2}");
+		pattern_ = pattern_.replace(/%yy/g,"([0-9]{4})");
+		
+		pattern_ = pattern_.replace(/%d/g,"[0-9]{1,2}");
+		pattern_ = pattern_.replace(/%m/g,"[0-9]{1,2}");
+		pattern_ = pattern_.replace(/%y/g,"([0-9]{4})");
+
+		date.compile(pattern_);
+		if((result = date.exec(query))){
+			aux.year = result[1] *1;
+		}else{
+			return {day: false, month: false, year: false};
+		}
+
+		return aux;
+	};
+	
 	var evalFormat = function(y, m, d, query){
 		if(!y || !m || !d ){
 			return query;

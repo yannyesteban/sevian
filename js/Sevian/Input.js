@@ -276,7 +276,7 @@ var ssInput = false;
 }(Sevian, _sgQuery));
 
 var ssDateInput = false;
-(function(namespace, $, Calendar, Window){
+(function(namespace, $, sgDate, Calendar, Window){
 	
 	
 	var ssDateInput = function(opt){
@@ -295,7 +295,7 @@ var ssDateInput = false;
 		
 		this.target = false;
 		
-		this.format = "%yy-%m-%d";
+		this.format = "%yy-%mm-%dd";
 		this.maskFormat = "%d/%m/%yy";
 		
 		this.title = "";
@@ -417,14 +417,23 @@ var ssDateInput = false;
 			
 			this.modeInit = 1;
 			
-		
+			var ME = this;
+			
 			this._mask = this._main.create({tagName:"input", type:"text", placeholder:"24/10/1975"});
 			
-			
+			this._mask.on("change", function(){
+				
+				
+				var aux = sgDate.dateFrom(this.value, ME.maskFormat);
+				
+				ME._input.get().value = sgDate.evalFormat(aux.year, aux.month, aux.day, ME.format);
+				
+				
+			});
 			var btn = this._main.create({tagName:"input", type:"button"});
 			//btn.type = "button";
 			
-			var ME = this;
+			
 			btn.on("click", function(){
 				var opt = {};
 				opt.ref = this;
@@ -518,12 +527,16 @@ var ssDateInput = false;
 		setValue: function(value){
 			db(value, "red")
 			
+			
+			
+			//db(sgDate.dateFrom("2001-06-24", "%y-%m-%d").day);
+			
 			this._input.get().value = value;
 			
 			if(this._mask){
-				db(this.format)
-				var aux = sgDate.getDateFrom(value, this.format);
-				db(aux.year)
+				db(this.format, "purple")
+				var aux = sgDate.dateFrom(value, this.format);
+				db(aux.year+"....")
 				this._mask.get().value = sgDate.evalFormat(aux.year, aux.month, aux.day, this.maskFormat);
 			}
 			
@@ -652,4 +665,4 @@ var ssDateInput = false;
 	namespace.DateInput = ssDateInput;
 	
 	
-}(Sevian, _sgQuery, sgCalendar, sgWindow));
+}(Sevian, _sgQuery, sgDate, sgCalendar, sgWindow));
