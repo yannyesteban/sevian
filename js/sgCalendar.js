@@ -196,7 +196,7 @@ var sgCalendar = false, sgDate = false, sgDatePicker = false;
 	};
 	
 	
-	var dateFrom = sgDate.dateFrom = function(query, pattern){
+	sgDate.dateFrom = function(query, pattern){
 		var 
 			aux = {},
 			date = / /,

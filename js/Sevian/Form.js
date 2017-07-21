@@ -45,7 +45,6 @@ if(!Sevian){
 	var createInput = function(opt){
 		
 		if(opt.input){
-			db(opt.input)
 			return new namespace[opt.input](opt);
 		}else{
 			return new namespace.Input(opt);

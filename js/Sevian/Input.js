@@ -525,18 +525,11 @@ var ssDateInput = false;
 		},
 		
 		setValue: function(value){
-			db(value, "red")
-			
-			
-			
-			//db(sgDate.dateFrom("2001-06-24", "%y-%m-%d").day);
 			
 			this._input.get().value = value;
 			
 			if(this._mask){
-				db(this.format, "purple")
 				var aux = sgDate.dateFrom(value, this.format);
-				db(aux.year+"....")
 				this._mask.get().value = sgDate.evalFormat(aux.year, aux.month, aux.day, this.maskFormat);
 			}
 			
@@ -563,10 +556,7 @@ var ssDateInput = false;
 		},
 		
 		getText: function(){
-			if(this.type === "select"){
-				return this._main.get().options[this._main.get().selectedIndex].text;	
-			}
-			return this._main.get().value;
+			
 		},
 		
 		readOnly:function(value){
@@ -590,7 +580,12 @@ var ssDateInput = false;
 		},	
 	
 		focus:function(value){
-			this._main.get().focus();
+			if(this._mask){
+				this._mask.get().focus();
+			}else{
+				this._input.get().focus();
+			}
+			
 		},	
 	
 		setData:function(data){
@@ -623,40 +618,7 @@ var ssDateInput = false;
 			
 		},	
 		
-		createOptions: function(value, parentValue){
 		
-			var i = 0,
-				option = false,
-				vParent = [],
-				_ele = this._main.get();
-			
-			_ele.length = 0;
-			
-			if(this.parent){
-				var aux = (parentValue + "").split(",");
-
-				for(i = 0; i < aux.length; i++){
-					vParent[aux[i]] = true;
-				}
-			}
-	
-			if(this.placeholder){
-				option = document.createElement("OPTION");
-				option.value = "";
-				option.text = this.placeholder;
-				_ele.options.add(option);
-			}
-			
-			for (i in this.data){
-				if(vParent[this.data[i][2]] || !this.parent || this.data[i][2] === "*"){
-					option = document.createElement("OPTION");
-					option.value = this.data[i][0];
-					option.text = this.data[i][1];
-					_ele.options.add(option);
-				}
-			}
-			
-		},
 		
 	};
 	
