@@ -120,7 +120,9 @@ if(!Sevian){
 			}
 			
 			var input = this._main.create("div");
+			
 			input.addClass("td");
+			
 			this._input = createInput(this.input);
 			
 			input.append(this._input.get());
@@ -201,6 +203,9 @@ if(!Sevian){
 		this.className = false;
 		this.caption = false;
 		
+		this._main = false;
+		this._caption = false;
+		this._body = false;
 		
 		for(var x in opt){
 			if(this.hasOwnProperty(x)){
@@ -209,9 +214,7 @@ if(!Sevian){
 				
 		}
 		
-		this._main = false;
-		this._caption = false;
-		this._body = false;
+		
 		
 		if(opt){
 			this.create();
@@ -220,7 +223,58 @@ if(!Sevian){
 		
 	};
 	
+	Page.load = function(index){
+		
+		return new Page({
+			_main:  $(".sg-page-main")			
+			
+			
+		});
+		
+		
+	};
+	
 	Page.prototype = {
+		
+		create: function(){
+			
+			if(this._main){
+				//var s = this._main.queryAll(":scope > .caption");
+				this._caption = $(this._main.query(".caption"));
+				this._body =  $(this._main.query(".body"));
+			}else{
+				this._main = $.create({
+					tagName: "div",
+					id: this.id,
+					className: this.className
+				});
+			}
+			
+			if(!this._caption && this.caption){
+				this.setCaption(this.caption);
+			}
+			
+			if(!this._body){
+				this._body = this._main.create({
+					tagName: "div",
+					className: "body"
+				});
+				
+			}
+			
+			
+			
+			if(this.target){
+				
+				this._target = $(this.target);
+				this._target.append(this._main);
+			}
+			
+			this._main.ds("sgType",this.sgType);
+			this._main.addClass(this.sgMain);
+			
+		},
+		
 		
 		getType: function(){
 			return this.type;	
@@ -234,36 +288,18 @@ if(!Sevian){
 			return this._body;	
 		},
 		
-		create: function(){
-			var main = this._main = $.create({
-				tagName: "div",
-				id: this.id,
-				className: this.className
-			});
-			
-			
-			
-			main.ds("sgType",this.sgType);
-			main.addClass(this.sgMain);
-			
-			if(this.caption){
-				this.setCaption(this.caption);
-				
+		init: function(){
+			if(this.main){
+				this._main = $(this.main);
+			}else{
+				this._main = $(this.id);
 			}
 			
-			this._body = this._main.create({
-				tagName: "div",
-				
-				className: "body"
-			});
-			
-			if(this.target){
-				this._target = $(this.target);
-				
-				this._target.append(main);
-			}
+			this._caption = this._main.query(">.caption");
 			
 		},
+		
+		
 		
 		appendTo: function(obj){
 				
@@ -327,7 +363,7 @@ if(!Sevian){
 		this.onValid = function(){};
 		this.onReset = function(){};
 		this.onValue = function(){};
-		
+		this._main = false;
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
@@ -335,8 +371,22 @@ if(!Sevian){
 				
 		}
 		
-		this._main = false;
 		
+		this.create();
+		
+		this._setPage(this._body, false, false);
+		
+		return;
+		
+		if(!this.create){
+			
+			this._last = this._main = $(this.id);
+			
+			this._main.query();
+			
+			
+			return;
+		}
 		
 		if(!$.byId(this.id)){
 			
@@ -351,30 +401,52 @@ if(!Sevian){
 	Form.prototype = Object.create(Page.prototype);
 	Form.prototype.constructor = Form;
 	
+	
+	
+	
 	var _Form = {
 		get: function(){
 			return this._main;	
 		},
 		
-		_create: function(){
+		
+		create: function(){
 			
-			var main = this._main = $.create({
-				tagName: "div",
-				id: this.id,
-				className: this.className
-			});
+			Page.prototype.create.call(this);
+			
+			this.initPages();
+			
+			
+			return;
+			
+			if(this._main){
+				//var s = this._main.queryAll(":scope > .caption");
+				this._caption = $(this._main.query(".caption"));
+				this._body =  $(this._main.query(".body"));
+				
+				
+				
+			}else{
+				this._main = $.create({
+					tagName: "div",
+					id: this.id,
+					className: this.className
+				});
+				
+			}
+			
+				
 			
 			
 			if(this.target){
 				this._target = $(this.target);
-				
-				this._target.append(main);
+				this._target.append(this._main);
 			}
 			
-			main.ds("sgType","sg-form");
-			main.addClass("sg-form-main");
+			this._main.ds("sgType","sg-form");
+			this._main.addClass("sg-form-main");
 			
-			return main;
+			
 		},
 		
 		
@@ -455,7 +527,7 @@ if(!Sevian){
 			
 			
 			
-			if(opt.locatePage || opt.locatePage >=0){
+			if(opt.locatePage || opt.locatePage >= 0){
 				this._setLocate(opt.locatePage, opt.locateTab || false);
 			}
 			
@@ -469,7 +541,7 @@ if(!Sevian){
 		
 		addTab: function(opt){
 			
-			if(opt.locatePage || opt.locatePage >=0){
+			if(opt.locatePage || opt.locatePage >= 0){
 				this._setLocate(opt.locatePage, opt.locateTab || false);
 			}
 			
@@ -485,7 +557,7 @@ if(!Sevian){
 			
 			this._lastPage = tabPage.iBody;
 			
-			this._setPage(tabPage.iBody, this._tab.item.length-1, this.lastTab);
+			this._setPage(tabPage.iBody, this._tab.item.length - 1, this.lastTab);
 		},
 		
 		getPage: function(){
@@ -494,11 +566,10 @@ if(!Sevian){
 		},
 		
 		_setLocate: function(pageIndex, tabIndex){
-			
 			if(pageIndex === -1){
 				this.setMain();
-			}else if(tabIndex >= 0 && this.tabs[tabIndex] && this.tabs[tabIndex].item[pageIndex]){
-				this._setPage(this.tabs[tabIndex].item[pageIndex].iBody, pageIndex, tabIndex);
+			}else if(tabIndex >= 0 && this.tabs[tabIndex] && this.tabs[tabIndex].getPage(pageIndex)){
+				this._setPage(this.tabs[tabIndex].getPage(pageIndex), pageIndex, tabIndex);
 			}else if(pageIndex >= 0 && this.pages[pageIndex]){
 				this._setPage(this.pages[pageIndex], pageIndex, false);
 			}
@@ -533,6 +604,7 @@ if(!Sevian){
 						
 						alert(msg);
 						field.getInput().focus();
+						field.getInput().selectText();
 						this.onValid(false);
 						return false;
 						
@@ -546,6 +618,19 @@ if(!Sevian){
 			return true;
 		},
 		
+		initPages: function(){
+			var f = this._main.queryAll(".sg-page-main");
+			[].forEach.call(f, function(e, index){
+				this.pages[index] = new Page({_main: $(e)});
+			}, this);
+			
+			var t = this._main.queryAll(".sg-tab-main");
+			[].forEach.call(t, function(e, index){
+				this.tabs[index+1] = new Tab({main: $(e)});
+			}, this);
+			
+		},
+		
 	};
 	
 	
@@ -554,4 +639,4 @@ if(!Sevian){
 	namespace.Form = Form;
 	
 	
-}(Sevian, _sgQuery, sgTab, sgPopup));
+}(Sevian, _sgQuery, Tab, sgPopup));

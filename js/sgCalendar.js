@@ -89,9 +89,9 @@ var sgCalendar = false, sgDate = false, sgDatePicker = false;
 		date: function(y, m, d){
 			
 			if(typeof(y) === "object"){
-				return new Date(y.y, y.m +1, y.d);
+				return new Date(y.y, y.m + 1, y.d);
 			}
-			return new Date(y, m +1, d);
+			return new Date(y, m + 1, d);
 		},
 		
 		
@@ -251,7 +251,7 @@ var sgCalendar = false, sgDate = false, sgDatePicker = false;
 	
 	var evalFormat = function(y, m, d, query){
 		if(!y || !m || !d ){
-			return query;
+			return "";
 		}
 		
 		y = y *1;
@@ -591,6 +591,10 @@ var sgCalendar = false, sgDate = false, sgDatePicker = false;
 				d: day
 			};
 			
+			this.year = year;
+			this.month = month;
+			this.day = day;
+				
 			this.table(year, month, day);
 			
 			this.setItemMonth(month);

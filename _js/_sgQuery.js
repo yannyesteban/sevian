@@ -101,6 +101,14 @@ _sgObjet.prototype = {
 		
 	},
 	
+	id: function(id){
+		if(id === undefined){
+			return this.e.id;
+		}
+		this.e.id = id;
+		return this;
+	},
+	
 	value: function(value){
 		this.e.value = value;
 		
@@ -263,7 +271,12 @@ _sgObjet.prototype = {
 		}
 		return false;
 	},
-	
+	queryAll: function(selector){
+		if(this.e.querySelectorAll(selector)){
+			return this.e.querySelectorAll(selector);
+		}
+		return false;
+	},
 	childs:function(selector){
 		//var ch = this.e.querySelectorAll(selector);
 		
@@ -426,6 +439,21 @@ _sgQuery.appendScript = function(script){
 	document.getElementsByTagName('head')[0].appendChild(elem);
 	
 };
+
+
+_sgQuery.query = function(selector){
+	if(document.querySelector(selector)){
+		return document.querySelector(selector);
+	}
+	return false;
+};
+_sgQuery.queryAll = function(selector){
+	if(document.querySelectorAll(selector)){
+		return document.querySelectorAll(selector);
+	}
+	return false;
+};
+
 
 /*	
 function a(){

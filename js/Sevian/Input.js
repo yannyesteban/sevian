@@ -96,6 +96,8 @@ var ssInput = false;
 			
 			this._main = $.create(opt);
 			
+			//this._main.ds("sg-input-type", "ss-input-" + this.type);
+			
 		},
 		
 		init: function(){
@@ -200,10 +202,14 @@ var ssInput = false;
 			
 		},	
 	
-		focus:function(value){
+		focus:function(){
 			this._main.get().focus();
 		},	
-	
+		selectText: function(){
+			
+			this._main.get().select();
+			
+		},
 		setData:function(data){
 			
 		},
@@ -400,73 +406,43 @@ var ssDateInput = false;
 		create: function(){
 			
 			this._main = $.create("span");
-			
-			
 			this._input = this._main.create({tagName: "input", type: "text"});
-			
 			
 			if(this.type === "calendar" || this.type === "text"){
 				this.createPopup();
-				
-				
-				//this.createCalendar(this._popup);
-				
-				
 			}
-			
 			
 			this.modeInit = 1;
 			
 			var ME = this;
 			
-			this._mask = this._main.create({tagName:"input", type:"text", placeholder:"24/10/1975"});
+			this._mask = this._main.create({tagName:"input", type:"text", placeholder:this.placeholder});
 			
 			this._mask.on("change", function(){
-				
-				
 				var aux = sgDate.dateFrom(this.value, ME.maskFormat);
-				
 				ME._input.get().value = sgDate.evalFormat(aux.year, aux.month, aux.day, ME.format);
-				
-				
 			});
-			var btn = this._main.create({tagName:"input", type:"button"});
-			//btn.type = "button";
+
+			this._main.create({tagName:"input", type:"button"}).on("click", function(){
 			
-			
-			btn.on("click", function(){
 				var opt = {};
 				opt.ref = this;
 				opt.left = "front";
 				opt.top = "middle";
-				var aux = "", _test = false;
-				if(ME._input.get().value){
-					aux = ME._input.get().value.split("-");
-
-					_test = new Date(aux[0]*1, aux[1]*1, aux[2]*1);
-
-					if(isNaN(_test.getDay())){
-
-						aux[0] = (new Date()).getFullYear();
-						aux[1] = (new Date()).getMonth();
-						aux[2] = (new Date()).getDate();
-
-					}else{
-						ME.cal.setValue({y:aux[0]*1, m: aux[1]*1, d: aux[2]*1});
-
-					}
-
-
-
-
-
-					ME.cal.setCal(aux[0]*1, aux[1]*1, aux[2]*1);
+				
+				var aux = sgDate.dateFrom(ME._input.get().value, ME.format);
+				if(aux.year === false){
+					
+					aux = {
+							year:  (new Date()).getFullYear(),
+							month: (new Date()).getMonth()+1,
+							day: (new Date()).getDate()
+						};
 				}
-
+					
+				ME.cal.setCal(aux.year, aux.month, aux.day);
 				ME._popup.setMode("auto");
-
 				ME._popup.show(opt);
-			
 				
 			});
 			
@@ -535,7 +511,7 @@ var ssDateInput = false;
 			
 		},
 		getValue: function(){
-			return this._main.get().value;
+			return this._input.get().value;
 		},
 		setClass: function(value){
 			
@@ -588,6 +564,13 @@ var ssDateInput = false;
 			
 		},	
 	
+		selectText: function(){
+			if(this._mask){
+				this._mask.get().select();
+			}else{
+				this._input.get().select();
+			}
+		},
 		setData:function(data){
 			
 		},

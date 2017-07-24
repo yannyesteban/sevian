@@ -89,17 +89,13 @@ var Valid = false;
 	
 	var evalDate = function(value, pattern){
 		
-		var aux = getDateFrom(value, pattern);
-		
-		var xDate = new Date(aux.year, aux.month - 1, aux.day);
-		var xDay = xDate.getDate();
-		var xMonth = xDate.getMonth() + 1;
-		var xYear = xDate.getFullYear();
+		var aux = sgDate.dateFrom(value, pattern);
+		var date = new Date(aux.year, aux.month - 1, aux.day);
 
-		if(aux.year === xYear && aux.month === xMonth && aux.day === xDay){
-			return true;
-		}else{
+		if(aux.year !== date.getFullYear() || aux.month !== (date.getMonth() + 1) || aux.day !== date.getDate()){
 			return false;
+		}else{
+			return true;
 		}
 
 	};
@@ -207,7 +203,7 @@ var Valid = false;
 						}
 						break;	
 					case "date":
-						if(!evalDate(value, "y-m-d")){
+						if(!evalDate(value, rule.value || "%y-%m-%d")){
 							error = true;
 						}
 						break;	
