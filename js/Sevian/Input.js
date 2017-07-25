@@ -410,28 +410,19 @@ var ssDateInput = false;
 			if(this.main){
 			
 				this._main = $(this.main);
-				
 				this._input  = $(this._main.query(".input"));
 				this._mask  = $(this._main.query(".mask"));
-				
-				
-				
+				//this._input.get().type = "hidden";
 				
 			}else{
 				this._main = $.create("span");
 				this._input = this._main.create({tagName: "input", type: "text"});
-
-
-
-
-				
-				
 				
 			}
+
 			if(!this._mask){
 				this._mask = this._main.create({tagName:"input", type:"text", placeholder:this.placeholder});
 			}
-			
 			
 			if(this.type === "calendar" || this.type === "text"){
 				this.createPopup();
