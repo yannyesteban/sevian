@@ -29,38 +29,17 @@ var sgTab = false, Tab;
 		this._index = 0;
 		
 		this.create();
+		
 		this.setValue(this.value);
-		
-		return;
-		
-		if(this.target){
-			this.create();	
-		}else if(this.menuId){
-			this.loadFrom(this.menuId, this.bodyId);
-			
-			this.setValue(this.value);
-		}
-		
-		
-	};
-	
-	sgTab.load = function(opt){
-		
-		return new sgTab(opt);
-		
 		
 	};
 	
 	sgTab.prototype = {
 		
-		getType: function(){
-			return this.type;	
-		},
-		
 		create: function(){
 
 			if(this.main){
-				this._main = this.main;
+				this._main = $(this.main);
 				this.setTab();
 				return;
 			}

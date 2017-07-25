@@ -16,7 +16,34 @@
 
 </head>
 
-<body><form action="" id="miform">
+<body>
+
+<div id="form5">
+	
+	<div data-sg-form-type="field">
+		<div>
+			Fecha
+		</div>
+		<div>
+			<span data-sg-form-type="input" data-sg-type="sg-input-date" id="fecha">
+				<input name="fecha" value='2000-02-08' class="input" id="fecha1">
+				<input value='' type="text" class=".mask">
+			</span>
+		</div>
+	</div>
+	
+	
+</div>
+
+
+
+
+
+
+
+
+
+<form action="" id="miform">
 	<div id="f1" class="sg-form-main">
 		<div class="caption">Page Two - I</div>
 		
@@ -142,8 +169,38 @@
 <script>
 (function($){
 	
+	var z = new Sevian.Form({main:"#form5"});
+	
+	z.addField({
+		caption:"Nacimiento",
+		id:"fecha",
+		control:"DateInput",
+		input:{
+			type:"text",
+			main:"#fecha",
+			value:'2001-04-30',
+			events:{
+				click: function(){
+					alert(this.classNametype);
+				}
+			}
+		}
+	
+	
+	});
+	
+	
+	return;
+	
+	
 	var m = new Sevian.Form({id:"d_01", target:$("")});
+	
+	m.addPage({caption:"page one"});
+	m.addTab({caption:"page one"});
+	m.addTabPage({title:"Basic"});
 	m.addField({
+		
+		type: "Input",
 		
 		caption:"cedula",
 		rules:{
@@ -159,14 +216,15 @@
 		
 	});	
 	m.addField({
-		caption: "fecha",
+		caption: "Fecha de Nacimiento",
+		control:"DateInput",
 		rules:{
 			
 			date:{_value:'%y-%d-%m'},
 			
 		},
 		input: {
-			input: "DateInput",
+			
 			type:"text",
 			name:"fecha",
 		}
@@ -174,9 +232,9 @@
 		
 	});
 	
-	
+	m.addTabPage({title:"Advance"});
 	m.addInput({
-		
+		locatePage:-1,
 		input: {
 			
 			type:"button",
@@ -190,10 +248,10 @@
 		}
 		
 	});
-	return;
+	
 	
 	var f = new Sevian.Form({
-			_main:$("#f1"),
+			main:"f1",
 			//create:false,
 			//id: "f1",
 			className: "soho",
@@ -201,7 +259,8 @@
 			caption: "Registro de Personal",
 
 
-	});		
+	});	
+	return;
 	f.pages[2].setCaption("Hola a todos");
 
 	var tab = new Tab({main:$("#tab_"), value:0});
@@ -214,10 +273,13 @@
 		locateTab:1,
 		caption: "Número",
 		comment: "Número de seguro social",
+		
+		inputClass : "",
+		
 		input:{
 
 
-			input : "DateInput",
+			
 			type: "calendar",
 
 			_id:"pass",

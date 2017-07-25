@@ -89,6 +89,10 @@ var Valid = false;
 	
 	var evalDate = function(value, pattern){
 		
+		if(trim(value) === ""){
+			return true;
+		}
+		
 		var aux = sgDate.dateFrom(value, pattern);
 		var date = new Date(aux.year, aux.month - 1, aux.day);
 

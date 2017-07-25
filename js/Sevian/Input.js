@@ -12,6 +12,7 @@ var ssInput = false;
 	
 	var ssInput = function(opt){
 		
+		
 		this.type = "";
 		
 		this.id = "";
@@ -278,6 +279,7 @@ var ssInput = false;
 	
 	namespace.Input = ssInput;
 	
+	namespace.Inputs.Std = ssInput;
 	
 }(Sevian, _sgQuery));
 
@@ -304,7 +306,7 @@ var ssDateInput = false;
 		this.format = "%yy-%mm-%dd";
 		this.maskFormat = "%d/%m/%yy";
 		
-		this.title = "";
+		
 		
 		this.data = [];
 		this.parent = false;
@@ -324,7 +326,7 @@ var ssDateInput = false;
 		this._mask = false;
 		
 		for(var x in opt){
-			if(this.hasOwnProperty(x)){
+			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
 			}
 				
@@ -334,7 +336,7 @@ var ssDateInput = false;
 		
 		this._main = false;
 		this._target = false;
-		this.init();
+		this.create();
 		
 		
 	};
@@ -405,22 +407,46 @@ var ssDateInput = false;
 		
 		create: function(){
 			
-			this._main = $.create("span");
-			this._input = this._main.create({tagName: "input", type: "text"});
+			if(this.main){
+			
+				this._main = $(this.main);
+				
+				this._input  = $(this._main.query(".input"));
+				this._mask  = $(this._main.query(".mask"));
+				
+				
+				
+				
+			}else{
+				this._main = $.create("span");
+				this._input = this._main.create({tagName: "input", type: "text"});
+
+
+
+
+				
+				
+				
+			}
+			if(!this._mask){
+				this._mask = this._main.create({tagName:"input", type:"text", placeholder:this.placeholder});
+			}
+			
 			
 			if(this.type === "calendar" || this.type === "text"){
 				this.createPopup();
 			}
-			
-			this.modeInit = 1;
-			
+				
 			var ME = this;
-			
-			this._mask = this._main.create({tagName:"input", type:"text", placeholder:this.placeholder});
-			
 			this._mask.on("change", function(){
 				var aux = sgDate.dateFrom(this.value, ME.maskFormat);
-				ME._input.get().value = sgDate.evalFormat(aux.year, aux.month, aux.day, ME.format);
+				
+				if(aux.year === false){
+					ME._input.get().value = this.value;
+				}else{
+					ME._input.get().value = sgDate.evalFormat(aux.year, aux.month, aux.day, ME.format);
+				}
+				
 			});
 
 			this._main.create({tagName:"input", type:"button"}).on("click", function(){
@@ -434,10 +460,10 @@ var ssDateInput = false;
 				if(aux.year === false){
 					
 					aux = {
-							year:  (new Date()).getFullYear(),
-							month: (new Date()).getMonth()+1,
-							day: (new Date()).getDate()
-						};
+						year:  (new Date()).getFullYear(),
+						month: (new Date()).getMonth()+1,
+						day: (new Date()).getDate()
+					};
 				}
 					
 				ME.cal.setCal(aux.year, aux.month, aux.day);
@@ -445,48 +471,15 @@ var ssDateInput = false;
 				ME._popup.show(opt);
 				
 			});
-			
-			
-		},
 		
-		init: function(){
-			
-			if(this.id && $.byId(this.id)){
-				this._main = $("#" + this.id);
-			}else{
-				
-				this.create();	
-			}
-			if(this.target){
-			
-				$(this.target).append(this._main);	
-			}
-			
-			if(this.modeInit === 1){
-				if(this.name){
-				this._main.get().name = this.name;	
-				}
-				if(this.id){
-					this._main.get().id = this.id;	
-				}
-				if(this.className){
-					this._main.addClass(this.className);
-				}
-				if(this.placeholder){
-					this._main.get().placeholder = this.placeholder;	
-				}
-				
-				
-			}
-			
-			
-			
 			for(var x in this.events){
 				this.on(x, this.events[x]);
 			}
 			
-			this._main.prop(this.propertys);
-			this._main.style(this.style);
+			var input = (this._mask)?this._mask:this._input;
+			
+			input.prop(this.propertys);
+			input.style(this.style);
 			
 			if(this.type === "select"){
 				this.createOptions(this.value, false);
@@ -495,10 +488,16 @@ var ssDateInput = false;
 			this.setValue(this.value);
 			
 			this.setStatus(this.status);
-			this.setMode(this.mode);	
+			this.setMode(this.mode);
 			
-				
+			if(this.target){
+			
+				$(this.target).append(this._main);	
+			}
+			
 		},
+		
+		
 		
 		setValue: function(value){
 			
@@ -521,10 +520,13 @@ var ssDateInput = false;
 		},
 		
 		on: function(event, fn){
+			
+			var input = (this._mask)?this._mask:this._input;
+			
 			if(typeof(fn) === "function"){
-				this._main.on(event, fn.bind(this));
+				input.on(event, fn.bind(this));
 			}else if(typeof(fn) === "string"){
-				this._main.on(event, Function(fn).bind(this));
+				input.on(event, Function(fn).bind(this));
 			}
 		},
 		off: function(event, fn){
@@ -548,6 +550,7 @@ var ssDateInput = false;
 		},	
 		setMode:function(value){
 			this.mode = value;
+			
 			this._main.ds("mode", value);
 		},	
 		
@@ -608,6 +611,6 @@ var ssDateInput = false;
 	//mixin(_prototype, ssDateInput.prototype);
 	
 	namespace.DateInput = ssDateInput;
-	
+	namespace.Inputs.DateInput = ssDateInput;
 	
 }(Sevian, _sgQuery, sgDate, sgCalendar, sgWindow));

@@ -2,7 +2,7 @@
 
 var _sg = {
 
-	_on: function(obj,_event, _function){
+	_on: function(obj, _event, _function){
 		if(obj.addEventListener){
 			_event = _event.replace(/^\s*on/gi,"");
 			obj.addEventListener(_event, _function, false);
@@ -12,7 +12,7 @@ var _sg = {
 		}// end if		
 	},
 
-	_off: function(obj,_event, _function) {
+	_off: function(obj, _event, _function) {
 		if(obj.removeEventListener){
 			_event = _event.replace(/^\s*on/gi,"");
 			obj.removeEventListener(_event, _function, false);
@@ -59,8 +59,9 @@ var _sg = {
 
 var _sgObjet = function(obj){
 	
-	
-	if(!obj || obj === ""){
+	this.e = obj;
+	/*
+	if(obj === undefined || obj === ""){
 		this.e = document.body;
 	}else if(typeof(obj) === "object"){
 		this.e = obj;
@@ -69,10 +70,10 @@ var _sgObjet = function(obj){
 	}else if(document.getElementById(obj)){
 		this.e = document.getElementById(obj);
 	}else{
-		//db("error _sgQuery: "+obj, "red");
+		this.e = false;
 	}
-	
-	
+
+	*/
 };
 
 _sgObjet.prototype = {
@@ -116,6 +117,10 @@ _sgObjet.prototype = {
 	
 	append: function(obj){
 		
+		if(!this.e || !this.e.appendChild){
+			return this;
+		}
+
 		if(typeof(obj) === "object"){
 			if(obj instanceof _sgObjet){
 				this.e.appendChild(obj.get());
@@ -138,7 +143,7 @@ _sgObjet.prototype = {
 		}
 
 
-		return new _sgObjet(obj);
+		return _sgQuery(obj);
 		
 	},
 	
@@ -338,13 +343,29 @@ _sgObjet.prototype = {
 
 
 
-var _sgQuery = function(elem){
+var _sgQuery = function(obj){
 	
-	if(elem instanceof _sgObjet){
-		return elem;
+	if(obj instanceof _sgObjet){
+		return obj;
 	}
 	
-	return new _sgObjet(elem);
+	var e = false;
+	
+	if(obj === undefined || obj === ""){
+		e = document.body;
+	}else if(typeof(obj) === "object"){
+		e = obj;
+	}else if(document.querySelector(obj)){
+		e = document.querySelector(obj);
+	}else if(document.getElementById(obj)){
+		e = document.getElementById(obj);
+	}
+	
+	if(e !== false){
+		return new _sgObjet(e);
+	}else{
+		return false;
+	}
 	
 };
 
@@ -377,7 +398,7 @@ _sgQuery.create= function(opt){
 		e = document.createElement(opt);
 	}
 	
-	return new _sgObjet(e);
+	return _sgQuery(e);
 };
 
 _sgQuery.prop = function(obj, prop){

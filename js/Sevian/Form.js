@@ -4,6 +4,8 @@ if(!Sevian){
 	var Sevian = {};
 }
 
+Sevian.Inputs = {};
+
 (function(namespace, $, Tab, popup){
 	/*$(document).on("wheel", function(event){
 				
@@ -34,23 +36,15 @@ if(!Sevian){
 					
 				};	
 			},
-			
 		};
-		
-		
 	}());
 	
-	
-	
 	var createInput = function(opt){
-		
-		if(opt.input){
-			return new namespace[opt.input](opt);
+		if(opt.control){
+			return new namespace.Inputs[opt.control](opt);
 		}else{
-			return new namespace.Input(opt);
+			return new namespace.Inputs.Std(opt);
 		}
-		
-		
 	};
 	
 	var mixin = function(source, target){
@@ -63,9 +57,14 @@ if(!Sevian){
 	
 	var Field = function(opt){
 		
+		this.id = false;
+		this.name = false;
+		this.value = "";
+		
 		this.caption = "";
 		this.className = "";
 		this.rules = false;
+		this.control = "";
 		this.input = {};
 		
 		//this.locate = {page:1};
@@ -103,6 +102,14 @@ if(!Sevian){
 		
 		create: function(){
 			
+			
+			this.input.control = this.input.control || this.control;
+			
+			this.input.name = this.input.name || this.name;
+			this.input.id = this.input.id || this.id;
+			this.input.title = this.input.title || this.caption;
+			this.input.value = this.input.value || this.value;
+			this.input.default = this.input.default || this.default;
 			
 			if(!this.useRow){
 				this._input = createInput(this.input);
@@ -223,25 +230,19 @@ if(!Sevian){
 		
 	};
 	
-	Page.load = function(index){
-		
-		return new Page({
-			_main:  $(".sg-page-main")			
-			
-			
-		});
-		
-		
-	};
-	
 	Page.prototype = {
 		
 		create: function(){
 			
-			if(this._main){
-				//var s = this._main.queryAll(":scope > .caption");
+			if(this.main){
+				this._main = $(this.main);
 				this._caption = $(this._main.query(".caption"));
 				this._body =  $(this._main.query(".body"));
+				
+				if(!this._body){
+					this._body = this._main;
+				}
+				
 			}else{
 				this._main = $.create({
 					tagName: "div",
@@ -259,13 +260,9 @@ if(!Sevian){
 					tagName: "div",
 					className: "body"
 				});
-				
 			}
 			
-			
-			
 			if(this.target){
-				
 				this._target = $(this.target);
 				this._target.append(this._main);
 			}
@@ -288,30 +285,14 @@ if(!Sevian){
 			return this._body;	
 		},
 		
-		init: function(){
-			if(this.main){
-				this._main = $(this.main);
-			}else{
-				this._main = $(this.id);
-			}
-			
-			this._caption = this._main.query(">.caption");
-			
-		},
-		
-		
-		
 		appendTo: function(obj){
-				
 			obj.append(this._main);
 		},
 		
 		setCaption: function(caption){
 			if(!this._caption){
-				
 				this._caption = this._main.create("div");
 				this._caption.addClass("caption");
-				
 			}
 			
 			this._caption.text(caption);
@@ -323,9 +304,6 @@ if(!Sevian){
 		append: function(e){
 			this._body.append(e);	
 		},
-		
-		
-		
 	};
 	
 	var Form = function(opt){
@@ -339,7 +317,6 @@ if(!Sevian){
 		this.className = false;
 		this.target = false;
 		
-		
 		this.form = false;
 		
 		this.fields = [];
@@ -348,11 +325,7 @@ if(!Sevian){
 		this._last = false;
 		this._lastPage = false;
 		this._lastTab = false;
-		
-		
-		
-		
-		
+	
 		this.fieldCount = 0;
 		this.tabCount = 0;
 		this.pageCount = 0;
@@ -364,6 +337,7 @@ if(!Sevian){
 		this.onReset = function(){};
 		this.onValue = function(){};
 		this._main = false;
+		
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
@@ -371,86 +345,25 @@ if(!Sevian){
 				
 		}
 		
-		
 		this.create();
 		
 		this._setPage(this._body, false, false);
 		
-		return;
-		
-		if(!this.create){
-			
-			this._last = this._main = $(this.id);
-			
-			this._main.query();
-			
-			
-			return;
-		}
-		
-		if(!$.byId(this.id)){
-			
-			//Page.create.call(this.)
-			this.create();
-			this._setPage(this._body, false, false);
-			//this._lastPage = this._body;
-			
-		}
-		
 	};
+
 	Form.prototype = Object.create(Page.prototype);
 	Form.prototype.constructor = Form;
-	
-	
-	
 	
 	var _Form = {
 		get: function(){
 			return this._main;	
 		},
 		
-		
 		create: function(){
-			
 			Page.prototype.create.call(this);
-			
 			this.initPages();
-			
-			
-			return;
-			
-			if(this._main){
-				//var s = this._main.queryAll(":scope > .caption");
-				this._caption = $(this._main.query(".caption"));
-				this._body =  $(this._main.query(".body"));
-				
-				
-				
-			}else{
-				this._main = $.create({
-					tagName: "div",
-					id: this.id,
-					className: this.className
-				});
-				
-			}
-			
-				
-			
-			
-			if(this.target){
-				this._target = $(this.target);
-				this._target.append(this._main);
-			}
-			
-			this._main.ds("sgType","sg-form");
-			this._main.addClass("sg-form-main");
-			
-			
 		},
-		
-		
-		
+
 		setValue: function(data){
 			for(var name in data){
 				if(this.fields[name]){
@@ -459,19 +372,23 @@ if(!Sevian){
 
 			}	
 		},
+		
 		reset: function(){
 			for(var name in this.fields){
 				if(this.fields.hasOwnProperty(name)){
-					
 					this.fields[name].getInput().reset();
 				}
-				
-				
-
 			}	
 		},
+		
 		getValue: function(){
-			
+			var data = [];
+			for(var name in this.fields){
+				if(this.fields.hasOwnProperty(name)){
+					data[name] = this.fields[name].getInput().getValue();
+				}
+			}
+			return data;
 		},
 		
 		getField: function(name){
@@ -495,8 +412,7 @@ if(!Sevian){
 			
 			this.fieldCount++;
 			
-			if(field.locatePage || field.locatePage >=0){
-				
+			if(field.locatePage || field.locatePage >= 0){
 				this._setLocate(opt.locatePage, field.locateTab);
 			}
 			
@@ -508,25 +424,17 @@ if(!Sevian){
 		
 		addInput: function(opt){
 			opt.useRow = false;
-			
 			this.addField(opt);
 		},
 		
 		setMain: function(){
-			
 			this._setPage(this._body, false, false);
-			
 		},
 		
 		setPage: function(index){
-			
 			this._setLocate(index, false);
-
 		},
 		addPage: function(opt){
-			
-			
-			
 			if(opt.locatePage || opt.locatePage >= 0){
 				this._setLocate(opt.locatePage, opt.locateTab || false);
 			}
@@ -540,7 +448,6 @@ if(!Sevian){
 		},
 		
 		addTab: function(opt){
-			
 			if(opt.locatePage || opt.locatePage >= 0){
 				this._setLocate(opt.locatePage, opt.locateTab || false);
 			}
@@ -561,7 +468,6 @@ if(!Sevian){
 		},
 		
 		getPage: function(){
-			
 			return this._last;
 		},
 		
@@ -626,7 +532,7 @@ if(!Sevian){
 			
 			var t = this._main.queryAll(".sg-tab-main");
 			[].forEach.call(t, function(e, index){
-				this.tabs[index+1] = new Tab({main: $(e)});
+				this.tabs[index + 1] = new Tab({main: $(e)});
 			}, this);
 			
 		},

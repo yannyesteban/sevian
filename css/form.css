@@ -2,6 +2,9 @@
 * {
   box-sizing: border-box; }
 
+* {
+  box-sizing: border-box; }
+
 html_ {
   background-color: #4d4d4d;
   color: white; }
@@ -24,30 +27,33 @@ body {
   color: red;
   border: 4px solid red; }
 
-.sg-form-main .sg-tab-main {
-  margin: 4px; }
-.sg-form-main > .caption {
-  background-color: rgba(184, 184, 184, 0.52);
-  text-align: center; }
-.sg-form-main .sg-page-main {
-  border: 2px solid #414141;
-  margin: 4px;
+.sg-form-main {
+  border: 4px solid #f1f1f1;
   padding: 4px; }
-  .sg-form-main .sg-page-main > .body {
-    display: table;
-    width: 100%; }
-  .sg-form-main .sg-page-main .tr {
-    display: table-row;
-    padding: 2px;
+  .sg-form-main .sg-tab-main {
     margin: 4px; }
-    .sg-form-main .sg-page-main .tr .td {
-      display: table-cell;
-      margin: 2px;
-      padding: 2px;
-      width: 50%; }
-  .sg-form-main .sg-page-main > .caption {
-    background-color: rgba(255, 255, 255, 0.17);
+  .sg-form-main > .caption {
+    background-color: rgba(184, 184, 184, 0.52);
     text-align: center; }
+  .sg-form-main .sg-page-main {
+    border: 2px solid #414141;
+    margin: 4px;
+    padding: 4px; }
+    .sg-form-main .sg-page-main > .body {
+      display: table;
+      width: 100%; }
+    .sg-form-main .sg-page-main .tr {
+      display: table-row;
+      padding: 2px;
+      margin: 4px; }
+      .sg-form-main .sg-page-main .tr .td {
+        display: table-cell;
+        margin: 2px;
+        padding: 2px;
+        width: 50%; }
+    .sg-form-main .sg-page-main > .caption {
+      background-color: rgba(255, 255, 255, 0.17);
+      text-align: center; }
 
 .sgPopup.sg-tips-popup {
   margin: 4px;
