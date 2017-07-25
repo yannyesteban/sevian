@@ -1,0 +1,72 @@
+/* Scss Document */
+html,body{
+	
+	margin: 0px;
+	padding: 0px;
+}
+*{
+	box-sizing: border-box;
+}
+.main{
+		
+	.page{
+		border:1px solid red;
+		
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		
+		.header{
+			flex: 0 0 50px;
+			border:1px solid red;
+		}
+		.body{
+			flex: 1 1 auto;
+			border:1px solid red;
+			.row{
+				.cell{
+					display: inline-block;
+					border: 1px solid rgba(189,140,141,1.00);
+					padding: 1px;
+					margin: 1px;
+				}
+			}
+		}
+		.footer{
+			flex: 0 0 50px;
+			border:1px solid red;
+		}
+		
+	}
+	
+}
+
+
+.main_{
+	border:2px solid rgba(204,204,204,1.00);
+	
+	.group{
+		padding: 1px;
+			margin: 1px;
+		border: 1px solid rgba(189,140,141,1.00);
+	}
+	
+	
+	
+	
+	.row{
+		.cell{
+			display: inline-block;
+			border: 1px solid rgba(189,140,141,1.00);
+			padding: 1px;
+			margin: 1px;
+		}
+	}
+}
+
+.report{
+	
+	
+	
+}

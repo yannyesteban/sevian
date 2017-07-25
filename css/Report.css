@@ -1,0 +1,40 @@
+/* Scss Document */
+html, body {
+  margin: 0px;
+  padding: 0px; }
+
+* {
+  box-sizing: border-box; }
+
+.main .page {
+  border: 1px solid red;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column; }
+  .main .page .header {
+    flex: 0 0 50px;
+    border: 1px solid red; }
+  .main .page .body {
+    flex: 1 1 auto;
+    border: 1px solid red; }
+    .main .page .body .row .cell {
+      display: inline-block;
+      border: 1px solid #bd8c8d;
+      padding: 1px;
+      margin: 1px; }
+  .main .page .footer {
+    flex: 0 0 50px;
+    border: 1px solid red; }
+
+.main_ {
+  border: 2px solid #cccccc; }
+  .main_ .group {
+    padding: 1px;
+    margin: 1px;
+    border: 1px solid #bd8c8d; }
+  .main_ .row .cell {
+    display: inline-block;
+    border: 1px solid #bd8c8d;
+    padding: 1px;
+    margin: 1px; }
