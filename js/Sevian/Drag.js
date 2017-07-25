@@ -375,7 +375,12 @@ var _sgFloat, _sgDrag;
 			if (top < sT && !fixed){
 				top = sT; 
 			}// end if	
-
+			if(left < 0){
+				left = 0;
+			}
+			if(top < 0){
+				top = 0;
+			}
 			return this.showElem({e: e, left: left, top: top, z: z});
 		},
 
