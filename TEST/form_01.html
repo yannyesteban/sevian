@@ -19,14 +19,24 @@
 <body>
 
 <div id="form5">
-	
 	<div data-sg-form-type="field">
 		<div>
-			Fecha
+			Nombre
 		</div>
 		<div>
+			
+			<input name="nombre" value="yanny" class="input" type="text" id="nombre">
+				
+			
+		</div>
+	</div>
+	<div data-sg-form-type="field">
+		<div>
+			(Fecha)
+		</div>
+		<div>(8)
 			<span data-sg-form-type="input" data-sg-type="sg-input-date" id="fecha">
-				<input name="fecha" value="2000-02-08" class="input" type="hidden" id="fecha1">
+				<input name="fecha" value="2000-02-08" class="input" type="text" id="fecha1" onMouseOver="this.value=999">
 				
 			</span>
 		</div>
@@ -172,7 +182,22 @@
 	var z = new Sevian.Form({main:"#form5"});
 	
 	z.addField({
-		caption:"Nacimiento",
+		caption:"Nombre y Apellido",
+		input:{
+			type:"text",
+			main:"#nombre",
+			value:"Yanny Esteban",
+			placeholder:"...seleccione",
+			style:{
+				color:"red"
+			}
+		}
+		
+		
+	});
+	
+	z.addField({
+		caption:"Fecha Nacimiento",
 		id:"fecha",
 		control:"DateInput",
 		input:{
@@ -181,7 +206,7 @@
 			value:'2001-04-30',
 			events:{
 				click: function(){
-					alert(this.classNametype);
+					
 				}
 			}
 		}

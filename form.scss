@@ -1,20 +1,22 @@
 /* Scss Document */
-*{
-	box-sizing: border-box;
-	
-}
 
 
 *{
 	box-sizing: border-box;
 }
+
+document, html, body{
+	margin: 0px;
+	padding: 0px;
+}
+
 html_{
 	background-color: rgba(77,77,77,1.00);
 	color:white;
 }
 
 body{
-	padding: 10px;
+	//padding: 10px;
 	
 }
 .perla, input{

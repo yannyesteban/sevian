@@ -2,15 +2,13 @@
 * {
   box-sizing: border-box; }
 
-* {
-  box-sizing: border-box; }
+document, html, body {
+  margin: 0px;
+  padding: 0px; }
 
 html_ {
   background-color: #4d4d4d;
   color: white; }
-
-body {
-  padding: 10px; }
 
 .perla, input {
   color: #676767;

@@ -23,7 +23,7 @@ var ssInput = false;
 		this.default = false;
 		
 		this.target = false;
-		
+		this.main = false;
 		
 		this.title = "";
 		
@@ -52,7 +52,7 @@ var ssInput = false;
 		
 		this._main = false;
 		this._target = false;
-		this.init();
+		this.create();
 		
 		
 	};
@@ -64,74 +64,50 @@ var ssInput = false;
 		},
 		
 		create: function(){
+			if(this.main){
 			
-			var opt = {};
-			
-			switch(this.type){
-				case "text":
-				case "password":
-				case "hidden":
-				case "button":
-				case "submit":
-					opt.tagName = "input";
-					opt.type = this.type;
-					
-					break;
-				case "select":
-					opt.tagName = this.type;
-					break;
-				case "multiple":
-					opt.tagName = "select";
-					this.propertys.multiple = "multiple";
-					break;
-				case "textarea":
-					opt.tagName = this.type;
-					break;
-				default:
-					opt.tagName = "input";
-					opt.type = "text";
+				this._main = $(this.main);
 				
-			}
-			
-			this.modeInit = 1;
-			
-			this._main = $.create(opt);
-			
-			//this._main.ds("sg-input-type", "ss-input-" + this.type);
-			
-		},
-		
-		init: function(){
-			
-			if(this.id && $.byId(this.id)){
-				this._main = $("#" + this.id);
+				
 			}else{
+				var opt = {};
+
+				switch(this.type){
+					case "text":
+					case "password":
+					case "hidden":
+					case "button":
+					case "submit":
+						opt.tagName = "input";
+						opt.type = this.type;
+
+						break;
+					case "select":
+						opt.tagName = this.type;
+						break;
+					case "multiple":
+						opt.tagName = "select";
+						this.propertys.multiple = "multiple";
+						break;
+					case "textarea":
+						opt.tagName = this.type;
+						break;
+					default:
+						opt.tagName = "input";
+						opt.type = "text";
+
+				}
+				this._main = $.create(opt);
 				
-				this.create();	
-			}
-			if(this.target){
-			
-				$(this.target).append(this._main);	
-			}
-			
-			if(this.modeInit === 1){
-				if(this.name){
-				this._main.get().name = this.name;	
-				}
-				if(this.id){
-					this._main.get().id = this.id;	
-				}
-				if(this.className){
-					this._main.addClass(this.className);
-				}
-				if(this.placeholder){
-					this._main.get().placeholder = this.placeholder;	
-				}
+				
 				
 				
 			}
-			
-			
+			this.addClass(this.className);
+
+			if(this.placeholder){
+				this._main.get().placeholder = this.placeholder;	
+			}
 			
 			for(var x in this.events){
 				this.on(x, this.events[x]);
@@ -140,16 +116,15 @@ var ssInput = false;
 			this._main.prop(this.propertys);
 			this._main.style(this.style);
 			
-			if(this.type === "select"){
+			if(this.type === "select" || this.type === "multiple"){
 				this.createOptions(this.value, false);
 			}
 			
 			this.setValue(this.value);
 			
 			this.setStatus(this.status);
-			this.setMode(this.mode);	
+			this.setMode(this.mode);
 			
-				
 		},
 		
 		setValue: function(value){
@@ -157,6 +132,11 @@ var ssInput = false;
 		},
 		getValue: function(){
 			return this._main.get().value;
+		},
+		addClass: function(className){
+			if(className){
+				this._main.addClass(className);
+			}
 		},
 		setClass: function(value){
 			
@@ -419,7 +399,7 @@ var ssDateInput = false;
 				this._input = this._main.create({tagName: "input", type: "text"});
 				
 			}
-
+			this.addClass(this.className);
 			if(!this._mask){
 				this._mask = this._main.create({tagName:"input", type:"text", placeholder:this.placeholder});
 			}
@@ -503,6 +483,11 @@ var ssDateInput = false;
 		getValue: function(){
 			return this._input.get().value;
 		},
+		addClass: function(className){
+			if(className){
+				this._mask.addClass(className);
+			}
+		},
 		setClass: function(value){
 			
 		},
@@ -512,12 +497,10 @@ var ssDateInput = false;
 		
 		on: function(event, fn){
 			
-			var input = (this._mask)?this._mask:this._input;
-			
 			if(typeof(fn) === "function"){
-				input.on(event, fn.bind(this));
+				this._mask.on(event, fn.bind(this));
 			}else if(typeof(fn) === "string"){
-				input.on(event, Function(fn).bind(this));
+				this._mask.on(event, Function(fn).bind(this));
 			}
 		},
 		off: function(event, fn){
