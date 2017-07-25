@@ -1,31 +1,63 @@
 /* Scss Document */
+@media print {
+  @page {
+    size: letter landscape;
+    margin: 1cm; } }
+@media screen {
+  @page {
+    size: auto;
+    /* auto is the initial value */
+    size: letter portrait;
+    /* this affects the margin in the printer settings */
+    margin: 0mm; }
+  .main {
+    margin: 50px;
+    padding: 50px;
+    border: solid 1px #CCC;
+    box-shadow: 10px 10px 5px #888888;
+    height: 1100px;
+    width: 800px; } }
 html, body {
   margin: 0px;
-  padding: 0px; }
+  padding: 0px;
+  font-size: 14pt; }
 
 * {
   box-sizing: border-box; }
 
-.main .page {
-  border: 1px solid red;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column; }
-  .main .page .header {
-    flex: 0 0 50px;
-    border: 1px solid red; }
-  .main .page .body {
-    flex: 1 1 auto;
-    border: 1px solid red; }
-    .main .page .body .row .cell {
-      display: inline-block;
-      border: 1px solid #bd8c8d;
-      padding: 1px;
-      margin: 1px; }
-  .main .page .footer {
-    flex: 0 0 50px;
-    border: 1px solid red; }
+.main {
+  page-break-after: always; }
+  .main .page {
+    height: 100%;
+    width: 100%; }
+  .main .page {
+    border: 1px solid red;
+    _margin: 40px;
+    display: flex;
+    flex-direction: column; }
+    .main .page .header {
+      flex: 0 0 50px;
+      border: 1px solid red; }
+    .main .page .body {
+      flex: 1 1 auto;
+      border: 1px solid red; }
+      .main .page .body .row {
+        display: table-row; }
+        .main .page .body .row .cell {
+          display: table-cell;
+          border: 1px solid #bd8c8d;
+          padding: 1px;
+          margin: 1px; }
+    .main .page .footer {
+      flex: 0 0 50px;
+      border: 1px solid red; }
+
+.main_ {
+  height: 100%; }
+  .main_ ._page:nth-of-type(2) {
+    background-color: #393939 !important;
+    margin: 5px;
+    padding: 20px; }
 
 .main_ {
   border: 2px solid #cccccc; }

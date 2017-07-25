@@ -1,19 +1,59 @@
 /* Scss Document */
+
+@media print{
+    @page{
+        size: letter landscape;
+        margin: 1cm;
+    }
+}
+
+
+
+@media screen{
+	@page{ 
+		size: auto;   /* auto is the initial value */ 
+		size: letter portrait ;
+		//portrait , landscape
+		/* this affects the margin in the printer settings */ 
+		margin: 0mm;  
+	} 
+	
+   .main{
+		margin:50px; 
+		padding:50px;
+		border:solid 1px #CCC; 
+		box-shadow: 10px 10px 5px #888888;
+		height:1100px;
+		width:800px; 
+	   
+	}
+}
+
+
 html,body{
 	
 	margin: 0px;
 	padding: 0px;
+	font-size: 14pt;
 }
 *{
 	box-sizing: border-box;
 }
+
 .main{
-		
+	page-break-after: always;
+	
+	.page{
+		height: 100%;
+		width: 100%;
+	}
+	
 	.page{
 		border:1px solid red;
 		
-		height: 100%;
-		width: 100%;
+		_margin: 40px;
+		//height: 100%;
+		//width: 100%;
 		display: flex;
 		flex-direction: column;
 		
@@ -24,9 +64,11 @@ html,body{
 		.body{
 			flex: 1 1 auto;
 			border:1px solid red;
+			//display: table;
 			.row{
+				display: table-row;
 				.cell{
-					display: inline-block;
+					display: table-cell;
 					border: 1px solid rgba(189,140,141,1.00);
 					padding: 1px;
 					margin: 1px;
@@ -39,6 +81,21 @@ html,body{
 		}
 		
 	}
+	
+}
+
+
+.main_{
+	height: 100%;	
+	
+	
+	._page:nth-of-type(2){
+		background-color: rgba(57,57,57,1.00)!important;
+		//page-break-before: avoid;
+		margin: 5px;
+		padding: 20px;
+	}
+	
 	
 }
 
