@@ -6,8 +6,8 @@ document, html, body {
   margin: 0px;
   padding: 0px; }
 
-html_ {
-  background-color: #4d4d4d;
+html {
+  background-color: #1f1f1f;
   color: white; }
 
 .perla, input {

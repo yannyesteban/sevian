@@ -19,24 +19,24 @@
 <body>
 
 <div id="form5">
-	<div data-sg-form-type="field">
-		<div>
+	<div data-sg-form-type="field" id="form5_nombre" class="field">
+		<div class="field-caption">
 			Nombre
 		</div>
-		<div>
+		<div class="field-input">
 			
 			<input name="nombre" value="yanny" class="input" type="text" id="nombre">
 				
 			
 		</div>
 	</div>
-	<div data-sg-form-type="field">
-		<div>
+	<div data-sg-form-type="field" id="form5_fecha">
+		<div class="field-caption">
 			(Fecha)
 		</div>
-		<div>(8)
+		<div class="field-input">
 			<span data-sg-form-type="input" data-sg-type="sg-input-date" id="fecha">
-				<input name="fecha" value="2000-02-08" class="input" type="text" id="fecha1" onMouseOver="this.value=999">
+				<input name="fecha" value="2000-02-08" class="input" type="hidden" id="fecha1">
 				
 			</span>
 		</div>
@@ -183,14 +183,21 @@
 	
 	z.addField({
 		caption:"Nombre y Apellido",
+		//control:"DateInput",
+		main:"#form5_nombre",
 		input:{
 			type:"text",
 			main:"#nombre",
-			value:"Yanny Esteban",
+			value:"Nuñez Jimenez",
 			placeholder:"...seleccione",
 			style:{
 				color:"red"
 			}
+		},
+		comment: "hola",
+		rules:{
+			required:true,
+			alpha:true,
 		}
 		
 		
@@ -198,7 +205,8 @@
 	
 	z.addField({
 		caption:"Fecha Nacimiento",
-		id:"fecha",
+		main:"#form5_fecha",
+		//id:"fecha",
 		control:"DateInput",
 		input:{
 			type:"text",
@@ -215,7 +223,48 @@
 	});
 	
 	
+	z.addField({
+		caption:"Prueba",
+		input:{
+			type:"select",
+			value:3,
+			data:[
+				["","-- SElECCIONE"],
+				[1,"Valencia"],
+				[2, "caracas"],
+				[3, "merida"]
+				
+			],
+			
+		},
+		
+		rules:{
+			required:true,
+			
+		}
+		
+		
+	});
+	
+	
+	z.addInput({
+		locatePage:-1,
+		input: {
+			
+			type:"button",
+			value:"OK",
+			events:{
+				click: function(){
+					db("valid")
+					z.valid();
+				}
+			}
+		}
+		
+	});
+	
 	return;
+	
 	
 	
 	var m = new Sevian.Form({id:"d_01", target:$("")});
