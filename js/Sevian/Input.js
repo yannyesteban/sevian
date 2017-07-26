@@ -187,8 +187,10 @@ var ssInput = false;
 			this._main.get().focus();
 		},	
 		selectText: function(){
+			if(this._main.get().select){
+				this._main.get().select();
+			}
 			
-			this._main.get().select();
 			
 		},
 		setData:function(data){

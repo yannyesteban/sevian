@@ -19,8 +19,7 @@
     width: 800px; } }
 html, body {
   margin: 0px;
-  padding: 0px;
-  font-size: 14pt; }
+  padding: 0px; }
 
 * {
   box-sizing: border-box; }

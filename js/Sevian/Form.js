@@ -61,7 +61,7 @@ Sevian.Inputs = {};
 		this.name = false;
 		this.value = "";
 		
-		this.caption = "";
+		this.caption = false;
 		this.className = "";
 		this.rules = false;
 		this.control = "";
@@ -73,6 +73,7 @@ Sevian.Inputs = {};
 		
 		this.id = false;
 		this.target = false;
+		this.main = false;
 		
 		this.mode = "";
 		this.status = "";
@@ -81,6 +82,8 @@ Sevian.Inputs = {};
 		
 		this.useRow = true;
 		
+		
+		
 		for(var x in opt){
 			if(this.hasOwnProperty(x)) {
 				this[x] = opt[x];
@@ -88,6 +91,8 @@ Sevian.Inputs = {};
 		}
 		
 		this._main = false;
+		this._caption = false;
+		this._body = false;
 		this._input = false;
 		
 		this.create();
@@ -102,7 +107,6 @@ Sevian.Inputs = {};
 		
 		create: function(){
 			
-			
 			this.input.control = this.input.control || this.control;
 			
 			this.input.name = this.input.name || this.name;
@@ -110,42 +114,46 @@ Sevian.Inputs = {};
 			this.input.title = this.input.title || this.caption;
 			this.input.value = this.input.value || this.value;
 			this.input.default = this.input.default || this.default;
-			
-			if(!this.useRow){
-				this._input = createInput(this.input);
-				this._main = $(this._input.get());
-				
-				return true;
-				
-			}
-			
-			this._main = $.create("div");
-			this._main.addClass("tr");
-			if(this.caption !== false){
-				this.setCaption(this.caption);
-				
-			}
-			
-			var input = this._main.create("div");
-			
-			input.addClass("td");
-			
 			this._input = createInput(this.input);
 			
-			input.append(this._input.get());
+			if(!this.useRow){
+				
+				this._main = $(this._input.get());
+				return true;
+			}
 			
-			if(this.comment){
+			if(this.main){
+				this._main = $(this.main);
+				this._caption = $(this._main.query(".field-caption"));
+				this._body = $(this._main.query(".field-input"));
 				
-				var comm = input.create("div");
-				comm.addClass("sg-tips-popup-btn");
-				comm.text(" ? ");
-				comm.on("click", tip.init(comm.get(), this.caption, this.comment));
-				
-				
+			}else{
+				this._main = $.create("div");
+				this._main.addClass("field");
+			}
+			
+			if(this.caption !== false){
+				this.setCaption(this.caption);
 			}
 
+			if(!this._body){
+				this._body = this._main.create("div").addClass("field-input");
 			
+			}
 			
+			if(!this._input.main){
+				this._body.append(this._input.get());
+			}
+
+			if(this.comment){
+
+				var btn = this._body.create("div").
+					addClass("sg-tips-popup-btn").
+					text(" ? ");
+				
+					btn.on("click", tip.init(btn.get(), this.caption, this.comment));
+
+			}
 		},
 		
 		setCaption: function(caption){
@@ -419,7 +427,10 @@ Sevian.Inputs = {};
 			field.locateTab = this._lastTab;
 			field.locatePage = this._lastPage;
 			
-			this.getPage().append(field.get());
+			if(!field.main){
+				this.getPage().append(field.get());
+			}
+			
 		},
 		
 		addInput: function(opt){
