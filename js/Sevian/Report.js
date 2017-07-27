@@ -112,14 +112,17 @@ var Report = false;
 			
 			var aux = this.headerHTML.replace("{=page}", this.pIndex);
 			
+			aux = aux.replace("{=total_page}", "10000");
+			
 			this._page._header.text(aux);
 			if(this._pages === 1){
 				this._page._header.text($(".report-main-header").text(), true);
 			}
 			
-			this._page._footer.text($(".report-footer").text().replace("{=page}", this.pIndex));
+			this._page._footer.text($(".report-footer").text().replace("{=page}", this.pIndex).
+									replace("{=total_page}", "<span class=\"report-tpage\"></span>"));
 			
-			
+			//aux = aux.replace("{=total_page}", "10000");
 			
 			this._page = this._page._body;
 			this._page.style({
@@ -131,6 +134,7 @@ var Report = false;
 			var g = Float.getXY(this._page.get());
 			//db(g.height, "blue")
 			this._page.get().style.maxHeight = g.height+"px";
+			//this._page.get().style.height = g.height+"px";
 			//db(g.height),
 			
 		},
@@ -216,6 +220,10 @@ var Report = false;
 			}
 		
 		
+			var g= $($("").query(".report-tpage"));
+			db(this._pages)
+			g.text(this._pages);
+			
 		},
 		
 	};
