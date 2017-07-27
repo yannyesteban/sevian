@@ -52,9 +52,6 @@ var _menu;
 		this.pullDeltaY = 20;
 		
 		
-		
-		
-		
 		this._divIcon = false;
 		this._icon = false;
 		
@@ -98,12 +95,7 @@ var _menu;
 		
 		create: function(){
 			
-			
-			
-			
-			
 			if(this.main){
-				
 				
 				this._main = $(this.main);
 				this._item = $(this._main.query(".option"));
@@ -114,12 +106,13 @@ var _menu;
 				this._check = $(this._main.query(".option > .check > input[checkbox]"));
 				this._icon = $(this._main.query(".option > .icon > img"));
 				
+				this._menu = $(this._main.query(".sub-menu"));
+				
 			}else{
 				this._main = $.create("li");
 			}
 			
 			this._main.ds("sgMenuType", "item");
-			
 			
 			this._main.addClass(this.className).ds("sgMenuType", "item").ds("sgMenuItemId", this.id);
 			
@@ -237,25 +230,32 @@ var _menu;
 		
 		
 		setItemMenu: function(){
-			this._item.on("click", this.openMenu());
 			
-			var ind = $.create("div");
-			ind.ds("sgMenuType", "ind");
-			ind.addClass("ind");
-			this._item.append(ind);
+			if(!this._item.query(".ind")){
+				this._item.on("click", this.openMenu());
+			
+				var ind = $.create("div");
+				ind.ds("sgMenuType", "ind");
+				ind.addClass("ind");
+				this._item.append(ind);
+			}
+			
+			
 			
 		},
 		
 		createMenu: function(wPopup, classPopup){
 			
-			if(this._menu){
-				return true;
-			}
-			
 			this.setItemMenu();
 			
-			this._menu = $.create("ul");
-			this._main.append(this._menu);
+			if(!this._menu){
+				this._menu = this._main.create("ul");
+			}
+			
+			this._menu.addClass("sub-menu");
+			
+			return this._menu;
+			
 			
 			if(wPopup){
 				this._popup = this._menu;
@@ -551,27 +551,31 @@ var _menu;
 			
 			
 		},
-		_loadMenu: function(menu){
+		_loadMenu: function(menu, parentId){
 			//var d = menu.query("ul>li");
 			var d = menu.childs();
 			
-			$(menu).addClass("SUBMENU");
+			$(menu).addClass("SUBMENU").addClass("x");
+			
 			var ME = this;
-			db(88888)
-			d.forEach(function(n){
-				db(n)
+			
+			d.forEach(function(e){
+				e = $(e);
 				var opt = {
-					main:n,
-					wIcon:false
+					id: ME._id++,
+					parentId: parentId,
+					main: e,
+					wIcon: false
 					
 				};
+				db(opt.id+ "...."+parentId,"red")
 				ME.add(opt);
 				
-				if(n.querySelector("ul")){
-					db(8)
-					ME._loadMenu($(n.querySelector("ul")));
+				if(e.query("ul")){
+					
+					ME._loadMenu($(e.query("ul")), opt.id);
 				}
-				
+				//ME._id++;
 				
 			})	;	
 		},
@@ -582,8 +586,9 @@ var _menu;
 				this._main = $(this.main);
 				this._caption = $(this._main.query(".caption"));
 				this._ul = $(this._main.query(".main"));
-				
-				this._loadMenu(this._ul);
+				this._id = 0;
+				this._panerId = false;
+				this._loadMenu(this._ul, false);
 				
 			}
 			
@@ -629,6 +634,9 @@ var _menu;
 		},
 		
 		setType: function(type){
+			
+			db("TYPE: "+type, "green")
+			
 			var ME = this;
 			this.type = type;
 			switch(type){
@@ -747,7 +755,10 @@ var _menu;
 			
 			var menu = this._main;
 			
-			if(item.parentId !== false){
+			if(item.parentId !== undefined && item.parentId !== false){
+				
+				
+				
 				var ME = this;
 				var parent = menu = this.smenu[item.parentId] = this.items[item.parentId];
 				
