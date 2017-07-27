@@ -201,7 +201,7 @@ var _menu;
 			}else{
 				this._main.addClass("disabled");
 			}
-				
+			
 			if(!this._caption){
 				this._caption = this._item.create("span");
 			}
