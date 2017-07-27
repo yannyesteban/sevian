@@ -216,12 +216,12 @@ _sgObjet.prototype = {
 		if(className){
 			if(typeof(className) === "object"){
 				for(var x in className){
-					if(className[x] !== false && className[x] !== null){
+					if(className[x] !== false && className[x] !== null && className[x] !== ""){
 						this.e.classList.add(className[x]);
 					}
 					
 				}	
-			}else{
+			}else if(className !== false && className !== null && className !== ""){
 				this.e.classList.add(className);
 			}
 		}
