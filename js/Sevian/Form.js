@@ -327,7 +327,7 @@ Sevian.Inputs = {};
 		
 		this.form = false;
 		
-		this.fields = [];
+		this.fields = false;
 		this._fields = [];
 		
 		this._last = false;
@@ -350,13 +350,10 @@ Sevian.Inputs = {};
 			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
 			}
-				
 		}
 		
 		this.create();
-		
-		this._setPage(this._body, false, false);
-		
+
 	};
 
 	Form.prototype = Object.create(Page.prototype);
@@ -370,21 +367,31 @@ Sevian.Inputs = {};
 		create: function(){
 			Page.prototype.create.call(this);
 			this.initPages();
+			
+			this._setPage(this._body, false, false);
+			
+			if(this.fields){
+				for(var x in this.fields){
+					if(this.fields.hasOwnProperty(x)){
+						this.addField(this.fields[x]);
+					}
+				}
+			}
+			
 		},
 
 		setValue: function(data){
 			for(var name in data){
-				if(this.fields[name]){
-					this.fields[name].getInput().setValue(data[name]);
+				if(this._fields[name]){
+					this._fields[name].getInput().setValue(data[name]);
 				}
-
 			}	
 		},
 		
 		reset: function(){
 			for(var name in this.fields){
-				if(this.fields.hasOwnProperty(name)){
-					this.fields[name].getInput().reset();
+				if(this._fields.hasOwnProperty(name)){
+					this._fields[name].getInput().reset();
 				}
 			}	
 		},
@@ -392,32 +399,28 @@ Sevian.Inputs = {};
 		getValue: function(){
 			var data = [];
 			for(var name in this.fields){
-				if(this.fields.hasOwnProperty(name)){
-					data[name] = this.fields[name].getInput().getValue();
+				if(this._fields.hasOwnProperty(name)){
+					data[name] = this._fields[name].getInput().getValue();
 				}
 			}
 			return data;
 		},
 		
 		getField: function(name){
-			
-			if(this.fields[name]){
-				return this.fields[name];
+			if(this._fields[name]){
+				return this._fields[name];
 			}
-			
 			return false;
-			
 		},
 		
 		addField: function(opt){
-			var field = this._fields[this.fieldCount] = new Field(opt);
+			var field = new Field(opt);
 			
 			if(field.input.name){
-				this.fields[field.input.name] = field;
+				this._fields[field.input.name] = field;
 			}else{
-				this.fields[this.fieldCount] = field;
+				this._fields[this.fieldCount] = field;
 			}
-			
 			this.fieldCount++;
 			
 			if(field.locatePage || field.locatePage >= 0){

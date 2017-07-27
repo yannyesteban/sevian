@@ -10,7 +10,7 @@ document, html, body{
 	padding: 0px;
 }
 
-html{
+html_{
 	background-color: rgba(31,31,31,1.00);
 	color:white;
 }
@@ -19,7 +19,7 @@ body{
 	//padding: 10px;
 	
 }
-.perla, input{
+.perla, input, select{
 	color: rgba(103,103,103,1.00);
 	border:4px solid rgba(151,151,151,1.00);
 	//height: 3em;
@@ -42,7 +42,7 @@ input{
 
 
 .invalid{
-	input{
+	input, select{
 		color:red;
 		border:4px solid red;
 	}

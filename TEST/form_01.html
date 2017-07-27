@@ -17,7 +17,7 @@
 </head>
 
 <body>
-
+<div id="menu"></div>
 <div id="form5">
 	<div data-sg-form-type="field" id="form5_nombre" class="field">
 		<div class="field-caption">
@@ -166,6 +166,7 @@
 <script src="../js/sgAjax.js"></script>
 <script src="../js/Sevian/Drag.js"></script>
 <script src="../js/Sevian/Window.js"></script>
+<script src="../js/Sevian/Menu.js"></script>
 <script src="../../sigefor2017/js/sgTipsPopup.js"></script>
 <script src="../js/sgDB.js"></script>
 <script src="../js/sgInit.js"></script>
@@ -179,7 +180,52 @@
 <script>
 (function($){
 	
-	var z = new Sevian.Form({main:"#form5"});
+	var menu = new Sevian.Menu({
+		target:"menu",
+		caption:"Menu Principal",
+		"className":[null,"vertical"],"type":"default","pullDeltaX":10,"pullDeltaY":10
+	});
+	
+	
+	menu.add({
+		"id":0,"parentId":false,"text":"Registro de Actividades"
+	});
+	
+	menu.add({
+		"id":1,"parentId":false,"text":"Consulta de Actividades"
+	});
+	
+	menu.add({
+		"id":2,"parentId":false,"text":"Consulta 2"
+	});
+	menu.add({
+		"id":3,"parentId":2,"text":"Consulta 3"
+	});
+	menu.add({
+		"id":4,"parentId":2,"text":"Consulta 4"
+	});
+	menu.add({
+		"id":5,"parentId":2,"text":"Consulta 5"
+	});
+	menu.add({
+		"id":6,"parentId":2,"text":"Consulta 6"
+	});
+	var z = new Sevian.Form({
+		main:"#form5",
+		fields:[
+			{
+				caption:"Número Factura",
+				name:"id_factura",
+				input:{
+					type:"text",
+				}
+			}
+			
+			
+			
+		],
+	
+	});
 	
 	z.addField({
 		caption:"Nombre y Apellido",

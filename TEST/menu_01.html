@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+
+<link href="../css/sgMenu.css" rel="stylesheet" type="text/css"/>
+<link href="../css/sgWindow.css" rel="stylesheet" type="text/css"/>
+<link href="../css/sgCalendar.css" rel="stylesheet" type="text/css"/>
+<link href="../css/selectText.css" rel="stylesheet" type="text/css"/>
+<link href="../css/sgTab.css" rel="stylesheet" type="text/css"/>
+<link href="../css/sgAjax.css" rel="stylesheet" type="text/css"/>
+<link href="../css/grid.css" rel="stylesheet" type="text/css"/>
+<link href="../css/main.css" rel="stylesheet" type="text/css"/>
+<link href="../css/form.css" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body>
+<div id="menu1" class="vertical sg_menu type_accordion mode_default">
+	<div class="caption">Menú Principal</div>
+	<ul class="main">
+		<li class="item close">
+			<div class="option">
+				<div class="icon"></div>
+				<span class="text">Opcion Uno</span>
+			</div>
+		</li>
+		<li class="item close">
+			<div class="option">
+				<div class="icon"></div>
+				<span class="text">Opcion Dos</span>
+			</div>
+		</li>
+		<li class="item open">
+			<div class="option">
+				<div class="icon"></div>
+				<span class="text">Opcion Tres</span>
+			</div>
+			<ul class="smenu">
+				<li class="item close">
+					<div class="option">
+						<div class="icon"></div>
+						<span class="text">Opcion S Uno</span>
+					</div>
+				</li>
+				<li class="item close">
+					<div class="option">
+						<div class="icon"></div>
+						<span class="text">Opcion S Dos</span>
+					</div>
+				</li>
+				<li class="item close">
+					<div class="option">
+						<div class="icon"></div>
+						<span class="text">Opcion S Tres</span>
+					</div>
+				</li>
+			</ul>			
+		</li>
+		<li class="item close">
+			<div class="option">
+				<div class="icon"></div>
+				<span class="text">Opcion Cuatro</span>
+			</div>
+		</li>
+		<li class="item close">
+			<div class="option">
+				<div class="icon"></div>
+				<span class="text">Opcion Cinco</span>
+			</div>
+		</li>
+	</ul>
+	
+	
+</div>
+
+
+
+<div class="vertical sg_menu type_default mode_default" data-sg-menu-type="default" data-sg-menu-mode="default">
+  <div data-sg-menu-type="caption" class="caption">Menu Principal</div>
+  <ul data-sg-menu-type="main" class="main">
+    <li data-sg-menu-type="item" data-sg-menu-item-id="0" class="close" data-sg-menu-mode="close">
+      <div data-sg-menu-type="option" class="option">
+        <div class="icon"></div>
+        <span class="text">Registro de Actividades</span></div>
+    </li>
+    <li data-sg-menu-type="item" data-sg-menu-item-id="1" class="close" data-sg-menu-mode="close">
+      <div data-sg-menu-type="option" class="option">
+        <div class="icon"></div>
+        <span class="text">Consulta de Actividades</span></div>
+    </li>
+    <li data-sg-menu-type="item" data-sg-menu-item-id="2" class="open" data-sg-menu-mode="open">
+      <div data-sg-menu-type="option" class="option">
+        <div class="icon"></div>
+        <span class="text">Consulta 2</span>
+        <div data-sg-menu-type="ind" class="ind"></div>
+      </div>
+      <ul data-sg-menu-type="submenu" class="submenu open" style="position: fixed; -moz-user-select: none; visibility: visible; z-index: 150000000; top: 103px; left: 304px;">
+        <li data-sg-menu-type="item" data-sg-menu-item-id="3" class="close" data-sg-menu-mode="close">
+          <div data-sg-menu-type="option" class="option">
+            <div class="icon"></div>
+            <span class="text">Consulta 3</span></div>
+        </li>
+        <li data-sg-menu-type="item" data-sg-menu-item-id="4" class="close" data-sg-menu-mode="close">
+          <div data-sg-menu-type="option" class="option">
+            <div class="icon"></div>
+            <span class="text">Consulta 4</span></div>
+        </li>
+        <li data-sg-menu-type="item" data-sg-menu-item-id="5" class="close" data-sg-menu-mode="close">
+          <div data-sg-menu-type="option" class="option">
+            <div class="icon"></div>
+            <span class="text">Consulta 5</span></div>
+        </li>
+        <li data-sg-menu-type="item" data-sg-menu-item-id="6" class="close" data-sg-menu-mode="close">
+          <div data-sg-menu-type="option" class="option">
+            <div class="icon"></div>
+            <span class="text">Consulta 6</span></div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+</body>
+<script src="../_js/_sgQuery.js"></script>
+<script src="../js/sgAjax.js"></script>
+<script src="../js/Sevian/Drag.js"></script>
+<script src="../js/Sevian/Window.js"></script>
+<script src="../js/Sevian/Menu.js"></script>
+<script src="../../sigefor2017/js/sgTipsPopup.js"></script>
+<script src="../js/sgDB.js"></script>
+<script src="../js/sgInit.js"></script>
+<script src="../js/sgSevian.js"></script>
+<script src="../js/Sevian/Tab.js"></script>
+
+<script src="../js/Sevian/Valid.js"></script>
+<script src="../js/sgCalendar.js"></script>
+<script src="../js/Sevian/Form.js"></script>
+<script src="../js/Sevian/Input.js"></script>
+<script>
+	var menu = new Sevian.Menu({
+		main:"menu1",
+		caption:"Menu Principal",
+		"className":[null,"vertical"],"type":"default","pullDeltaX":10,"pullDeltaY":10
+	});
+	
+	
+	
+</script>
+</html>

@@ -282,21 +282,18 @@ _sgObjet.prototype = {
 		}
 		return false;
 	},
-	childs:function(selector){
-		//var ch = this.e.querySelectorAll(selector);
-		
+	childs:function(){
 		var ch = this.e.childNodes;
-		
-		for(var x=0; x<ch.length; x++){
-			if(ch[x].nodeType == 1){
-				db(ch[x].id, "green");
+		var childs = [];
+		for(var x = 0; x < ch.length; x++){
+
+			if(ch[x].nodeType === 1){
 				
-			}else{
-				db(ch[x].id, "blue");
+				childs.push(ch[x]);
 			}
 				
 		}
-		
+		return childs;
 	},
 	
 	on: function(_event, _function){
