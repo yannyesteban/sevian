@@ -87,24 +87,37 @@ var Report = false;
 		//this._header = this._main.create("div").addClass("header");
 		//this._body = this._main.create("div").addClass("body");
 		//this._foot = this._main.create("div").addClass("foot");
-		
+		this.create();
 	};
 	
 	
 	Report.prototype = {
+		create: function(){
+				
+			this._header = $(this._main.query(".report-header"));
+			
+			
+			this.setHeader(this._header.text());
+			
+		},
+		
 		addPage: function(opt){
 			
 			this._pages++;
 			
 			opt.target = $(this.main);
+			
+			
 			this._page = this.p[this.pIndex++] = new Page(opt);
 			
+			var aux = this.headerHTML.replace("{=page}", this.pIndex);
 			
-			
-			this._page._header.text(this.headerHTML);
+			this._page._header.text(aux);
 			if(this._pages === 1){
-				this._page._header.text($("pag1").text(), true);
+				this._page._header.text($(".report-main-header").text(), true);
 			}
+			
+			this._page._footer.text($(".report-footer").text().replace("{=page}", this.pIndex));
 			
 			
 			
@@ -118,7 +131,7 @@ var Report = false;
 			var g = Float.getXY(this._page.get());
 			//db(g.height, "blue")
 			this._page.get().style.maxHeight = g.height+"px";
-			//db(g.height)
+			//db(g.height),
 			
 		},
 		
@@ -130,8 +143,8 @@ var Report = false;
 		},
 		
 		setHeader: function(html){
-			db(4444)
-			db(html)
+			
+			
 			this.headerHTML = html;
 			
 			
@@ -217,7 +230,7 @@ var r = new Report({
 	
 });
 
-r.setHeader('<img src="http://localhost/sibo/images/logo_sibo.png">');
+//r.setHeader('<img src="http://localhost/sibo/images/logo_sibo.png">');
 
 r.fields = [
 	{name:"cedula", title:"Cédula de Identidad"},
