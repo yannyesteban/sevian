@@ -159,7 +159,7 @@ var Report = false;
 		createHtable: function(){
 			var row = this._page.create("div").addClass("row");
 			for(var x in this.fields){
-				cell = row.create("div").addClass("cell").text(this.fields[x].title);
+				cell = row.create("div").addClass("hcell").addClass("cell").text(this.fields[x].title);
 				
 				
 			}

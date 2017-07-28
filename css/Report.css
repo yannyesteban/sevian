@@ -1,26 +1,36 @@
 /* Scss Document */
 body {
-  background-color: antiquewhite;
-  color: red; }
+  font-family: tahoma;
+  font-size: 9pt; }
 
 @media print {
+  body {
+    font-family: tahoma;
+    font-size: 9pt; }
+
   @page {
     size: letter portrait;
     margin: 0.8cm; } }
 @media screen {
+  body {
+    background-color: #878787;
+    font-family: tahoma;
+    font-size: 9pt; }
+
   @page {
     size: auto;
     /* auto is the initial value */
     size: letter portrait;
     /* this affects the margin in the printer settings */
-    margin: 1mm; }
+    margin: 10mm; }
   .main {
-    margin: 80px;
-    padding: 50px;
+    background-color: white;
+    margin: 48px;
+    padding: 48px;
     border: solid 1px #CCC;
     box-shadow: 2px 2px 4px #888888;
     height: 1100px;
-    width: 1800px; } }
+    width: 800px; } }
 html, body {
   margin: 0px;
   padding: 0px; }
@@ -30,33 +40,46 @@ html, body {
 
 .main {
   page-break-after: always; }
+  .main .report-title {
+    text-align: center;
+    font-size: 10pt;
+    font-weight: bold; }
   .main .page {
     height: 100%;
     width: 100%; }
   .main .page {
-    border: 1px solid red;
     _margin: 40px;
     display: flex;
     flex-direction: column; }
     .main .page .header {
       flex: 0 0 50px;
-      border: 1px solid red; }
+      padding: 4px 0px 4px 0px;
+      border-bottom: 1px solid #515151; }
     .main .page .body {
-      flex: 1 1 auto;
-      border: 1px solid red; }
+      flex: 1 1 auto; }
       .main .page .body .row {
-        display: table-row; }
+        display: table-row;
+        border: 2px solid #c34e50; }
+        .main .page .body .row .hcell {
+          text-align: center;
+          font-weight: bold; }
         .main .page .body .row .cell {
           display: table-cell;
-          border: 1px solid #bd8c8d;
-          padding: 1px;
+          border-bottom: 1px dotted black;
+          padding: 3px;
           margin: 1px; }
     .main .page .footer {
       flex: 0 0 50px;
-      border: 1px solid red; }
+      padding: 4px 0px 4px 0px; }
+  .main .footer {
+    margin-top: 10px; }
+    .main .footer table {
+      border-top: 1px solid #515151; }
 
+s
 .main_ {
   height: 100%; }
+  s
   .main_ ._page:nth-of-type(2) {
     background-color: #393939 !important;
     margin: 5px;

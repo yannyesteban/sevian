@@ -1,12 +1,13 @@
 /* Scss Document */
 body{
-	
-	background-color: antiquewhite;
-	
-	color: red;
-	
+	font-family: tahoma;
+	font-size: 9pt;
 }
 @media print{
+	body{
+		font-family: tahoma;
+		font-size: 9pt;
+	}
     @page{
         size: letter portrait;
         margin: 0.8cm;
@@ -16,21 +17,27 @@ body{
 
 
 @media screen{
+	body{
+		background-color: rgba(135,135,135,1.00);
+		font-family: tahoma;
+		font-size: 9pt;
+	}
 	@page{ 
 		size: auto;   /* auto is the initial value */ 
 		size: letter portrait ;
 		//portrait , landscape
 		/* this affects the margin in the printer settings */ 
-		margin: 1mm;  
+		margin: 10mm;  
 	} 
 	
    .main{
-		margin:80px; 
-		padding:50px;
+	   	background-color: white;
+		margin:48px; 
+		padding:48px;
 		border:solid 1px #CCC; 
 		box-shadow: 2px 2px 4px #888888;
 		height:1100px;
-		width:1800px; 
+		width:800px; 
 	   
 	}
 }
@@ -49,13 +56,22 @@ html,body{
 .main{
 	page-break-after: always;
 	
-	.page{
-		height: 100%;
-		width: 100%;
+	.report-title{
+		
+		
+		text-align: center;
+		font-size: 10pt;
+		font-weight: bold;
 	}
 	
 	.page{
-		border:1px solid red;
+		height: 100%;
+		width: 100%;
+		
+	}
+	
+	.page{
+		//border:1px solid red;
 		
 		_margin: 40px;
 		//height: 100%;
@@ -65,32 +81,50 @@ html,body{
 		
 		.header{
 			flex: 0 0 50px;
-			border:1px solid red;
+			padding: 4px 0px 4px 0px;
+			border-bottom: 1px solid rgba(81,81,81,1.00);
+			//border:1px solid red;
 		}
 		.body{
 			flex: 1 1 auto;
-			border:1px solid red;
+			//border:1px solid rgba(156,156,156,1.00);
 			//display: table;
+			
 			.row{
 				display: table-row;
+				border:2px solid rgba(195,78,80,1.00);
+				.hcell{
+					text-align: center;
+					font-weight: bold;
+				}
 				.cell{
 					display: table-cell;
-					border: 1px solid rgba(189,140,141,1.00);
-					padding: 1px;
+					//border: 1px solid rgba(189,140,141,1.00);
+					border-bottom: 1px dotted black;
+					padding: 3px;
 					margin: 1px;
 				}
 			}
 		}
 		.footer{
 			flex: 0 0 50px;
-			border:1px solid red;
+			padding: 4px 0px 4px 0px;
+			//border:1px solid red;
+		}
+		
+	}
+	
+	.footer{
+		margin-top: 10px;
+		table{
+			border-top: 1px solid rgba(81,81,81,1.00);
 		}
 		
 	}
 	
 }
 
-
+s
 .main_{
 	height: 100%;	
 	
@@ -119,6 +153,7 @@ html,body{
 	
 	
 	.row{
+		
 		.cell{
 			display: inline-block;
 			border: 1px solid rgba(189,140,141,1.00);
