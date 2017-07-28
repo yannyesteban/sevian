@@ -18,7 +18,7 @@
 </head>
 
 <body>
-<div id="menu1" class="vertical sg_menu type_accordion mode_default">
+<div id="menu1" class="default sg_menu type_default mode_default" style="width: 300px">
 	<div class="caption">Menú Principal</div>
 	<ul class="main">
 		<li class="item close">
@@ -70,6 +70,26 @@
 				<div class="icon"></div>
 				<span class="caption">Opcion Cinco</span>
 			</div>
+			<ul class="smenu sub-menu">
+				<li class="item close">
+					<div class="option">
+						<div class="icon"></div>
+						<span class="caption">Opcion K Uno</span>
+					</div>
+				</li>
+				<li class="item close">
+					<div class="option">
+						<div class="icon"></div>
+						<span class="caption">Opcion K Dos</span>
+					</div>
+				</li>
+				<li class="item close">
+					<div class="option">
+						<div class="icon"></div>
+						<span class="caption">Opcion K Tres</span>
+					</div>
+				</li>
+			</ul>	
 		</li>
 	</ul>
 	
@@ -78,7 +98,7 @@
 
 
 
-<div class="vertical sg_menu type_default mode_default" data-sg-menu-type="default" data-sg-menu-mode="default">
+<!--<div class="vertical sg_menu type_default mode_default" data-sg-menu-type="default" data-sg-menu-mode="default">
   <div data-sg-menu-type="caption" class="caption">Menu Principal</div>
   <ul data-sg-menu-type="main" class="main">
     <li data-sg-menu-type="item" data-sg-menu-item-id="0" class="close" data-sg-menu-mode="close">
@@ -121,7 +141,7 @@
       </ul>
     </li>
   </ul>
-</div>
+</div>-->
 </body>
 <script src="../_js/_sgQuery.js"></script>
 <script src="../js/sgAjax.js"></script>
@@ -142,7 +162,7 @@
 	var menu = new Sevian.Menu({
 		main:"menu1",
 		caption:"Menu Principal",
-		"className":[null,"vertical"],"type":"accordion","pullDeltaX":10,"pullDeltaY":10
+		"className":[null,"vertical"],"type":"default","pullDeltaX":10,"pullDeltaY":10
 	});
 	
 	

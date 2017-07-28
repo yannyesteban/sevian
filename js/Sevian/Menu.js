@@ -230,17 +230,11 @@ var _menu;
 		
 		
 		setItemMenu: function(){
+			//this._item.on("click", this.openMenu());
 			
 			if(!this._item.query(".ind")){
-				this._item.on("click", this.openMenu());
-			
-				var ind = $.create("div");
-				ind.ds("sgMenuType", "ind");
-				ind.addClass("ind");
-				this._item.append(ind);
+				this._item.create("div").addClass("ind").ds("sgMenuType", "ind");
 			}
-			
-			
 			
 		},
 		
@@ -348,8 +342,12 @@ var _menu;
 		},
 		
 		open: function(){
+			this.setMode("open");
+			return;
+			
 			
 			if(this.onOpen && this.onOpen(this.id) === false){
+				
 				if(this._popup){
 					sgFloat.setIndex(this._popup.get());
 				}
@@ -359,7 +357,7 @@ var _menu;
 			this.setMode("open");
 			
 			if(this._popup){
-				
+			
 				this._popup.style({
 					visibility: "visible"
 				});
@@ -376,6 +374,8 @@ var _menu;
 		},
 		
 		close: function(){
+			this.setMode("close");
+			return;
 			
 			if(this.mode === "close"){
 				return true;
@@ -469,9 +469,9 @@ var _menu;
 		for(var x in opt){
 			this[x] = opt[x];
 		}
-		
-		this.create();
 		this.setType(this.type);
+		this.create();
+		
 		
 		return;
 		
@@ -568,7 +568,7 @@ var _menu;
 					wIcon: false
 					
 				};
-				db(opt.id+ "...."+parentId,"red")
+				
 				ME.add(opt);
 				
 				if(e.query("ul")){
@@ -635,7 +635,7 @@ var _menu;
 		
 		setType: function(type){
 			
-			db("TYPE: "+type, "green")
+			
 			
 			var ME = this;
 			this.type = type;
@@ -676,6 +676,7 @@ var _menu;
 					break;
 				case "accordionx":	
 				case "accordion":
+					
 					this._onOpen = function(id){
 					
 						if(this.getMode() === "open"){
@@ -760,30 +761,44 @@ var _menu;
 				
 				
 				var ME = this;
-				var parent = menu = this.smenu[item.parentId] = this.items[item.parentId];
+				var parent = menu = this.items[item.parentId];
 				
 				if(parent.disabled){
 					return;
 				}
 				
-				parent.createMenu(this.type === "default" || this.type === "system", this.class);
-				//parent.append(item.get());
 				
-				parent.getItem().on("mouseover", function(){ME.active = true;});
-				parent.getItem().on("mouseout", function(){ME.active = false;});
-				if(item.getCheck()){
-					item.getCheck().on("mouseover", function(){ME.active = true;});
-					item.getCheck().on("mouseout", function(){ME.active = false;});
+				
+				if(!this.smenu[item.parentId]){
+					
+					this.smenu[item.parentId] = parent;
+					
+					parent.createMenu(this.type === "default" || this.type === "system", this.class);
+					//parent.append(item.get());
+					this.createPopup(parent.getMenu());
+					
+					parent.getItem().on("mouseover", function(){ME.active = true;});
+					parent.getItem().on("mouseout", function(){ME.active = false;});
+					if(item.getCheck()){
+						item.getCheck().on("mouseover", function(){ME.active = true;});
+						item.getCheck().on("mouseout", function(){ME.active = false;});
+					}
+
+					
+
+					//parent.onOpen = this._onOpen;
+
+					parent.getItem().on("click", function(){
+						if(this.isCheckOver()){
+							return;
+						}
+						ME.lastMenuId = item.parentId;
+					}.bind(parent));
+					
+					parent.getItem().on("click", this._showMenu(this.type).bind(parent));
 				}
 				
-				parent.onOpen = this._onOpen;
-				
-				parent.getItem().on("click", function(){
-					if(this.isCheckOver()){
-						return;
-					}
-					ME.lastMenuId = item.parentId;
-				}.bind(parent));
+					
 				//parent.getItem().on("click", function(){if(parent.isCheckOver()){return;}ME.lastMenuId = item.parentId;});
 								
 				item.level = parent.level+1;
@@ -809,12 +824,124 @@ var _menu;
 		},
 		
 		
+		_showMenu: function(type, item, id){
+			var ME = this;
+			
+			
+			if(type === "default"){
+				
+				return function(){
+					var id = this.id;
+					db(this.get().style = "border:4px solid red;");
+					this.setMode("open");
+					//return
+					if(ME.lastMenuId === this.id){
+						return false;
+					}
+					if(ME.items[id].parentId !== ME.lastMenuId){
+						ME.hidePopup(ME.lastMenuId, ME.items[id].parentId);
+					}
+					ME.lastMenuId = this.id;
+					
+					this._menu.style({
+						visibility: "visible"
+					});
+					this._menu.removeClass("close");
+					this._menu.addClass("open");
+
+					sgFloat.showMenu({
+						ref: this._main.get(), e: this._menu.get(), 
+						left: this.pullX, top: this.pullY, 
+						deltaX: this.pullDeltaX, deltaY: this.pullDeltaY, z:0
+					});
+					
+					
+					this.setMode("open");
+					
+					
+				};
+				
+				
+			}
+										
+
+					
+			
+			if(type ===  "accordion" || type ===  "accordionx"){
+				return function(){
+					if(this.getMode() === "open"){
+						this.setMode("close");
+						
+					}else{
+						for(var x in ME.items){
+							if(this.parentId === ME.items[x].parentId){
+								ME.items[x].setMode("close");
+							}
+						}
+						this.setMode("open");
+					}
+					
+				};
+				
+			}
+			
+			if(type ===  "accordiony"){
+				return function(){
+					if(this.getMode() === "open"){
+						this.setMode("close");
+						
+					}else{
+						this.setMode("open");
+						
+					}
+					
+				};
+			}
+			
+		},
+		
+		createPopup: function(item, classPopup){
+			
+
+			item.ds("sgMenuType", "popup");
+			item.addClass("popup");
+
+			item.ds("sgMenuType", "submenu");
+
+			if(classPopup){
+				item.addClass(classPopup);
+			}
+
+			item.style({
+				position:"fixed",
+				userSelect: "none",
+				MozUserSelect: "none",
+				visibility:"visible",
+				overflow:"none",
+				zIndex:150000000,
+
+			});		
+			
+		},
 		hidePopup: function(id, parentId){
 			
 			if(id !== false){
 				
 				if(this.items[id]){
-					this.items[id].close();
+					this.items[id].setMode("close");
+					if(this.items[id].menu){
+						
+
+						this.items[id].menu.removeClass("open");
+						this.items[id].menu.addClass("close");
+						this.items[id].menu.style({
+							visibility: "hidden"
+						});
+
+						
+						
+					}
+					
 				}else{
 					return;
 				}
