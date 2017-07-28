@@ -1,4 +1,8 @@
 /* Scss Document */
+body {
+  background-color: antiquewhite;
+  color: red; }
+
 @media print {
   @page {
     size: letter portrait;
@@ -11,12 +15,12 @@
     /* this affects the margin in the printer settings */
     margin: 1mm; }
   .main {
-    margin: 50px;
+    margin: 80px;
     padding: 50px;
     border: solid 1px #CCC;
     box-shadow: 2px 2px 4px #888888;
     height: 1100px;
-    width: 800px; } }
+    width: 1800px; } }
 html, body {
   margin: 0px;
   padding: 0px; }

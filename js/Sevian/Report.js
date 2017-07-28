@@ -71,6 +71,8 @@ var Report = false;
 		this._pages = 0;
 		this.headerHTML = "";
 		
+		this.page = 1;
+		
 		for(var x in opt){
 			
 			this[x] = opt[x];
@@ -170,7 +172,7 @@ var Report = false;
 			var l = false, m = false, rxy = false, pxy, row = false, n = 0, cell=false, x =false;
 			
 			var xy = Float.getXY(this._page.get());
-			
+			db(8)
 			n = n + this.createHtable();
 			for(x in data){
 				
@@ -184,7 +186,9 @@ var Report = false;
 				row = this._page.create("div").addClass("row");
 				
 				for(var y in data[x]){
-					 
+					 if(!isNaN(y)){
+						 continue;
+					 }
 					
 					cell = row.create("div").addClass("cell").text(data[x][y]);
 					
@@ -220,9 +224,16 @@ var Report = false;
 			}
 		
 		
-			var g= $($("").query(".report-tpage"));
-			db(this._pages)
-			g.text(this._pages);
+			//var g= $("").queryAll(".report-tpage");
+			
+			[].forEach.call($("").queryAll(".report-tpage"), function(e){
+			
+				
+				$(e).text(this._pages);
+				
+			}, this);
+			
+			
 			
 		},
 		
@@ -231,162 +242,168 @@ var Report = false;
 	
 	
 }(_sgQuery, _sgFloat, _sgDrag));
-
-var r = new Report({
-	main: "#main",
+window.onload = function(){
 	
+	return;
 	
-});
-
-//r.setHeader('<img src="http://localhost/sibo/images/logo_sibo.png">');
-
-r.fields = [
-	{name:"cedula", title:"Cédula de Identidad"},
-	{name:"nombre", title:"Nombre"},
-	{name:"apellido", title:"Apellido"},
-	{name:"edad", title:"Edad"},
-	{name:"ciudad", title:"Ciudad"},
-	
-	
-];
+	var r = new Report({
+		main: "#main",
 
 
-r.data=[
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,"sadfs<br>sda sdadf" ,654654,'sadfs<br>sdasd adf','sdf1321'
-],
-	[
-	465456,"sadfs<br>sdasd adf",654654,'sadfs<br>sdasd adf','sdf1321'
-],	[
-	465456,"sadfs<br>sdasd adf",654654,'sadfs<br>sdasd adf','sdf1321'
-],	[
-	465456,"sadfs<br>sdasd adf",654654,'sadfs<br>sdasd adf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	[
-	465456,65465465,654654,'sadfsadf','sdf1321'
-],
-	
-	
-	
-];
+	});
 
-r.addPage({});
-r.add(r.data);
+	//r.setHeader('<img src="http://localhost/sibo/images/logo_sibo.png">');
+
+	r.fields = [
+		{name:"cedula", title:"Cédula de Identidad"},
+		{name:"nombre", title:"Nombre"},
+		{name:"apellido", title:"Apellido"},
+		{name:"edad", title:"Edad"},
+		{name:"ciudad", title:"Ciudad"},
+
+
+	];
+
+
+	r.data=[
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,"sadfs<br>sda sdadf" ,654654,'sadfs<br>sdasd adf','sdf1321'
+	],
+		[
+		465456,"sadfs<br>sdasd adf",654654,'sadfs<br>sdasd adf','sdf1321'
+	],	[
+		465456,"sadfs<br>sdasd adf",654654,'sadfs<br>sdasd adf','sdf1321'
+	],	[
+		465456,"sadfs<br>sdasd adf",654654,'sadfs<br>sdasd adf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+		[
+		465456,65465465,654654,'sadfsadf','sdf1321'
+	],
+
+
+
+	];
+
+	r.addPage({});
+	r.add(r.data);
+	
+}
+
 

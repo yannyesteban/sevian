@@ -1,5 +1,11 @@
 /* Scss Document */
-
+body{
+	
+	background-color: antiquewhite;
+	
+	color: red;
+	
+}
 @media print{
     @page{
         size: letter portrait;
@@ -19,12 +25,12 @@
 	} 
 	
    .main{
-		margin:50px; 
+		margin:80px; 
 		padding:50px;
 		border:solid 1px #CCC; 
 		box-shadow: 2px 2px 4px #888888;
 		height:1100px;
-		width:800px; 
+		width:1800px; 
 	   
 	}
 }
