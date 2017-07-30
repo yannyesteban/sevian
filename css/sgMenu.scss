@@ -412,8 +412,11 @@ border-color: transparent transparent #8B8B8B transparent;
 			_vertical-align: middle;
 		}
 		
-		
-		.text{
+		>*{
+			//flex: 0 0 auto;
+			_display: inline;
+		}
+		.text, .caption{
 			flex: 1 1 auto;
 			padding-left: 10px;
 			padding-right: 10px;
@@ -422,10 +425,7 @@ border-color: transparent transparent #8B8B8B transparent;
 			_vertical-align: bottom;
 			_border:1px solid white;
 		}
-		>*{
-			flex: 0 0 auto;
-			_display: inline;
-		}
+		
 	}
 	
 	
@@ -616,7 +616,7 @@ border-color: transparent transparent #8B8B8B transparent;
 		}
 		
 		
-		.text{
+		.text, .caption{
 			flex: 1 1 auto;
 			padding-left: 10px;
 			padding-right: 10px;

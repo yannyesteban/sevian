@@ -255,7 +255,9 @@
       height: 100%;
       width: 100%;
       _vertical-align: middle; }
-    .type_default li > .option .text {
+    .type_default li > .option > * {
+      _display: inline; }
+    .type_default li > .option .text, .type_default li > .option .caption {
       flex: 1 1 auto;
       padding-left: 10px;
       padding-right: 10px;
@@ -263,9 +265,6 @@
       _height: 24px;
       _vertical-align: bottom;
       _border: 1px solid white; }
-    .type_default li > .option > * {
-      flex: 0 0 auto;
-      _display: inline; }
 
 .type_accordion, .type_accordionx, .type_accordiony {
   background-color: #f9f9f9;
@@ -378,7 +377,7 @@
       height: 100%;
       width: 100%;
       _vertical-align: middle; }
-    .type_accordion li > .option .text, .type_accordionx li > .option .text, .type_accordiony li > .option .text {
+    .type_accordion li > .option .text, .type_accordion li > .option .caption, .type_accordionx li > .option .text, .type_accordionx li > .option .caption, .type_accordiony li > .option .text, .type_accordiony li > .option .caption {
       flex: 1 1 auto;
       padding-left: 10px;
       padding-right: 10px;

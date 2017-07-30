@@ -69,6 +69,8 @@ var _menu;
 	
 		this._checkOver = false;
 		
+		
+		
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
@@ -106,7 +108,7 @@ var _menu;
 				this._check = $(this._main.query(".option > .check > input[checkbox]"));
 				this._icon = $(this._main.query(".option > .icon > img"));
 				
-				this._menu = $(this._main.query(".sub-menu"));
+				this._menu = $(this._main.query(".submenu"));
 				
 			}else{
 				this._main = $.create("li");
@@ -114,7 +116,7 @@ var _menu;
 			
 			this._main.ds("sgMenuType", "item");
 			
-			this._main.addClass(this.className).ds("sgMenuType", "item").ds("sgMenuItemId", this.id);
+			this._main.addClass("item").addClass(this.className).ds("sgMenuType", "item").ds("sgMenuItemId", this.id);
 			
 			this.setMode(this.mode);
 			
@@ -132,6 +134,7 @@ var _menu;
 				if(!this._mainCheck){
 					this._mainCheck = this._item.create("div");
 					this._check = this._mainCheck.create({tagName: "input", type: "checkbox"});
+					
 				}
 			  
 			}
@@ -146,7 +149,7 @@ var _menu;
 				this._check.get().checked = this.checked;
 
 				if(this.oncheck){
-					this._check.on("click", function(){
+					this._check.on("click", function(event){
 						ME.oncheck(this.checked, ME.id, ME.parentId, ME.level);
 					});
 				}
@@ -158,15 +161,11 @@ var _menu;
 			
 			
 			if(this.wIcon){
-				this._divIcon = this._item.create("div");
-				this._divIcon.addClass("icon");
-				
-				if(this.classImage){
-					this._divIcon.addClass(this.classImage);
-				}
+				this._mainIcon = this._item.create("div");
+				this._mainIcon.addClass("icon");
 
 				if(!this._icon && this.icon){
-					this._icon = this._divIcon.create("img");
+					this._icon = this._mainIcon.create("img");
 				}
 				
 			}
@@ -209,9 +208,9 @@ var _menu;
 		},
 		
 		setCaption: function(caption){
+
 			if(this._caption && caption){
 				this._caption.text(caption);
-				
 			}
 			
 		},
@@ -228,106 +227,41 @@ var _menu;
 			return this._check;	
 		},
 		
-		
-		setItemMenu: function(){
-			//this._item.on("click", this.openMenu());
-			
-			if(!this._item.query(".ind")){
-				this._item.create("div").addClass("ind").ds("sgMenuType", "ind");
-			}
-			
-		},
-		
-		createMenu: function(wPopup, classPopup){
-			
-			this.setItemMenu();
+		createMenu: function(typePopup, classMenu){
 			
 			if(!this._menu){
 				this._menu = this._main.create("ul");
 			}
 			
-			this._menu.addClass("sub-menu");
+			if(!this._item.query(".ind")){
+				this._item.create("div").addClass("ind").ds("sgMenuType", "ind");
+			}
 			
-			return this._menu;
+			this._menu.addClass("submenu");
 			
+			if(classMenu){
+				this._menu.addClass(classMenu);
+			}
 			
-			if(wPopup){
+			if(typePopup){
 				this._popup = this._menu;
 				this._menu.ds("sgMenuType", "submenu");
-				this._menu.addClass("submenu");
-				
-				//this._menu.ds("sgMenuType", "popup");
-				
-				if(classPopup){
-					this._menu.addClass(classPopup);
-				}
+				this._menu.addClass("popup");
 				
 				this._menu.style({
-					position:"fixed",
+					position: "fixed",
 					userSelect: "none",
 					MozUserSelect: "none",
-					visibility:"hidden",
-					overflow:"none",
-					zIndex:150000000,
+					visibility: "hidden",
+					overflow: "none",
+					zIndex: 150000000,
 
 				});				
 			}else{
 				this._menu.ds("sgMenuType", "smenu");
 			}
 			
-		},
-		createMenuOK: function(wPopup, classPopup){
-			
-			if(this._menu){
-				return true;
-			}
-			
-			this.setItemMenu();
-			/*
-			this.getItem().on("click", this.openMenu());
-			var ind = $.create("div");
-			ind.ds("sgMenuType", "ind");
-			ind.addClass("ind");
-			this._item.append(ind);
-			*/
-			this._menu = $.create("ul");
-			this._main.append(this._menu);
-			
-			
-
-			if(wPopup){
-				
-				var mainPopup = $.create("div");
-				mainPopup.ds("sgMenuType", "submenu");
-				
-				mainPopup.append(this._menu);
-				mainPopup.addClass("submenu");
-				
-				this._menu.ds("sgMenuType", "popup");
-				
-				if(classPopup){
-					this._menu.addClass(classPopup);
-				}
-				var popup = this._popup = mainPopup;
-				
-				popup.style({
-					position:"fixed",
-					userSelect: "none",
-					MozUserSelect: "none",
-					visibility:"hidden"
-
-				});				
-				//sgFloat.init(popup.get());
-				
-				//this._popup.removeClass("open");
-				//this._popup.addClass("close");
-				
-				$().append(popup);
-					
-			}else{
-				this._menu.ds("sgMenuType", "smenu");
-			}
-			
+			return this._menu;
 		},
 		
 		getMenu: function(){
@@ -342,16 +276,12 @@ var _menu;
 		},
 		
 		open: function(){
-			this.setMode("open");
-			return;
 			
-			
-			if(this.onOpen && this.onOpen(this.id) === false){
-				
+			if(this.mode === "open"){
 				if(this._popup){
 					sgFloat.setIndex(this._popup.get());
 				}
-				return false;
+				return true;
 			}
 			
 			this.setMode("open");
@@ -367,15 +297,13 @@ var _menu;
 				sgFloat.showMenu({
 					ref: this._main.get(), e: this._popup.get(), 
 					left: this.pullX, top: this.pullY, 
-					deltaX: this.pullDeltaX, deltaY: this.pullDeltaY, z:0
+					deltaX: this.pullDeltaX, deltaY: this.pullDeltaY, z: 0
 				});
 				
 			}
 		},
 		
 		close: function(){
-			this.setMode("close");
-			return;
 			
 			if(this.mode === "close"){
 				return true;
@@ -397,6 +325,7 @@ var _menu;
 				
 			}			
 		},
+		
 		setMode: function(mode){
 			
 			this._main.removeClass(this.mode);
@@ -466,25 +395,21 @@ var _menu;
 		this.pullDeltaX = -3;
 		this.pullDeltaY = 5;		
 		
+		this.oncheck = false;//function(checked, id, parentId, level){};
+		
 		for(var x in opt){
-			this[x] = opt[x];
+			if(opt.hasOwnProperty(x)){
+				this[x] = opt[x];
+			}
+		}
+		if(this.target){
+			this._target = $(this.target);
 		}
 		this.setType(this.type);
 		this.create();
 		
 		
-		return;
 		
-		if(this.target){
-			this._target = $(this.target);
-		}
-		
-		if(this.new){
-			this.create();
-			this.setType(this.type);
-		}else{
-			this.load();
-		}
 		
 		
 		
@@ -555,7 +480,7 @@ var _menu;
 			//var d = menu.query("ul>li");
 			var d = menu.childs();
 			
-			$(menu).addClass("SUBMENU").addClass("x");
+			$(menu).addClass("SUBMENU");
 			
 			var ME = this;
 			
@@ -590,9 +515,9 @@ var _menu;
 				this._panerId = false;
 				this._loadMenu(this._ul, false);
 				
+				return;
+				
 			}
-			
-			return
 			
 			var main = this._menu = $.create("div");
 			
@@ -604,14 +529,12 @@ var _menu;
 				main.addClass(this.className);
 			}
 			
-			main.ds("sgMenuType", this.type);
-			main.ds("sgMenuMode", this.mode);			
+			//main.ds("sgMenuType", this.type);
+			//main.ds("sgMenuMode", this.mode);			
 			
-			main.addClass("sg_menu");
-			main.addClass("type_"+this.type);
-			main.addClass("mode_"+this.mode);
-						
-			this._target.append(main);
+			main.addClass("sg-menu");
+			main.addClass("type-"+this.type);
+			main.addClass("mode-"+this.mode);
 			
 			if(this.caption !== false){
 				this.setCaption(this.caption);
@@ -620,8 +543,12 @@ var _menu;
 			var ul = this._main = $.create("ul");
 			main.append(ul);
 			
-			ul.ds("sgMenuType","main");
+			//ul.ds("sgMenuType","main");
 			ul.addClass("main");
+			if(this._target){
+				this._target.append(main);
+			}
+			
 			
 		},
 		
@@ -634,8 +561,6 @@ var _menu;
 		},
 		
 		setType: function(type){
-			
-			
 			
 			var ME = this;
 			this.type = type;
@@ -650,65 +575,12 @@ var _menu;
 						ME.hidePopup(ME.lastMenuId);
 						ME.lastMenuId = null;
 					});
-					
 					break;
 				case "accordion":
 					break;
 				case "accordiony":
 					break;
-			}// end switch
-			
-
-			switch(type){
-				case "default":
-				case "system":
-						this._onOpen = function(id){
-							if(ME.lastMenuId === id){
-								return false;
-							}
-							if(ME.items[id].parentId !== ME.lastMenuId){
-								ME.hidePopup(ME.lastMenuId, ME.items[id].parentId);
-							}
-							ME.lastMenuId = id;
-							return true;
-						};					
-
-					break;
-				case "accordionx":	
-				case "accordion":
-					
-					this._onOpen = function(id){
-					
-						if(this.getMode() === "open"){
-							this.close();
-							return false;
-						}else{
-							for(var x in ME.items){
-								if(this.parentId === ME.items[x].parentId){
-									ME.items[x].close();
-								}
-							}
-						}
-						return true;
-
-					};				
-					break;
-				case "accordiony":
-				//case "accordionx":
-					
-					this._onOpen = function(id){
-					
-						if(this.getMode() === "open"){
-							this.close();
-							return false;
-						}
-						return true;
-
-					};				
-					break;
-			}// end switch
-			
-			
+			}
 			
 		},
 		
@@ -725,7 +597,7 @@ var _menu;
 				this._menu.append(this._caption);
 			}
 
-			this._caption.ds("sgMenuType", "caption");
+			//this._caption.ds("sgMenuType", "caption");
 			this._caption.addClass("caption");
 			
 			this._caption.text(caption);
@@ -745,7 +617,7 @@ var _menu;
 			opt.pullDeltaY = (opt.pullDeltaY !== undefined)? opt.pullDeltaY: this.pullDeltaY;
 
 			if(opt.wCheck){
-				opt.oncheck = this.check;
+				opt.oncheck = this.oncheck;
 			}
 			
 			if(opt.id === this.value){
@@ -753,55 +625,38 @@ var _menu;
 			}
 			
 			var item = this.items[opt.id] = new _item(opt);
-			
+			var ME = this;
 			var menu = this._main;
-			
+			if(item.getCheck()){
+				item.getCheck().on("mouseover", function(){ME.active = true;});
+				item.getCheck().on("mouseout", function(){ME.active = false;});
+			}
 			if(item.parentId !== undefined && item.parentId !== false){
 				
 				
-				
-				var ME = this;
 				var parent = menu = this.items[item.parentId];
 				
 				if(parent.disabled){
 					return;
 				}
 				
-				
-				
 				if(!this.smenu[item.parentId]){
-					
 					this.smenu[item.parentId] = parent;
-					
 					parent.createMenu(this.type === "default" || this.type === "system", this.class);
-					//parent.append(item.get());
-					this.createPopup(parent.getMenu());
-					
 					parent.getItem().on("mouseover", function(){ME.active = true;});
 					parent.getItem().on("mouseout", function(){ME.active = false;});
-					if(item.getCheck()){
-						item.getCheck().on("mouseover", function(){ME.active = true;});
-						item.getCheck().on("mouseout", function(){ME.active = false;});
-					}
-
 					
 
-					//parent.onOpen = this._onOpen;
-
 					parent.getItem().on("click", function(){
-						if(this.isCheckOver()){
-							return;
+						if(ME.type !== "default" && ME.type !== "system"){
+							ME.lastMenuId = item.parentId;
 						}
-						ME.lastMenuId = item.parentId;
 					}.bind(parent));
 					
 					parent.getItem().on("click", this._showMenu(this.type).bind(parent));
 				}
-				
-					
-				//parent.getItem().on("click", function(){if(parent.isCheckOver()){return;}ME.lastMenuId = item.parentId;});
 								
-				item.level = parent.level+1;
+				item.level = parent.level + 1;
 			}
 			
 			if(item.sep){
@@ -825,135 +680,78 @@ var _menu;
 		
 		
 		_showMenu: function(type, item, id){
+
 			var ME = this;
 			
-			
-			if(type === "default"){
-				
+			if(type === "default" || type === "system"){
 				return function(){
-					var id = this.id;
-					db(this.get().style = "border:4px solid red;");
-					this.setMode("open");
-					//return
+					if(this.isCheckOver()){
+						return false;
+					}
+					
+					this.open();
 					if(ME.lastMenuId === this.id){
 						return false;
 					}
-					if(ME.items[id].parentId !== ME.lastMenuId){
-						ME.hidePopup(ME.lastMenuId, ME.items[id].parentId);
+					if(ME.items[this.id].parentId !== ME.lastMenuId){
+						ME.hidePopup(ME.lastMenuId, ME.items[this.id].parentId);
 					}
 					ME.lastMenuId = this.id;
-					
-					this._menu.style({
-						visibility: "visible"
-					});
-					this._menu.removeClass("close");
-					this._menu.addClass("open");
-
-					sgFloat.showMenu({
-						ref: this._main.get(), e: this._menu.get(), 
-						left: this.pullX, top: this.pullY, 
-						deltaX: this.pullDeltaX, deltaY: this.pullDeltaY, z:0
-					});
-					
-					
-					this.setMode("open");
-					
-					
 				};
-				
-				
 			}
 										
-
-					
-			
 			if(type ===  "accordion" || type ===  "accordionx"){
 				return function(){
+					if(this.isCheckOver()){
+						return false;
+					}
+
 					if(this.getMode() === "open"){
-						this.setMode("close");
-						
+						this.close();
 					}else{
 						for(var x in ME.items){
 							if(this.parentId === ME.items[x].parentId){
-								ME.items[x].setMode("close");
+								ME.items[x].close();
 							}
 						}
-						this.setMode("open");
+						this.open();
 					}
-					
 				};
-				
 			}
 			
 			if(type ===  "accordiony"){
 				return function(){
-					if(this.getMode() === "open"){
-						this.setMode("close");
-						
-					}else{
-						this.setMode("open");
-						
+					if(this.isCheckOver()){
+						return false;
 					}
 					
+					if(this.getMode() === "open"){
+						this.close();
+					}else{
+						this.open();
+					}
 				};
 			}
-			
 		},
 		
-		createPopup: function(item, classPopup){
-			
-
-			item.ds("sgMenuType", "popup");
-			item.addClass("popup");
-
-			item.ds("sgMenuType", "submenu");
-
-			if(classPopup){
-				item.addClass(classPopup);
-			}
-
-			item.style({
-				position:"fixed",
-				userSelect: "none",
-				MozUserSelect: "none",
-				visibility:"visible",
-				overflow:"none",
-				zIndex:150000000,
-
-			});		
-			
-		},
+				
 		hidePopup: function(id, parentId){
 			
 			if(id !== false){
-				
 				if(this.items[id]){
-					this.items[id].setMode("close");
-					if(this.items[id].menu){
-						
-
-						this.items[id].menu.removeClass("open");
-						this.items[id].menu.addClass("close");
-						this.items[id].menu.style({
-							visibility: "hidden"
-						});
-
-						
-						
-					}
-					
+					this.items[id].close();
 				}else{
 					return;
 				}
-
 				if(this.items[id].parentId === parentId){
 					return;	
 				}
-
 				this.hidePopup(this.items[id].parentId, parentId);
 			}
 
-		},		
+		},
+		
+				
 	};
 	
 	namespace.Menu = _menu;
