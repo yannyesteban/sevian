@@ -71,6 +71,8 @@ var Report = false;
 		this._pages = 0;
 		this.headerHTML = "";
 		
+		this.master = [];
+		
 		this.page = 1;
 		
 		for(var x in opt){
@@ -110,21 +112,26 @@ var Report = false;
 			opt.target = $(this.main);
 			
 			
+			
+			
 			this._page = this.p[this.pIndex++] = new Page(opt);
 			
-			var aux = this.headerHTML.replace("{=page}", this.pIndex);
+			this.master.page =  this.pIndex;
+			this.master.total_page =  "<span class=\"report-tpage\"></span>";
 			
-			aux = aux.replace("{=total_page}", "10000");
 			
-			this._page._header.text(aux);
+			var headerHTML = this.vars(this.headerHTML , this.master);
+			
+			//var aux = this.headerHTML.replace("{=page}", this.pIndex);
+			
+			
+			
+			this._page._header.text(headerHTML);
 			if(this._pages === 1){
-				this._page._header.text($(".report-main-header").text(), true);
+				this._page._header.text(this.vars($(".report-main-header").text(), this.master), true);
 			}
 			
-			this._page._footer.text($(".report-footer").text().replace("{=page}", this.pIndex).
-									replace("{=total_page}", "<span class=\"report-tpage\"></span>"));
-			
-			//aux = aux.replace("{=total_page}", "10000");
+			this._page._footer.text(this.vars($(".report-footer").text(), this.master));
 			
 			this._page = this._page._body;
 			this._page.style({
@@ -159,8 +166,9 @@ var Report = false;
 		createHtable: function(){
 			var row = this._page.create("div").addClass("row");
 			for(var x in this.fields){
-				cell = row.create("div").addClass("hcell").addClass("cell").text(this.fields[x].title);
-				
+				if(this.fields.hasOwnProperty(x)){
+					row.create("div").addClass("hcell").addClass("cell").text(this.fields[x].title);
+				}
 				
 			}
 			var rxy = Float.getXY(row.get());
@@ -168,11 +176,25 @@ var Report = false;
 			
 		},
 		
+		vars: function(html, data){
+			
+			for(var x in data){
+				if(data.hasOwnProperty(x)){
+					
+					html = html.replace("{=" + x + "}", data[x]);
+					
+				}
+				
+			}
+			return html;
+			
+		},
+		
 		add: function(data){
 			var l = false, m = false, rxy = false, pxy, row = false, n = 0, cell=false, x =false;
 			
 			var xy = Float.getXY(this._page.get());
-			db(8)
+			
 			n = n + this.createHtable();
 			for(x in data){
 				
@@ -204,7 +226,7 @@ var Report = false;
 				//db(pxy.height, "green");
 				
 				n = n + rxy.height;
-				if((n) >pxy.height){
+				if((n+40) >pxy.height){
 					n = rxy.height;
 					
 					//this._page.get().style.maxHeight = "auto !important";
