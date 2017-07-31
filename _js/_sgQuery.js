@@ -243,14 +243,39 @@ _sgObjet.prototype = {
 		
 	},
 	
+	attr: function(attr, value){
+		if(value === undefined){
+			return this.e[attr];
+		}else{
+			_sg.prop(this.e, attr, value);
+			return this;
+		}
+	},
+	
 	prop: function(prop, value){
 		_sg.prop(this.e, prop, value);
 		return this;
 	},
 	
 	style: function(prop, value){
+		/*
+		if(typeof(prop) === "object"){
+			_sg.prop(this.e.style, prop, value);
+			
+		}
 		
-		if(prop){
+		console.log(prop+"..."+value)
+		if(!prop){
+			return this.e.style;
+		}
+		
+		if(value === undefined){
+			return this.e.style[prop];
+		}
+		_sg.prop(this.e.style, prop, value);
+			return this;*/
+		
+		if(prop !== undefined){
 			_sg.prop(this.e.style, prop, value);
 			return this;	
 		}else{

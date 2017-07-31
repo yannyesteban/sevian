@@ -30,9 +30,9 @@
 
 <div id="menu2"></div>
 
-<div id="menu1" class="sg-menu type-default mode-default" style="width: 300px">
+<div id="menu1" class="sg-menu" style="width: 300px">
 	<div class="caption">Menú Principal</div>
-	<ul class="main">
+	<ul class="menu">
 		<li class="item close">
 			<div class="option">
 				<div class="icon sx"></div>
@@ -41,8 +41,9 @@
 		</li>
 		<li class="item close">
 			<div class="option">
+				<div class="checkbox"><input type="checkbox" tabindex="-1"></div>
 				<div class="icon"></div>
-				<span class="caption">Opcion Dos</span>
+				<span class="caption">Opcion Dos XXX</span>
 			</div>
 		</li>
 		<li class="item close">
@@ -130,10 +131,17 @@
 	var menu = new Sevian.Menu({
 		main:"menu1",className: "menu",
 		caption:"Menú Principal",
-		"className":["sg_menu","vertical"],"type":"default","pullDeltaX":10,"pullDeltaY":10
+		"className":["sg_menu","accordion"],"type":"accordionx","pullDeltaX":10,"pullDeltaY":10,
+		wCheck: true,
+		oncheck: function(checked, id, parentId, level){
+			
+			//db(this.id)
+		},
+		
+		
 	});
-	
-	
+	menu.add({id:menu.getIndex(), caption: "Extra...", parentId : 0, _action:"alert(1)", icon:"../../Iconos/book.png", wCheck: true});
+	//menu.getIndex();
 	
 		
 	
@@ -141,7 +149,11 @@
 		wCheck: true,
 		target:"#menu2",
 		caption:"Menu Principal 2",
-		"className":false,"type":"accordionx","pullDeltaX":10,"pullDeltaY":10
+		"className":false,"type":"accordionx","pullDeltaX":10,"pullDeltaY":10,
+		oncheck: function(checked, id, parentId, level){
+			
+			//db(menu.type)
+		},
 	});
 	
 	
@@ -150,13 +162,20 @@
 	menu.add({id:2, caption: "tres", parentId : false, _action:"alert(1)", icon:"../../Iconos/paste.png"});
 	menu.add({id:3, caption: "Alpha", parentId : 2, _action:"alert(1)", icon:"../../Iconos/Register.png"});
 	menu.add({id:4, caption: "Beta", parentId : 2, _action:"alert(1)", icon:"../../Iconos/login.png"});
-	menu.add({id:5, caption: "Gamma", parentId : 1, _action:"alert(1)", icon:"../../Iconos/client.png"});
+	menu.add({id:5, caption: "Gamma", parentId : 1, _action:"alert(1)", icon:"../../Iconos/client.png", urlTarget: "pepe", url:"gamma/uno.html"});
 	menu.add({id:6, caption: "Delta", parentId : 1, _action:"alert(1)", icon:"../../Iconos/database.png"});
 	
 	menu.add({id:7, caption: "71", parentId : false, _action:"alert(1)", icon:"../../Iconos/Select-language.png"});
 	menu.add({id:8, caption: "8", parentId : 7, _action:"alert(1)"});
 	menu.add({id:9, caption: "9", parentId : 7, _action:"alert(1)"});
 	menu.add({id:10, caption: "10", parentId : 7, _action:"alert(1)"});	
+	
+	
+	menu.add({id:11, caption: "OPtion 11", parentId : 6, action:"alert(11)"});
+	menu.add({id:12, caption: "OPtion 12", parentId : 6, action:"alert(12)"});
+	menu.add({id:13, caption: "OPtion 13", parentId : 6, action:"alert(13)"});	
+	
+	menu.add({id:menu.getIndex(), caption: "Extra...", parentId : 0, _action:"alert(1)", icon:"../../Iconos/book.png", wCheck: true});
 	
 	var menu = new Sevian.Menu({
 		wCheck: true,

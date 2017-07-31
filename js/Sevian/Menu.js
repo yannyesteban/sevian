@@ -43,6 +43,10 @@ var _menu;
 		this.checked = false;
 		this.disabled = false;
 		
+		
+		this.url = false;
+		this.urlTarget = false;
+		
 		this.pull = false;
 		
 		this.pullX = "front";
@@ -88,7 +92,7 @@ var _menu;
 		this._text = false;
 		
 		this._menu = false;
-		
+		this._popup = false;
 		this.create();
 		
 	};
@@ -101,11 +105,11 @@ var _menu;
 				
 				this._main = $(this.main);
 				this._item = $(this._main.query(".option"));
-				this._mainCheck = $(this._main.query(".option > .check"));
+				this._mainCheck = $(this._main.query(".option > .checkbox"));
 				this._mainIcon = $(this._main.query(".option > .icon"));
 				this._caption = $(this._main.query(".option > .caption"));
 
-				this._check = $(this._main.query(".option > .check > input[checkbox]"));
+				this._check = $(this._main.query(".option > .checkbox > input[type=checkbox]"));
 				this._icon = $(this._main.query(".option > .icon > img"));
 				
 				this._menu = $(this._main.query(".submenu"));
@@ -121,19 +125,24 @@ var _menu;
 			this.setMode(this.mode);
 			
 			if(!this._item){
-				this._item = this._main.create("div");
+				this._item = this._main.create("a");
 			}
 			this._item.addClass("option").ds("sgMenuType", "option");
-
-			this._item.get().href = "javascript:void(0)";
+			
+			if(this.urlTarget){
+				this._item.get().target = this.urlTarget;
+			}
+			this._item.get().href = this.url || "javascript:void(0)";
+			
 			
 			var ME = this;
 
 			if(this.wCheck){
 				
 				if(!this._mainCheck){
-					this._mainCheck = this._item.create("div");
-					this._check = this._mainCheck.create({tagName: "input", type: "checkbox"});
+					this._mainCheck = $.create("div");
+					this._item.insertFirst(this._mainCheck );
+					this._check = this._mainCheck.create({tagName: "input", type: "checkbox", tabIndex:"-1"});
 					
 				}
 			  
@@ -150,7 +159,7 @@ var _menu;
 
 				if(this.oncheck){
 					this._check.on("click", function(event){
-						ME.oncheck(this.checked, ME.id, ME.parentId, ME.level);
+						ME.oncheck(this.checked, ME.id, ME.parentId, ME.level, event);
 					});
 				}
 
@@ -245,9 +254,9 @@ var _menu;
 			
 			if(typePopup){
 				this._popup = this._menu;
-				this._menu.ds("sgMenuType", "submenu");
-				this._menu.addClass("popup");
-				
+				//this._menu.ds("sgMenuType", "submenu");
+				//this._menu.addClass("popup");
+				this._menu.get().style.visibility="hidden"
 				this._menu.style({
 					position: "fixed",
 					userSelect: "none",
@@ -255,6 +264,8 @@ var _menu;
 					visibility: "hidden",
 					overflow: "none",
 					zIndex: 150000000,
+					//border:"4px solid red",
+					
 
 				});				
 			}else{
@@ -339,25 +350,6 @@ var _menu;
 			return this.mode;	
 		},
 		
-		openMenu: function(){
-			var ME = this;
-			return function(){
-				
-				if(!ME._checkOver){
-					ME.open();
-				}
-				
-				
-			};
-		},		
-
-		closeMenu: function(){
-			var ME = this;
-			return function(){
-				ME.close();
-			};
-		},		
-
 		isCheckOver: function(){
 			return this._checkOver;	
 		},
@@ -397,6 +389,8 @@ var _menu;
 		
 		this.oncheck = false;//function(checked, id, parentId, level){};
 		
+		this._id = 0;
+		
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
@@ -417,65 +411,6 @@ var _menu;
 	
 	_menu.prototype = {
 		
-		
-		loadMenu: function(ul){
-			var d = ul.querySelectorAll("ul>li");
-			$(ul).addClass("SUBMENU");
-			var ME = this;
-			
-			d.forEach(function(n){
-				
-				var opt = {
-					main:n,
-					wIcon:false
-					
-				};
-				ME.add(opt);
-				
-				if(n.querySelector("ul")){
-					ME.loadMenu(n.querySelector("ul"));
-				}
-				
-				
-			})	;	
-		},
-		
-		load: function(){
-			
-			var main = this._menu = $("#"+this.id);	
-			
-			main.ds("sgMenuType", this.type);
-			main.ds("sgMenuMode", this.mode);			
-			
-			
-			
-			if(this.className){
-				main.addClass(this.className);
-			}
-			main.addClass("sg_menu");
-			main.addClass("type_"+this.type);
-			main.addClass("mode_"+this.mode);
-			
-			
-			var c = main.get().querySelector("div");
-			if(c){
-				
-				c = $(c);
-				
-				c.ds("sgMenuType", "caption");
-				c.addClass("caption");
-
-				//c.text(this.caption);
-			}
-			this._main =  main.get().querySelector("ul");
-			
-			this.loadMenu(this._main);
-			
-			
-			
-			
-			
-		},
 		_loadMenu: function(menu, parentId){
 			//var d = menu.query("ul>li");
 			var d = menu.childs();
@@ -500,55 +435,45 @@ var _menu;
 					
 					ME._loadMenu($(e.query("ul")), opt.id);
 				}
-				//ME._id++;
 				
 			})	;	
 		},
+		
+		getIndex: function(){
+			return this._id;
+		},
+		
 		create: function(){
 
 			if(this.main){
 				
 				this._main = $(this.main);
 				this._caption = $(this._main.query(".caption"));
-				this._ul = $(this._main.query(".main"));
+				this._menu = $(this._main.query(".menu"));
 				this._id = 0;
-				this._panerId = false;
-				this._loadMenu(this._ul, false);
-				
-				return;
+				this._loadMenu(this._menu, false);
 				
 			}
 			
-			var main = this._menu = $.create("div");
-			
+			if(!this._main){
+				this._main = $.create("div");
+			}
 			if(this.id){
-				main.prop("id", this.id);
+				this._main.prop("id", this.id);
 			}
-			
-			if(this.className){
-				main.addClass(this.className);
-			}
-			
-			//main.ds("sgMenuType", this.type);
-			//main.ds("sgMenuMode", this.mode);			
-			
-			main.addClass("sg-menu");
-			main.addClass("type-"+this.type);
-			main.addClass("mode-"+this.mode);
+			this._main.addClass(this.className).addClass("sg-menu").addClass("type-"+this.type).addClass("mode-"+this.mode);
 			
 			if(this.caption !== false){
 				this.setCaption(this.caption);
 			}
-			
-			var ul = this._main = $.create("ul");
-			main.append(ul);
-			
-			//ul.ds("sgMenuType","main");
-			ul.addClass("main");
-			if(this._target){
-				this._target.append(main);
+			if(!this._menu){
+				this._menu = this._main.create("ul");
 			}
+			this._menu.addClass("menu");
 			
+			if(this._target){
+				this._target.append(this._main);
+			}
 			
 		},
 		
@@ -594,7 +519,7 @@ var _menu;
 			
 			if(!this._caption){
 				this._caption = $.create("div");
-				this._menu.append(this._caption);
+				this._main.append(this._caption);
 			}
 
 			//this._caption.ds("sgMenuType", "caption");
@@ -624,9 +549,11 @@ var _menu;
 				opt.mode = "open";
 			}
 			
+			this._id++;
+			
 			var item = this.items[opt.id] = new _item(opt);
 			var ME = this;
-			var menu = this._main;
+			var menu = this._menu;
 			if(item.getCheck()){
 				item.getCheck().on("mouseover", function(){ME.active = true;});
 				item.getCheck().on("mouseout", function(){ME.active = false;});
@@ -675,6 +602,8 @@ var _menu;
 				item.pullDeltaX = 0;
 				item.pullDeltaY = 0;
 			}
+			
+			return item;
 			
 		},
 		
