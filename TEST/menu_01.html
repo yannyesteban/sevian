@@ -131,7 +131,7 @@
 	var menu = new Sevian.Menu({
 		main:"menu1",className: "menu",
 		caption:"Menú Principal",
-		"className":["sg_menu","accordion"],"type":"accordionx","pullDeltaX":10,"pullDeltaY":10,
+		"className":["sg_menu","accordion"],"type":"default","pullDeltaX":10,"pullDeltaY":10,
 		wCheck: true,
 		oncheck: function(checked, id, parentId, level){
 			
@@ -149,7 +149,7 @@
 		wCheck: true,
 		target:"#menu2",
 		caption:"Menu Principal 2",
-		"className":false,"type":"accordionx","pullDeltaX":10,"pullDeltaY":10,
+		"className":false,"type":"default","pullDeltaX":10,"pullDeltaY":10,
 		oncheck: function(checked, id, parentId, level){
 			
 			//db(menu.type)
@@ -181,7 +181,7 @@
 		wCheck: true,
 		target:"#menu2",
 		caption:"Menu Principal 2",
-		"className":false,"type":"default","pullDeltaX":10,"pullDeltaY":10
+		"className":false,"type":"accordiony","pullDeltaX":10,"pullDeltaY":10
 	});
 	
 	

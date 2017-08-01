@@ -20,15 +20,14 @@ system,
 */
 
 if(!Sevian){
-	
 	var Sevian = {};
-	
 }
 
-var _menu;
+var sgMenu;
+
 (function($, sgFloat, namespace){
 	
-	var _item = function(opt){
+	var Item = function(opt){
 		
 		this.main = false;
 		this.title = "";
@@ -97,7 +96,7 @@ var _menu;
 		
 	};
 	
-	_item.prototype = {
+	Item.prototype = {
 		
 		create: function(){
 			
@@ -217,13 +216,17 @@ var _menu;
 		},
 		
 		setCaption: function(caption){
-
+			this.caption = caption;
 			if(this._caption && caption){
 				this._caption.text(caption);
 			}
 			
 		},
 		
+		getCaption: function(){
+			return this._caption;	
+		},
+
 		get: function(){
 			return this._main.get();
 		},
@@ -279,9 +282,6 @@ var _menu;
 			return this._menu;
 		},
 		
-		setText: function(text){
-			this._menu.text(text);
-		},
 		append: function(child){
 			this._menu.append(child);
 		},
@@ -356,8 +356,7 @@ var _menu;
 		
 	};
 	
-	
-	_menu = function(opt){
+	var Menu = function(opt){
 		this.id = "";
 		this.type = "normal";
 		this.mode = "default";
@@ -368,7 +367,8 @@ var _menu;
 		
 		this.className = false;
 		
-		this.items = [];
+		this.items = false;
+		this._items = [];
 		this.smenu = [];
 
 		
@@ -390,8 +390,8 @@ var _menu;
 		this.oncheck = false;//function(checked, id, parentId, level){};
 		
 		this._id = 0;
-		
-		for(var x in opt){
+		var x = false;
+		for(x in opt){
 			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
 			}
@@ -402,14 +402,17 @@ var _menu;
 		this.setType(this.type);
 		this.create();
 		
-		
-		
-		
-		
+		if(this.items){
+			for(x in this.items){
+				if(this.items.hasOwnProperty(x)){
+					this.add(this.items[x]);
+				}
+			}
+		}
 		
 	};
 	
-	_menu.prototype = {
+	Menu.prototype = {
 		
 		_loadMenu: function(menu, parentId){
 			//var d = menu.query("ul>li");
@@ -524,12 +527,12 @@ var _menu;
 
 			//this._caption.ds("sgMenuType", "caption");
 			this._caption.addClass("caption");
-			
 			this._caption.text(caption);
 			
-			
-			
-			
+		},
+		
+		getCaption: function(){
+			return this._caption;
 		},
 		
 		add: function(opt){
@@ -551,7 +554,7 @@ var _menu;
 			
 			this._id++;
 			
-			var item = this.items[opt.id] = new _item(opt);
+			var item = this._items[opt.id] = new Item(opt);
 			var ME = this;
 			var menu = this._menu;
 			if(item.getCheck()){
@@ -561,7 +564,7 @@ var _menu;
 			if(item.parentId !== undefined && item.parentId !== false){
 				
 				
-				var parent = menu = this.items[item.parentId];
+				var parent = menu = this._items[item.parentId];
 				
 				if(parent.disabled){
 					return;
@@ -607,8 +610,7 @@ var _menu;
 			
 		},
 		
-		
-		_showMenu: function(type, item, id){
+		_showMenu: function(type){
 
 			var ME = this;
 			
@@ -622,8 +624,8 @@ var _menu;
 					if(ME.lastMenuId === this.id){
 						return false;
 					}
-					if(ME.items[this.id].parentId !== ME.lastMenuId){
-						ME.hidePopup(ME.lastMenuId, ME.items[this.id].parentId);
+					if(ME._items[this.id].parentId !== ME.lastMenuId){
+						ME.hidePopup(ME.lastMenuId, ME._items[this.id].parentId);
 					}
 					ME.lastMenuId = this.id;
 				};
@@ -638,9 +640,9 @@ var _menu;
 					if(this.getMode() === "open"){
 						this.close();
 					}else{
-						for(var x in ME.items){
-							if(this.parentId === ME.items[x].parentId){
-								ME.items[x].close();
+						for(var x in ME._items){
+							if(this.parentId === ME._items[x].parentId){
+								ME._items[x].close();
 							}
 						}
 						this.open();
@@ -663,19 +665,18 @@ var _menu;
 			}
 		},
 		
-				
 		hidePopup: function(id, parentId){
 			
 			if(id !== false){
-				if(this.items[id]){
-					this.items[id].close();
+				if(this._items[id]){
+					this._items[id].close();
 				}else{
 					return;
 				}
-				if(this.items[id].parentId === parentId){
+				if(this._items[id].parentId === parentId){
 					return;	
 				}
-				this.hidePopup(this.items[id].parentId, parentId);
+				this.hidePopup(this._items[id].parentId, parentId);
 			}
 
 		},
@@ -683,7 +684,7 @@ var _menu;
 				
 	};
 	
-	namespace.Menu = _menu;
+	sgMenu = namespace.Menu = Menu;
 	
 	
 }(_sgQuery, _sgFloat, Sevian));

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Documento sin título</title>
 
-<link href="../css/sgMenu.css" rel="stylesheet" type="text/css"/>
+<link href="../css/Menu.css" rel="stylesheet" type="text/css"/>
 <link href="../css/sgWindow.css" rel="stylesheet" type="text/css"/>
 <link href="../css/sgCalendar.css" rel="stylesheet" type="text/css"/>
 <link href="../css/selectText.css" rel="stylesheet" type="text/css"/>
@@ -183,32 +183,43 @@
 	var menu = new Sevian.Menu({
 		target:"menu",
 		caption:"Menu Principal",
-		"className":[null,"vertical"],"type":"default","pullDeltaX":10,"pullDeltaY":10
+		"className":[null,"vertical"],"type":"default","pullDeltaX":10,"pullDeltaY":10,
+		
+		items:[
+			{"id":7,"parentId":false,"caption":"Consulta A7"},
+			{"id":8,"parentId":false,"caption":"Consulta A8"},
+			{"id":9,"parentId":false,"caption":"Consulta A9", 
+			events:{click:function(){this.setCaption('bye');}}},
+			
+
+			
+		],
+		
 	});
 	
 	
 	menu.add({
-		"id":0,"parentId":false,"text":"Registro de Actividades"
+		"id":0,"parentId":false,"caption":"Registro de Actividades"
 	});
 	
 	menu.add({
-		"id":1,"parentId":false,"text":"Consulta de Actividades"
+		"id":1,"parentId":false,"caption":"Consulta de Actividades"
 	});
 	
 	menu.add({
-		"id":2,"parentId":false,"text":"Consulta 2"
+		"id":2,"parentId":false,"caption":"Consulta 2"
 	});
 	menu.add({
-		"id":3,"parentId":2,"text":"Consulta 3"
+		"id":3,"parentId":2,"caption":"Consulta 3"
 	});
 	menu.add({
-		"id":4,"parentId":2,"text":"Consulta 4"
+		"id":4,"parentId":2,"caption":"Consulta 4"
 	});
 	menu.add({
-		"id":5,"parentId":2,"text":"Consulta 5"
+		"id":5,"parentId":2,"caption":"Consulta 5"
 	});
 	menu.add({
-		"id":6,"parentId":2,"text":"Consulta 6"
+		"id":6,"parentId":2,"caption":"Consulta 6"
 	});
 	var z = new Sevian.Form({
 		main:"#form5",
