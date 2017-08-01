@@ -40,7 +40,7 @@ html, body {
   box-sizing: border-box; }
 
 .header * {
-  font-size: 9pt;
+  font-size: 7pt;
   font-family: Verdana, Geneva, sans-serif; }
 .header .form-caption {
   background-color: lightgray;
