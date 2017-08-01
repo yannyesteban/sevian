@@ -6,9 +6,10 @@ Caracas 11/04/2017
 
 */
 if(!Sevian){
-	
 	var Sevian = {};
-	
+}
+if(!Sevian.Inputs){
+	Sevian.Inputs = {};
 }
 
 var sgSelectText;
@@ -244,7 +245,7 @@ var sgSelectText;
 				
 			});
 			
-			$().on("click", function(){
+			$(document).on("click", function(){
 				ME.hide();
 			});
 				 
@@ -280,8 +281,9 @@ var sgSelectText;
 			}
 			
 			if(this.target){
-				this.target.append(this._ivalue);
-				this.target.append(this._main);
+				this._target = $(this.target);
+				this._target.append(this._ivalue);
+				this._target.append(this._main);
 			}
 			
 			return;
