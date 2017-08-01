@@ -675,7 +675,7 @@ var _sgDragDrop = (function(){
 	var cH;//document.documentElement.clientHeight;
 
 	var _main;
-	var _hand;
+	
 	var _opt;	
 	
 	var _rs_mode;
@@ -685,8 +685,7 @@ var _sgDragDrop = (function(){
 	var maxHeight = 800;
 	var minHeight = 200;
 	
-	var mH = false;
-	var lastH = false;
+	
 	var info = false;
 	var info2 = false;
 	var info3 = false;

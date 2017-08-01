@@ -40,6 +40,7 @@ Sevian.Inputs = {};
 	}());
 	
 	var createInput = function(opt){
+		
 		if(opt.control){
 			return new namespace.Inputs[opt.control](opt);
 		}else{
@@ -114,6 +115,7 @@ Sevian.Inputs = {};
 			this.input.title = this.input.title || this.caption;
 			this.input.value = this.input.value || this.value;
 			this.input.default = this.input.default || this.default;
+			
 			this._input = createInput(this.input);
 			
 			if(!this.useRow){

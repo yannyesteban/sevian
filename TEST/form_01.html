@@ -177,6 +177,7 @@
 <script src="../js/sgCalendar.js"></script>
 <script src="../js/Sevian/Form.js"></script>
 <script src="../js/Sevian/Input.js"></script>
+<script src="../js/Sevian/SelectText.js"></script>
 <script>
 (function($){
 	
@@ -223,13 +224,44 @@
 	});
 	var z = new Sevian.Form({
 		main:"#form5",
+		
+		
+		
+		
 		fields:[
-			{
-				caption:"Número Factura",
+			{	
+				control: "SelectText",
+				caption:"Número Factura...",
 				name:"id_factura",
+				rules:{
+					required:true,
+					email:true,
+				},
 				input:{
-					type:"text",
-				}
+					type:"default",
+					data:[
+					[0,"esteban"],
+					[1,"yanny"],
+					[2,"núñez"],
+					[3,"jiménez"],
+					[4,"ann"],
+					[5,"caracas"],
+					[6,"esteban"],
+					[7,"yanny"],
+					[8,"núñez"],
+					[9,"jiménez"],
+					[10,"ann"],
+					[11,"caracas"],
+					[12,"esteban"],
+					[13,"yanny"],
+					[14,"núñez"],
+					[15,"jiménez"],
+					[16,"ann"],
+					[17,"caracas"],
+					
+				]
+				},
+				
 			}
 			
 			

@@ -64,11 +64,9 @@ var ssInput = false;
 		},
 		
 		create: function(){
-			if(this.main){
 			
+			if(this.main){
 				this._main = $(this.main);
-				
-				
 			}else{
 				var opt = {};
 
@@ -78,9 +76,10 @@ var ssInput = false;
 					case "hidden":
 					case "button":
 					case "submit":
+					case "color":
+					case "range":	
 						opt.tagName = "input";
 						opt.type = this.type;
-
 						break;
 					case "select":
 						opt.tagName = this.type;
@@ -98,9 +97,6 @@ var ssInput = false;
 
 				}
 				this._main = $.create(opt);
-				
-				
-				
 				
 			}
 			this.addClass(this.className);
@@ -166,6 +162,7 @@ var ssInput = false;
 		readOnly:function(value){
 			
 		},
+		
 		disabled:function(value){
 			
 		},
@@ -174,6 +171,7 @@ var ssInput = false;
 			this.status = value;
 			this._main.ds("status", value);
 		},	
+		
 		setMode:function(value){
 			this.mode = value;
 			this._main.ds("mode", value);
@@ -186,6 +184,7 @@ var ssInput = false;
 		focus:function(){
 			this._main.get().focus();
 		},	
+		
 		selectText: function(){
 			if(this._main.get().select){
 				this._main.get().select();
@@ -193,6 +192,7 @@ var ssInput = false;
 			
 			
 		},
+		
 		setData:function(data){
 			
 		},
@@ -219,8 +219,6 @@ var ssInput = false;
 			}
 			
 			return true;
-			
-			
 		},	
 		
 		createOptions: function(value, parentValue){
