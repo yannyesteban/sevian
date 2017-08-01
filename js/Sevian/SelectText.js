@@ -310,8 +310,6 @@ var sgSelectText;
 		
 		show: function(){
 			
-			db(sgFloat.getXY(this._main.get()).top)
-			
 			this._popup.style({minWidth: this._main.get().offsetWidth +"px"});
 			
 			this._visible = true;
