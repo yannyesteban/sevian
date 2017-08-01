@@ -219,7 +219,7 @@ var sgSelectText;
 			
 			popup.text(" ");
 			popup.style({
-				position: "fixed",
+				position: "absolute",
 				visibility: "hidden",
 				//_maxHeight: "300px",
 				overflow: "auto",
@@ -309,6 +309,9 @@ var sgSelectText;
 		},
 		
 		show: function(){
+			
+			db(sgFloat.getXY(this._main.get()).top)
+			
 			this._popup.style({minWidth: this._main.get().offsetWidth +"px"});
 			
 			this._visible = true;

@@ -398,7 +398,7 @@ var _sgFloat, _sgDrag;
 				left = false,
 				top = false,
 				c = this.getXY(ref),
-				
+				fixed = (e.style.position === "fixed"),
 				width = e.offsetWidth,
 				height = e.offsetHeight,
 				cW = c.cW,
@@ -442,29 +442,44 @@ var _sgFloat, _sgDrag;
 				default:
 					top = c.top + c.height - 10;	
 			}// end switch
-
+			
+			if(!fixed){
+				top = top + sT;	
+				left = left + sL;
+			}
+			
 			left = left + deltaX;
 			top = top + deltaY;
-
+			
 			if ((left + width) > (cW + sL)){
 				left = cW + sL - width;
-				//left = c.left - width;
-			}// end if
-			if (left < sL){
-				left = sL;
-			}// end if
-			if ((top + height) > (cH + sT)){
-				//top = cH + sT - height; 
-			}// end if
-			if (top < sT){
-
-				top = sT; 
-			}// end if	
+			}
 
 			if ((c.top + c.height + height) > (cH + sT)){
 				top = c.top - height;
 			}// end if
-
+			
+			
+			if(!fixed){
+				if (left < sL){
+					left = sL;
+				}
+				if(top < sT){
+					top = sT; 
+				}
+				if ((top + height) > (cH + sT)){
+					//top = cH + sT - height; 
+				}// end if
+				
+			}else{
+				if (left < sL){
+					left = 0;
+				}
+				if(top < sT){
+					top = 0; 
+				}
+			}
+			
 			return this.showElem({e: e, left: left, top: top, z: z});
 
 		},	
@@ -1056,26 +1071,3 @@ var _sgDragDrop = (function(){
 	
 	
 })();
-if(1==2){
-document.getElementById("h").style.cssText = "position:fixed;";
-document.getElementById("m11").style.cssText = "position:fixed;";
-sgFloat.init(document.getElementById("m11"));
-sgFloat.init(document.getElementById("h"));
-/*
-sgFloat.show({
-	e: document.getElementById("h"),
-	xx:"center",
-	yy:"middle"
-});
-*/
-sgFloat.show({e:document.getElementById("h"), left: "center", top:"middle"});
-sgFloat.show({e:document.getElementById("m11"), left: "center", top:"top"});
-
-sgDragDrop.move({main: document.getElementById("h"), hand: document.getElementById("r")});
-sgDragDrop.move({main: document.getElementById("m11"), hand: document.getElementById("hand")});
-
-sgDragDrop.resize({main: document.getElementById("h")});
-sgDragDrop.resize({main: document.getElementById("m11")});
-
-
-}
