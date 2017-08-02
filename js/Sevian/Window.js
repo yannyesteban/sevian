@@ -7,7 +7,10 @@
 */
 
 var sgWindow;
-
+if(!Sevian){
+	var Sevian = {};
+	
+}
 
 (function($, sgFloat, sgDragDrop){
 	
@@ -578,6 +581,8 @@ var sgWindow;
 	
 	
 	sgWindow = _window;
+	
+	Sevian.Window = _window;
 	
 })(_sgQuery, _sgFloat, _sgDragDrop);
 var sgPopup;
