@@ -595,8 +595,8 @@ var sgMenu;
 				menu.append(sep);
 			}
 			
-			if(!opt.main){
-				menu.append(item.get());
+			if(!opt.main){console.log(opt.id)
+				menu.append(item.get());console.log(item.caption)
 			}
 			
 			if(this.type === "system" && item.level === 0){
