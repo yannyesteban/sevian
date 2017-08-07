@@ -26,7 +26,7 @@ var _sg = {
 			for(var x in prop){
 				obj[x] = prop[x];				
 			}	
-		}else{
+		}else if(value !== false){
 			obj[prop] = value;
 		}	
 	},
@@ -109,9 +109,20 @@ _sgObjet.prototype = {
 		this.e.id = id;
 		return this;
 	},
-	
-	value: function(value){
+	val: function(value){
+		if(value === undefined){
+			return this.e.value;
+		}
 		this.e.value = value;
+		return this;
+		
+	},
+	value: function(value){
+		if(value === undefined){
+			return this.e.value;
+		}
+		this.e.value = value;
+		return this;
 		
 	},
 	

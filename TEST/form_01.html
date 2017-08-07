@@ -177,6 +177,7 @@
 <script src="../js/sgCalendar.js"></script>
 <script src="../js/Sevian/Form.js"></script>
 <script src="../js/Sevian/Input.js"></script>
+<script src="../js/Sevian/Multi.js"></script>
 <script src="../js/Sevian/SelectText.js"></script>
 <script>
 (function($){
@@ -234,8 +235,8 @@
 				caption:"Número Factura...",
 				name:"id_factura",
 				rules:{
-					required:true,
-					email:true,
+					required_:true,
+					email_:true,
 				},
 				input:{
 					type:"default",
@@ -298,6 +299,7 @@
 		//id:"fecha",
 		control:"DateInput",
 		input:{
+			
 			type:"text",
 			main:"#fecha",
 			value:'2001-04-30',
@@ -334,7 +336,37 @@
 		
 		
 	});
-	
+	z.addField({
+		caption:"Prueba2",
+		input:{
+			control: "Multi",
+			type:"checkbox",
+			name:"multix",
+			value:"4,5",
+			data:[
+				["","-- SELECCIONE"],
+				[1,"Valencia"],
+				[2, "Caracas"],
+				[3, "Mérida"],
+				[4, "San Crsitobal"],
+				[5, "Barquisimeto"],
+				[6, "Maracaibo"]
+				
+			],
+			
+			style:{
+				color:"red"
+			}
+			
+		},
+		
+		rules:{
+			required:true,
+			
+		}
+		
+		
+	});
 	
 	z.addInput({
 		locatePage:-1,

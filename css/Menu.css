@@ -108,7 +108,8 @@
       background-color: rgba(0, 0, 0, 0.49);
       color: aqua; }
     .sg-menu .item > .option:focus, .sg_menu .item > .option:focus {
-      color: #0761c0; }
+      color: #e8e8e8;
+      background-color: rgba(0, 0, 0, 0.25); }
     .sg-menu .item > .option > .icon, .sg_menu .item > .option > .icon {
       height: 24px;
       width: 24px;

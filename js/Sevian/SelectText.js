@@ -8,8 +8,8 @@ Caracas 11/04/2017
 if(!Sevian){
 	var Sevian = {};
 }
-if(!Sevian.Inputs){
-	Sevian.Inputs = {};
+if(!Sevian.Input){
+	Sevian.Input = {};
 }
 
 var sgSelectText;
@@ -703,7 +703,7 @@ var sgSelectText;
 		
 	};
 	
-	Sevian.Inputs.SelectText = sgSelectText = SelectText;
+	Sevian.Input.SelectText = sgSelectText = SelectText;
 	
 })(_sgQuery, _sgFloat, _sgDrag, Sevian);
 

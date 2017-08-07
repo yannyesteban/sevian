@@ -4,7 +4,7 @@ if(!Sevian){
 	var Sevian = {};
 }
 
-Sevian.Inputs = {};
+Sevian.Input = {};
 
 (function(namespace, $, Tab, popup){
 	/*$(document).on("wheel", function(event){
@@ -42,9 +42,9 @@ Sevian.Inputs = {};
 	var createInput = function(opt){
 		
 		if(opt.control){
-			return new namespace.Inputs[opt.control](opt);
+			return new namespace.Input[opt.control](opt);
 		}else{
-			return new namespace.Inputs.Std(opt);
+			return new namespace.Input.Std(opt);
 		}
 	};
 	

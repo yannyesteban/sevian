@@ -259,7 +259,7 @@ var ssInput = false;
 	
 	namespace.Input = ssInput;
 	
-	namespace.Inputs.Std = ssInput;
+	namespace.Input.Std = ssInput;
 	
 }(Sevian, _sgQuery));
 
@@ -585,6 +585,6 @@ var ssDateInput = false;
 	//mixin(_prototype, ssDateInput.prototype);
 	
 	namespace.DateInput = ssDateInput;
-	namespace.Inputs.DateInput = ssDateInput;
+	namespace.Input.DateInput = ssDateInput;
 	
 }(Sevian, _sgQuery, sgDate, sgCalendar, sgWindow));
