@@ -67,30 +67,24 @@ var sgMulti = false;
 			
 			if(this.main){
 				this._main = $(this.main);
+				this._input = this._main.query(".main-input");
 			}else{
-				var opt = {};
-
-				
 				this._main = $.create("span");
-				this._input = this._main.create("input");
 				
-				this._input.attr("type", "text").attr("id", this.id);
-				this._input.attr("name", this.name);
-				
-				//this._main = $.create(opt);
-				
+				this._main.on("change", function(){db(8)});
 			}
+
 			this.addClass(this.className);
 
-			
-			
-			
+			if(!this._input){
+				this._input = this._main.create("input");
+				this._input.attr("type", "text").attr("id", this.id);
+				this._input.attr("name", this.name).addClass("main-input");
+			}			
 			
 			this.createOptions(this.value, false);
 			
-			
 			this.setValue(this.value);
-			
 			this.setStatus(this.status);
 			this.setMode(this.mode);
 			
@@ -146,11 +140,14 @@ var sgMulti = false;
 		},
 		
 		readOnly:function(value){
-			
+			this.readOnly = true;
+			this._attr("disabled", value);
 		},
 		
 		disabled:function(value){
-			
+			this.disabled = value;
+			this._main.attr("disabled", value);
+			this._attr("disabled", value);
 		},
 	
 		setStatus:function(value){
@@ -205,6 +202,14 @@ var sgMulti = false;
 			
 			return true;
 		},	
+		
+		_attr: function(attr, value){
+			for(var x in this._check){
+				if(this._check.hasOwnProperty(x)){
+					this._check[x].attr(attr, value);
+				}
+			}	
+		},
 		
 		_checkValue: function(){
 			
