@@ -1,0 +1,39 @@
+/* CSS Document */
+body, html {
+  padding: 0px;
+  margin: 0px;
+  height: 100%; }
+
+* {
+  box-sizing: border-box; }
+
+.sevian {
+  height: 100%;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: row; }
+  .sevian > * {
+    border: 1px solid green; }
+  .sevian .panel_left {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column; }
+    .sevian .panel_left .p-banner {
+      flex: 0 0 70px; }
+    .sevian .panel_left .p-menu {
+      flex: 0 0 36px; }
+    .sevian .panel_left .p-main {
+      flex: 1 1 auto; }
+    .sevian .panel_left > * {
+      border: 1px solid purple; }
+    .sevian .panel_left .p-main {
+      display: flex;
+      flex-direction: row; }
+      .sevian .panel_left .p-main .m-menu {
+        flex: 0 0 250px; }
+      .sevian .panel_left .p-main .m-body {
+        flex: 1 1 auto; }
+      .sevian .panel_left .p-main > * {
+        border: 1px solid blue; }
+  .sevian .panel_right {
+    flex: 0 0 350px; }

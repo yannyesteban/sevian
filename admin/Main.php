@@ -1,9 +1,9 @@
 <?php
-
 define ("SS_PATH", "../");
 define ("SS_CHARSET", "utf-8");
 define ("SS_MAIN_PANEL", 4);
 
+include "Config.php";
 
 
 $conections["_default"] = array(
@@ -75,43 +75,6 @@ $conections["sevian_2017_pg"] = array(
 	"dbase"		=> "sevian_2017",
 	"charset"	=> "utf-8"
 );
-
-$seq = array();
-$seq[]["vses"] = array("xx"=>"ann");
-$seq[]["vexp"] = array("vexp"=>array("aux"=>"pepe"));
-$seq[]["vreq"] = array("vreq"=>array("w"=>"Yanny","abc"=>"A1B2c5"));
-
-
-
-$sequence_init = array(
-	array("vses"=>array("xx"=>"ann")),
-	array("vexp"=>array("aux"=>"pepe")),
-	array("vreq"=>array("w"=>"Yannyt","abc"=>"A1B2c5")),
-
-	array("setPanel"=> 
-		array(
-			"panel"		=> 2,
-			"element"	=> "form",
-			"name"		=> "uno"
-		)
-	),
-
-
-
-);
-
-
-$listen["save"] = "sequence";
-
-
-
-$sequence = array(
-	array("vses"=>array("we"=>"Peter")),
-	array("vexp"=>array("aux"=>"pepe")),
-	array("vreq"=>array("w"=>"Yannyt","abc"=>"pedro"))
-
-);
-
 
 $elements[] = array(
 	"panel"		=>6,
@@ -200,59 +163,40 @@ $actions["_form"]["save_person"] = array(
 
 );
 
+$sequence_init = array(
+	array("vses"=>array("xx"=>"ann")),
+	array("vexp"=>array("aux"=>"pepe")),
+	array("vreq"=>array("w"=>"Yannyt","abc"=>"A1B2c5")),
 
-$listen_[] = array(
-	"sign"=>"save_personas",
-	"set_panel"=>array(
-		"panel"=>9,
-		"element"=>"form",
-		"name"=>"personas",
-		"method"=>"request"
-	)
-);
+	array("setPanel"=> 
+		array(
+			"panel"		=> 2,
+			"element"	=> "form",
+			"name"		=> "uno"
+		)
+	),
 
-$listen_["save_personas"][] = array(
-	"setPanel" => array(
-		"panel"=>4,
-		"element"=>"fragment",
-		"name"=>"fragment",
-		"method"=>"load",
-		"eparams"=>array("id"=>1)
-	
-	)
+
 
 );
+$listen["save"] = "sequence";
 
-$commands["procedure"] = array(
-	
-	"element"	=>	"procedure",
-	"property"	=>	"name",
-	"method"	=>	"init",
-	"name"		=>	false,
-	"eparams"	=>	false
+
+
+$sequence = array(
+	array("vses"=>array("we"=>"Peter")),
+	array("vexp"=>array("aux"=>"pepe")),
+	array("vreq"=>array("w"=>"Yannyt","abc"=>"pedro"))
+
 );
 
+//$cssSheets[] = "{$PATH}css/sgMenu.css";
+//$jsFiles[] = array("file" => "{$PATH}_js/_sgQuery.js", "begin" => true);
 
-
-$themes["sevian"] = array(
-	"path_css" 	=> "http://localhost/sevian/themes/sevian/css/", 
-	"css" 		=> array(/*"sigefor1.css",
-					
-					"paginator.css",
-					"calendar.css"*/
-					),
-
-	
-	"templates"=>array(
-		"main"=>"../themes/sevian/html/main.html",
-		"main2"=>"../themes/sevian/html/main2.html",
-	)
-	
-);
 
 $init = array(
 	"template"	=>	"...<div>--4--<hr>--5--</div>",
-	"templateName"=> "main",
+	"templateName"=> "main3",
 	"elements"	=>	$elements,
 	"actions"	=>	$actions,
 	"listen"	=>	$listen,
@@ -262,56 +206,6 @@ $init = array(
 		)
 
 );
-
-$clsInput["submit"] = array(
-	"file" 	=> "sgInput.php",	
-	"css" 	=> "",	
-	"js" 	=> "",	
-	"class" => "stdInput",
-	"type"  =>  "submit");
-
-$clsElement["form"] = array(
-	"file" 	=> "SgForm.php",
-	"class" => "SgForm");
-$clsElement["menu"] = array(
-	"file" 	=> "SgMenu.php",
-	"class" => "SgMenu");
-$clsElement["fragment"] = array(
-	"file" 	=> "ssFragment.php",
-	"class" => "ssFragment");
-$clsElement["procedure"] = array(
-	"file" 	=> "SsProcedure.php",
-	"class"	=> "SsProcedure");
-
-
-$clsElement["sgForm"] = array(
-	"file" 	=> "Sigefor/Form.php",
-	"class" => "Sevian\Sigefor\Form");
-
-
-$PATH = SS_PATH;
-
-$cssSheets = array(
-	"{$PATH}css/sgMenu.css",
-	"{$PATH}css/sgWindow.css",
-	"{$PATH}css/sgCalendar.css",
-	"{$PATH}css/selectText.css",
-	"{$PATH}css/sgTab.css",
-	"{$PATH}css/sgAjax.css",
-	"{$PATH}css/grid.css"
-
-);
-
-
-$jsFiles[] = array("file" => "{$PATH}_js/_sgQuery.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/sgAjax.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/drag.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/sgWindow.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/sgDB.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/sgInit.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/sgSevian.js", "begin" => true);
-
-$jsFiles[] = array("file" => "{$PATH}js/sgTab.js", "begin" => true);
 
 $init["cssSheetsDefault"] = $cssSheets;
 $init["jsFilesDefault"] = $jsFiles;

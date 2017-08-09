@@ -110,10 +110,12 @@ class Request{
 		
 		if(isset($this->themes[$this->theme])){
 			foreach($this->themes[$this->theme]["css"] as $v){
-				$doc->appendCssSheet($this->themes[$this->theme]["path_css"].$v);
+				//$doc->appendCssSheet($this->themes[$this->theme]["path_css"].$v);
+				$doc->appendCssSheet($v);
 			}
 			foreach($this->themes[$this->theme]["templates"] as $k => $v){
-				$this->_templates[$k] = $this->themes[$this->theme]["path_html"].$v;
+				//$this->_templates[$k] = $this->themes[$this->theme]["path_html"].$v;
+				$this->_templates[$k] = $v;
 			}
 		}
 		

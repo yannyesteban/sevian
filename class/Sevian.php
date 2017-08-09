@@ -132,7 +132,7 @@ class Structure extends sgHTML{
 		foreach($this->_ele as $panel => $e){
 			$template = str_replace("--$panel--", $e->render(), $template);
 		}
-		return $this->html = $template."<input type='button' onclick='sevian.test()' value='test'>";
+		return $this->html = $template;
 	}
 }
 
@@ -461,7 +461,7 @@ class Sevian{
 			
 			));
 			
-			$form = new sgHTML(array("tagName"=>"form", "action"=>"index.php", "name"=>"form_p$panel", "id"=>"form_p$panel"));
+			$form = new sgHTML(array("tagName"=>"form", "action"=>"", "name"=>"form_p$panel", "id"=>"form_p$panel"));
 			
 			$form->add($elem);
 			$form->add($aux);
