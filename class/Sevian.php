@@ -704,7 +704,7 @@ class Sevian{
 
 	}
 	
-	private function vars($q){
+	public function vars($q){
 		return sgTool::vars($q, array(
 			array(
 				"token" 	=> "@",

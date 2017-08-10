@@ -30,6 +30,7 @@ $themes["sevian"] = [
 		"main"	=> "../themes/sevian/html/main.html",
 		"main2"	=> "../themes/sevian/html/main2.html",
 		"main3"	=> "../themes/sevian/html/main3.php",
+		"main4"	=> "../themes/sevian/html/main4.php",
 	]
 ];
 
@@ -54,6 +55,10 @@ $clsElement["procedure"] = [
 $clsElement["sgForm"] = [
 	"file" 	=> "Sigefor/Form.php",
 	"class" => "Sevian\Sigefor\Form"];
+
+$clsElement["Fragment"] = [
+	"file" 	=> "Sigefor/Fragment.php",
+	"class" => "Sigefor\Fragment"];
 
 $commands["procedure"] = [
 	"element"	=>	"procedure",

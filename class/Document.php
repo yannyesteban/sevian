@@ -103,7 +103,11 @@ class Document{
 				$this->contentType->setAttribute("http-equiv","Content-Type");
 				$this->contentType->content = $this->content_type.$this->charset;
 			}
-			return $this->doctype."\n".$this->html->render()."\n<script>".$this->html->getScript()."</script>";
+			$html = $this->html->render();
+			
+			$this->appendCssStyle($this->html->getCss());
+				
+			return $this->doctype."\n".$html."\n<script>".$this->html->getScript()."</script>";
 			break;
 		case "xml":
 			$this->doctype = "<?xml version=\"1.0\" encoding=\"$this->charset\"?>";

@@ -75,7 +75,16 @@ $conections["sevian_2017_pg"] = array(
 	"dbase"		=> "sevian_2017",
 	"charset"	=> "utf-8"
 );
+$elements[] = array(
+	"panel"		=>1,
+	"element"	=>"Fragment",
+	"name"		=>"uno",
+	"method"	=>"toolbar",
+	"designMode"=>false,
+	"fixed"		=>true,
+);
 
+/*
 $elements[] = array(
 	"panel"		=>6,
 	"element"	=>"sgForm",
@@ -112,7 +121,7 @@ $elements[] = array(
 	"designMode"=>false,
 	"fixed"		=>true,
 );
-
+*/
 $actions["do"] = array(
 	"save_k" => array(
 		"imethod" => "save",
@@ -202,7 +211,7 @@ $init = array(
 	"listen"	=>	$listen,
 	"themes" 	=>	$themes,
 	"cssSheets" =>	array(
-			"css/main.css"
+			//"css/main.css"
 		)
 
 );
