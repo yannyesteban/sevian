@@ -14,7 +14,7 @@ class Document{
 	public $type = "html";
 	public $charset = "utf-8";
 	public $doctype = "<!DOCTYPE HTML>";
-	public $content_type = "text/html; charset=";
+	public $defaultMeta = true;
 	
 	public $head = false;
 	public $body = false;
@@ -114,10 +114,17 @@ class Document{
 	public function render(){
 		switch($this->type){
 			case "html":
-				if($this->content_type!=""){
-					//$meta = new HTML("meta")
-					//$meta->setAttribute("http-equiv","Content-Type");
-					//$meta->content = $this->content_type.$this->charset;
+				if($this->defaultMeta){
+					$meta1 = new HTML("meta");
+					$meta1->{"http-equiv"} = "Content-Type";
+					$meta1->content = "text/html; charset=$this->charset";
+
+					$meta2 = new HTML("meta");
+					$meta2->name = "viewport";
+					$meta2->content = "width=device-width, initial-scale=1";
+
+					$this->addMeta($meta1);
+					$this->addMeta($meta2);
 				}
 
 				$html = new HTML("html");

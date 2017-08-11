@@ -102,7 +102,7 @@ class Request{
 		
 		
 		$doc = new Document();
-		
+		/*
 		$meta1 = new HTML("meta");
 		$meta1->{"http-equiv"} = "Content-Type";
 		$meta1->content = "text/html; charset=utf-8";
@@ -113,6 +113,7 @@ class Request{
 		
 		$doc->addMeta($meta1);
 		$doc->addMeta($meta2);
+		*/
 
 		$doc->setTitle("Sevian 2017");
 		
