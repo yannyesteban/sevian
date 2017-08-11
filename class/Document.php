@@ -144,7 +144,6 @@ class Document{
 				$html->appendChild($body);
 				$html->appendChild("\n");
 				$html->appendChild($this->scriptDocEnd);
-				
 				$html->appendChild($this->scriptEnd);
 				$html->appendChild("\n");
 
