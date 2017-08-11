@@ -506,7 +506,7 @@ class Sevian{
 		
 		$json = json_encode($opt);
 		
-		$this->script = "sevian.init($json)";
+		$this->script = "\nsevian.init($json);";
 		
 		$this->cfg["INFO"] = $this->_info;
 		

@@ -227,7 +227,7 @@ include("../class/Document.php");
 include("../class/Form.php");
 include("../class/Panel.php");
 include("../class2/sg_html.php");
-include("../class2/sgHTMLDoc.php");
+//include("../class2/sgHTMLDoc.php");
 include("../class/sgTool.php");
 include("../class/sgPanel.php");
 include("../class/Sevian.php");
@@ -248,7 +248,7 @@ $sevian = new Sevian(array(
 	"signs"			=> $listen,
 	//"sequence2" => $seq2,
 ));
-$request = new Request($init);
+$request = new Sevian\Request($init);
 
 
 echo $request->render();

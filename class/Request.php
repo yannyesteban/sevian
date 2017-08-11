@@ -1,6 +1,6 @@
 <?php
 
-
+namespace Sevian;
 class Request{
 	
 	public $template = "sevian 2.0";
@@ -101,7 +101,19 @@ class Request{
 		global $sevian;
 		
 		
-		$doc = new sgHTMLDoc();
+		$doc = new Document();
+		
+		$meta1 = new HTML("meta");
+		$meta1->{"http-equiv"} = "Content-Type";
+		$meta1->content = "text/html; charset=utf-8";
+
+		$meta2 = new HTML("meta");
+		$meta2->name = "viewport";
+		$meta2->content = "width=device-width, initial-scale=1";
+		
+		$doc->addMeta($meta1);
+		$doc->addMeta($meta2);
+
 		$doc->setTitle("Sevian 2017");
 		
 		foreach($this->cssSheetsDefault as $v){
@@ -124,7 +136,7 @@ class Request{
 		}
 		
 		foreach($this->jsFilesDefault as $v){
-			$doc->appendScriptDoc($v["file"], true);
+			$doc->appendScriptDoc($v["file"], false);
 		}
 		
 		foreach($this->jsFiles as $v){

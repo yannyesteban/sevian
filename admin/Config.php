@@ -14,14 +14,14 @@ $actions = [];
 $themes["sevian"] = [
 	"css"		=> [
 		"../themes/sevian/css/Sevian.css",
-		"Main.css",
-		"Window.css",
-		"Menu.css",
-		"Calendar.css",
-		"Tab.css",
-		"Ajax.css",
-		"SelectText.css",
-		"Form.css"
+		//"Main.css",
+		//"Window.css",
+		//"Menu.css",
+		//"Calendar.css",
+		//"Tab.css",
+		//"Ajax.css",
+		//"SelectText.css",
+		//"Form.css"
 	],
 	"js"		=> [
 		"uno.js"
