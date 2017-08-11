@@ -22,7 +22,7 @@ $conections["_config"] = array(
 	"port"		=> "3306",
 	"user"		=> "root",
 	"pass"		=> "123456",
-	"dbase"		=> "cfg_lab",
+	"dbase"		=> "sevian_2017",
 	"charset"	=> "utf-8"
 );
 
