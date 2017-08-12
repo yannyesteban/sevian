@@ -112,8 +112,7 @@
       background-color: rgba(0, 0, 0, 0.25); }
     .sg-menu .item > .option > .icon, .sg_menu .item > .option > .icon {
       height: 24px;
-      width: 24px;
-      display: none; }
+      width: 24px; }
     .sg-menu .item > .option img, .sg_menu .item > .option img {
       height: 100%;
       width: 100%; }

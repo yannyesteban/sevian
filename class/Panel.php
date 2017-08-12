@@ -58,6 +58,10 @@ class Panel{
 		
 	}
 	
+	public function design(){
+		
+	}
+	
 	public function render(){
 		
 		return $this->html;

@@ -137,7 +137,7 @@ class Request{
 		}
 		
 		foreach($this->jsFilesDefault as $v){
-			$doc->appendScriptDoc($v["file"], false);
+			$doc->appendScriptDoc($v["file"], $v["begin"]);//
 		}
 		
 		foreach($this->jsFiles as $v){

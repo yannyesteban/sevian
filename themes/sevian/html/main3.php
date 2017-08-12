@@ -4,8 +4,8 @@
 		<div class="p-banner"></div>
 		<div class="p-menu"></div>
 		<div class="p-main">
-			<div class="m-menu">--1--</div>
-			<div class="m-body">--6--</div>
+			<div class="m-menu">--1----3----2--</div>
+			<div class="m-body"></div>
 			
 		</div>
 		
@@ -20,7 +20,7 @@
 	--3--
 	--4--
 	--5--
-	
+	--6--
 	--7--
 	--8--
 	--9--

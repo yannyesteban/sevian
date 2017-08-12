@@ -345,7 +345,7 @@ $sevian = new Sevian(array(
 	"signs"			=> $listen,
 	//"sequence2" => $seq2,
 ));
-$request = new Request($init);
+$request = new Sevian\Request($init);
 
 
 echo $request->render();

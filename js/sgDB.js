@@ -1,11 +1,8 @@
 // JavaScript Document
 
-var db=false, hr=false;
+var db = false, hr = false;
 (function($){
-	
-	$(window).on("load", function(){
 		var linea = 0;
-
 		var div = $.create("div");
 		div.prop("id","debug_1");
 		div.style({
@@ -25,6 +22,8 @@ var db=false, hr=false;
 			linea = 0;
 			this.innerHTML = "";
 		});
+		
+		
 		hr = db = function(msg, color, back, clear){
 
 			color = color || "black";
@@ -44,7 +43,7 @@ var db=false, hr=false;
 		
 		
 		
-	});
+	
 	
 		
 	

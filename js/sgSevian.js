@@ -1,10 +1,20 @@
 // JavaScript Document
 
+/*****************************************************************
+Modificado: 12/08/2017
+por: Yanny Nuñez
+Version: 1.0
+*****************************************************************/
+
+if(!Sevian){
+	var Sevian = {};
+}
+
 var sevian = false;
 
 
 
-(function($, sgWindow){
+(function(namespace, $, sgWindow){
 	var _p = [];
 	
 	var _winOptions = {
@@ -474,5 +484,6 @@ var sevian = false;
 	];
 	//alert(info[0].setPanel.name);	
 	
+	namespace.action = sevian;
 	
-})(_sgQuery, sgWindow)
+})(Sevian, _sgQuery, sgWindow)

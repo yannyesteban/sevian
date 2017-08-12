@@ -71,8 +71,9 @@ $commands["procedure"] = [
 $PATH = SS_PATH;
 
 $cssSheets = array(
+	"{$PATH}css/Menu.css",
 	
-	"{$PATH}css/sgMenu.css",
+	//"{$PATH}css/sgMenu.css",
 	"{$PATH}css/sgWindow.css",
 	"{$PATH}css/sgCalendar.css",
 	"{$PATH}css/selectText.css",
@@ -82,13 +83,15 @@ $cssSheets = array(
 
 );
 
-$jsFiles[] = array("file" => "{$PATH}_js/_sgQuery.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/sgAjax.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/drag.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/sgWindow.js", "begin" => true);
+$jsFiles[] = array("file" => "{$PATH}_js/_sgQuery.js", "begin" => false);
+$jsFiles[] = array("file" => "{$PATH}js/sgAjax.js", "begin" => false);
+$jsFiles[] = array("file" => "{$PATH}js/drag.js", "begin" => false);
+$jsFiles[] = array("file" => "{$PATH}js/sgWindow.js", "begin" => false);
 $jsFiles[] = array("file" => "{$PATH}js/sgDB.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/sgInit.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/sgSevian.js", "begin" => true);
-$jsFiles[] = array("file" => "{$PATH}js/sgTab.js", "begin" => true);
+$jsFiles[] = array("file" => "{$PATH}js/sgInit.js", "begin" => false);
+$jsFiles[] = array("file" => "{$PATH}js/sgSevian.js", "begin" => false);
+$jsFiles[] = array("file" => "{$PATH}js/sgTab.js", "begin" => false);
+
+$jsFiles[] = array("file" => "{$PATH}js/Sevian/Menu.js", "begin" => false);
 
 ?>

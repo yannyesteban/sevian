@@ -75,9 +75,13 @@ $conections["sevian_2017_pg"] = array(
 	"dbase"		=> "sevian_2017",
 	"charset"	=> "utf-8"
 );
+$clsElement["Menu1"] = [
+	"file" 	=> "../admin/Menu1.php",
+	"class" => "Menu1"];
+
 $elements[] = array(
 	"panel"		=>1,
-	"element"	=>"Fragment",
+	"element"	=>"Menu1",
 	"name"		=>"uno",
 	"method"	=>"toolbar",
 	"designMode"=>false,
@@ -224,11 +228,17 @@ include("../class/Debug/Log.php");
 include("../class/Connection.php");
 include("../class/HTML.php");
 include("../class/Document.php");
+
+include("../class/Menu.php");
+
 include("../class/Form.php");
 include("../class/Panel.php");
 include("../class2/sg_html.php");
 //include("../class2/sgHTMLDoc.php");
 include("../class/sgTool.php");
+
+include("../class/Action.php");
+
 include("../class/sgPanel.php");
 include("../class/Sevian.php");
 include("../class/Request.php");

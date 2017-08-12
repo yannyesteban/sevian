@@ -72,8 +72,6 @@ var sgMenu;
 	
 		this._checkOver = false;
 		
-		
-		
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
@@ -259,7 +257,7 @@ var sgMenu;
 				this._popup = this._menu;
 				//this._menu.ds("sgMenuType", "submenu");
 				//this._menu.addClass("popup");
-				this._menu.get().style.visibility="hidden"
+				//this._menu.get().style.visibility ="hidden";
 				this._menu.style({
 					position: "fixed",
 					userSelect: "none",
@@ -425,13 +423,13 @@ var sgMenu;
 			d.forEach(function(e){
 				e = $(e);
 				var opt = {
-					id: ME._id++,
+					id: ME._id,
 					parentId: parentId,
 					main: e,
 					wIcon: false
 					
 				};
-				
+					
 				ME.add(opt);
 				
 				if(e.query("ul")){
@@ -595,7 +593,7 @@ var sgMenu;
 				menu.append(sep);
 			}
 			
-			if(!opt.main){
+			if(!item.main){
 				menu.append(item.get());
 			}
 			
