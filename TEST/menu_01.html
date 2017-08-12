@@ -133,70 +133,74 @@
 		caption:"Menú Principal",
 		"className":["sg_menu","accordion"],"type":"default","pullDeltaX":10,"pullDeltaY":10,
 		wCheck: true,
-		oncheck: function(checked, id, parentId, level){
+		wIcon:true,
+		
+		oncheck: function(checked, index, parent, level){
 			
-			//db(this.id)
+			//db(this.index)
 		},
 		
 		
 	});
-	menu.add({id:menu.getIndex(), caption: "Extra...", parentId : 0, _action:"alert(1)", icon:"../../Iconos/book.png", wCheck: true});
+	menu.add({index:menu.getIndex(), caption: "Extra...", parent : 0, _action:"alert(1)", icon:"../../Iconos/book.png", wCheck: true});
 	//menu.getIndex();
 	
 		
 	
 	var menu = new Sevian.Menu({
 		wCheck: true,
+		wIcon:true,
 		target:"#menu2",
 		caption:"Menu Principal 2",
 		"className":false,"type":"default","pullDeltaX":10,"pullDeltaY":10,
-		oncheck: function(checked, id, parentId, level){
+		oncheck: function(checked, index, parent, level){
 			
 			//db(menu.type)
 		},
 	});
 	
 	
-	menu.add({id:0, caption: "uno", parentId : false, _action:"alert(1)", icon:"../../Iconos/book.png", wCheck: true});
-	menu.add({id:1, caption: "dos", parentId : false, _action:"alert(1)", icon:"../../Iconos/user.png"});
-	menu.add({id:2, caption: "tres", parentId : false, _action:"alert(1)", icon:"../../Iconos/paste.png"});
-	menu.add({id:3, caption: "Alpha", parentId : 2, _action:"alert(1)", icon:"../../Iconos/Register.png"});
-	menu.add({id:4, caption: "Beta", parentId : 2, _action:"alert(1)", icon:"../../Iconos/login.png"});
-	menu.add({id:5, caption: "Gamma", parentId : 1, _action:"alert(1)", icon:"../../Iconos/client.png", urlTarget: "pepe", url:"gamma/uno.html"});
-	menu.add({id:6, caption: "Delta", parentId : 1, _action:"alert(1)", icon:"../../Iconos/database.png"});
+	menu.add({index:0, caption: "uno", parent : false, _action:"alert(1)", icon:"../../Iconos/book.png", wCheck: true});
+	menu.add({index:1, caption: "dos", parent : false, _action:"alert(1)", icon:"../../Iconos/user.png"});
+	menu.add({index:2, caption: "tres", parent : false, _action:"alert(1)", icon:"../../Iconos/paste.png"});
+	menu.add({index:3, caption: "Alpha", parent : 2, _action:"alert(1)", icon:"../../Iconos/Register.png"});
+	menu.add({index:4, caption: "Beta", parent : 2, _action:"alert(1)", icon:"../../Iconos/login.png"});
+	menu.add({index:5, caption: "Gamma", parent : 1, _action:"alert(1)", icon:"../../Iconos/client.png", urlTarget: "pepe", url:"gamma/uno.html"});
+	menu.add({index:6, caption: "Delta", parent : 1, _action:"alert(1)", icon:"../../Iconos/database.png"});
 	
-	menu.add({id:7, caption: "71", parentId : false, _action:"alert(1)", icon:"../../Iconos/Select-language.png"});
-	menu.add({id:8, caption: "8", parentId : 7, _action:"alert(1)"});
-	menu.add({id:9, caption: "9", parentId : 7, _action:"alert(1)"});
-	menu.add({id:10, caption: "10", parentId : 7, _action:"alert(1)"});	
+	menu.add({index:7, caption: "71", parent : false, _action:"alert(1)", icon:"../../Iconos/Select-language.png"});
+	menu.add({index:8, caption: "8", parent : 7, _action:"alert(1)"});
+	menu.add({index:9, caption: "9", parent : 7, _action:"alert(1)"});
+	menu.add({index:10, caption: "10", parent : 7, _action:"alert(1)"});	
 	
 	
-	menu.add({id:11, caption: "OPtion 11", parentId : 6, action:"alert(11)"});
-	menu.add({id:12, caption: "OPtion 12", parentId : 6, action:"alert(12)"});
-	menu.add({id:13, caption: "OPtion 13", parentId : 6, action:"alert(13)"});	
+	menu.add({index:11, caption: "OPtion 11", parent : 6, action:"alert(11)"});
+	menu.add({index:12, caption: "OPtion 12", parent : 6, action:"alert(12)"});
+	menu.add({index:13, caption: "OPtion 13", parent : 6, action:"alert(13)"});	
 	
-	menu.add({id:menu.getIndex(), caption: "Extra...", parentId : 0, _action:"alert(1)", icon:"../../Iconos/book.png", wCheck: true});
+	menu.add({index:menu.getIndex(), caption: "Extra...", parent : 0, _action:"alert(1)", icon:"../../Iconos/book.png", wCheck: true});
 	
 	var menu = new Sevian.Menu({
 		wCheck: true,
 		target:"#menu2",
 		caption:"Menu Principal 2",
+		wIcon:true,
 		"className":false,"type":"accordiony","pullDeltaX":10,"pullDeltaY":10
 	});
 	
 	
-	menu.add({id:0, caption: "uno", parentId : false, _action:"alert(1)", classImage:"sx"});
-	menu.add({id:1, caption: "dos", parentId : false, _action:"alert(1)", icon:"../../Iconos/edit.png"});
-	menu.add({id:2, caption: "tres", parentId : false, _action:"alert(1)", icon:"../../Iconos/delete.png"});
-	menu.add({id:3, caption: "Alpha", parentId : 2, _action:"alert(1)", icon:"../../Iconos/Register.png"});
-	menu.add({id:4, caption: "Beta", parentId : 2, _action:"alert(1)", icon:"../../Iconos/login.png"});
-	menu.add({id:5, caption: "Gamma", parentId : 1, _action:"alert(1)", icon:"../../Iconos/client.png"});
-	menu.add({id:6, caption: "Delta", parentId : 1, _action:"alert(1)", icon:"../../Iconos/database.png"});
+	menu.add({index:0, caption: "uno", parent : false, _action:"alert(1)", classImage:"sx"});
+	menu.add({index:1, caption: "dos", parent : false, _action:"alert(1)", icon:"../../Iconos/edit.png"});
+	menu.add({index:2, caption: "tres", parent : false, _action:"alert(1)", icon:"../../Iconos/delete.png"});
+	menu.add({index:3, caption: "Alpha", parent : 2, _action:"alert(1)", icon:"../../Iconos/Register.png"});
+	menu.add({index:4, caption: "Beta", parent : 2, _action:"alert(1)", icon:"../../Iconos/login.png"});
+	menu.add({index:5, caption: "Gamma", parent : 1, _action:"alert(1)", icon:"../../Iconos/client.png"});
+	menu.add({index:6, caption: "Delta", parent : 1, _action:"alert(1)", icon:"../../Iconos/database.png"});
 	
-	menu.add({id:7, caption: "71", parentId : false, _action:"alert(1)", icon:"../../Iconos/calendar.png"});
-	menu.add({id:8, caption: "8", parentId : 7, _action:"alert(1)"});
-	menu.add({id:9, caption: "9", parentId : 7, _action:"alert(1)"});
-	menu.add({id:10, caption: "10", parentId : 7, _action:"alert(1)"});	
+	menu.add({index:7, caption: "71", parent : false, _action:"alert(1)", icon:"../../Iconos/calendar.png"});
+	menu.add({index:8, caption: "8", parent : 7, _action:"alert(1)"});
+	menu.add({index:9, caption: "9", parent : 7, _action:"alert(1)"});
+	menu.add({index:10, caption: "10", parent : 7, _action:"alert(1)"});	
 	
 	
 	
@@ -212,7 +216,7 @@
 		caption:"Menú Secundario1",
 			
 		wCheck: true,
-		check:function(value, id, parentId, level){
+		check:function(value, id, parent, level){
 			//alert(value)
 			db(444+"..."+id+"---"+value+" level: "+level);
 			
@@ -224,7 +228,7 @@
 	
 	m.add({
 		id:0,
-		parentId:false,
+		parent:false,
 		text:"opcion 0",
 		checked: true,
 		_className:"uu",
@@ -242,7 +246,7 @@
 
 	m.add({
 		id:1,
-		parentId:0,
+		parent:0,
 		text:"opcion 1",
 		class:"",
 		icon:"images/maps_02.png",
@@ -257,7 +261,7 @@
 
 	m.add({
 		id:2,
-		parentId:false,
+		parent:false,
 		text:"opcion 2",
 		class:"",
 		icon:"",
@@ -269,7 +273,7 @@
 
 	m.add({
 		id:3,
-		parentId:false,
+		parent:false,
 		text:"opcion 3",
 		class:"",
 		icon:"",
@@ -279,7 +283,7 @@
 	})
 	m.add({
 		id:4,
-		parentId:2,
+		parent:2,
 		text:"opcion 4",
 		class:"",
 		icon:"images/history_02.png",
@@ -290,7 +294,7 @@
 	})
 	m.add({
 		id:5,
-		parentId:2,
+		parent:2,
 		text:"opcion 5",
 		class:"",
 		icon:"",
@@ -303,7 +307,7 @@
 
 	m.add({
 		id:6,
-		parentId:4,
+		parent:4,
 		text:"opcion 6",
 		class:"",
 		icon:"images/history_02.png",
@@ -314,7 +318,7 @@
 
 	m.add({
 		id:7,
-		parentId:4,
+		parent:4,
 		text:"opcion 7",
 		class:"",
 		icon:"",
@@ -325,7 +329,7 @@
 
 	m.add({
 		id:8,
-		parentId:6,
+		parent:6,
 		text:"opcion 8",
 		class:"",
 		icon:"",
@@ -339,7 +343,7 @@
 	
 	m.add({
 		id:9,
-		parentId:6,
+		parent:6,
 		text:"opcion 9",
 		class:"",
 		icon:"",
@@ -351,7 +355,7 @@
 
 	m.add({
 		id:10,
-		parentId:9,
+		parent:9,
 		text:"opcion 10",
 		class:"",
 		icon:"",
@@ -362,7 +366,7 @@
 
 	m.add({
 		id:11,
-		parentId:9,
+		parent:9,
 		text:"opcion 11",
 		class:"",
 		icon:"",
@@ -374,7 +378,7 @@
 
 	m.add({
 		id:12,
-		parentId:6,
+		parent:6,
 		text:"opcion 12",
 		class:"",
 		icon:"",
@@ -391,7 +395,7 @@
 
 	m.add({
 		id:13,
-		parentId:12,
+		parent:12,
 		text:"opcion 13",
 		class:"",
 		icon:"",
@@ -401,7 +405,7 @@
 
 	m.add({
 		id:14,
-		parentId:12,
+		parent:12,
 		text:"opcion 14",
 		class:"",
 		icon:"",
@@ -412,7 +416,7 @@
 
 	m.add({
 		id:15,
-		parentId:14,
+		parent:14,
 		text:"opcion 15",
 		class:"",
 		icon:"",
@@ -421,7 +425,7 @@
 	});
 	m.add({
 		id:16,
-		parentId:14,
+		parent:14,
 		text:"opcion 16",
 		class:"",
 		icon:"",
@@ -431,7 +435,7 @@
 
 	m.add({
 		id:17,
-		parentId:16,
+		parent:16,
 		text:"opcion 17",
 		class:"",
 		icon:"",
@@ -440,7 +444,7 @@
 	});
 	m.add({
 		id:18,
-		parentId:16,
+		parent:16,
 		text:"opcion 18",
 		class:"",
 		icon:"",
@@ -450,7 +454,7 @@
 
 	m.add({
 		id:19,
-		parentId:3,
+		parent:3,
 		text:"opcion 19",
 		class:"",
 		icon:"",
@@ -460,7 +464,7 @@
 
 		m.add({
 		id:20,
-		parentId:4,
+		parent:4,
 		text:"opcion 20",
 		class:"",
 		icon:"images/history_02.png",
@@ -471,7 +475,7 @@
 	
 	m.add({
 		id:21,
-		parentId:4,
+		parent:4,
 		text:"opcion 21",
 		class:"",
 		icon:"images/history_02.png",

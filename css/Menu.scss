@@ -152,13 +152,18 @@
 		background-color: rgba(127,127,127,1.00);
 		color:rgba(236,236,236,1.00);
 		text-align: center;
-		padding:4px;
-		
+		line-height:2.6em;
+		margin:1px;
 		background-color: rgba(50, 50, 50, 0.67);
 		color:rgba(236,236,236,1.00);
 		font-weight: bold;
-		text-align: center;
-		padding:4px;
+		
+		
+	}
+	
+	.item{
+		//margin: 2px 0 2px 0;
+		padding: 1px;
 	}
 	
 	.item > .option{
@@ -170,11 +175,12 @@
 		height: 30px;
 		width: 100%;
 		display: flex;
+		//margin: 0 2px 0 2px ;
 		justify-content: flex-start;
 		align-items: center;
 		//color: rgba(118,118,118,1.00);
 		//border-bottom: 1px solid rgba(213,226,243,1.00);
-		margin: 2px;
+		
 		outline: 0;
 		text-decoration: none;
 		&:hover{

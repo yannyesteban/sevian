@@ -12,16 +12,21 @@ class Menu1 extends Sevian\Panel{
 			"id"=>"menu22",
 			"caption"=>"Menú Secundario",
 			"type"=>"default",
+			"dinamic"=>true,
+			"wIcon"=>true,
+			
 			//"pullDeltaX"=>15
 			
 			
 		]);
 		
 		$menu->add([
-			"id"=>0,
-			"parentId"=>false,
+			"id"=>"item1001",
+			"index"=>0,
+			"parent"=>false,
 			"caption"=>"Option 1",
 			"action"=>"alert(1);",
+			"classImage"=>"sx",
 			"events"=>[
 				"click"=>"alert(2);"
 
@@ -29,35 +34,36 @@ class Menu1 extends Sevian\Panel{
 			
 		]);
 		$menu->add([
-			"id"=>1,
-			"parentId"=>false,
+			"index"=>1,
+			"parent"=>false,
 			"caption"=>"Option 2"
 		]);
 		$menu->add([
-			"id"=>2,
-			"parentId"=>false,
-			"caption"=>"Option 3"
+			"index"=>2,
+			"parent"=>false,
+			"caption"=>"Option 3",
+			"icon"=>"../../Iconos/edit.png",
 		]);
 		$menu->add([
-			"id"=>3,
-			"parentId"=>false,
+			"index"=>3,
+			"parent"=>false,
 			"caption"=>"Option 4"
 		]);
 		
 		$menu->add([
-			"id"=>4,
-			"parentId"=>3,
+			"index"=>4,
+			"parent"=>3,
 			"caption"=>"Option 41"
 		]);
 		$menu->add([
-			"id"=>5,
-			"parentId"=>3,
+			"index"=>5,
+			"parent"=>3,
 			"caption"=>"Option 42"
 		]);
 
 		$menu->add([
-			"id"=>6,
-			"parentId"=>3,
+			"index"=>6,
+			"parent"=>3,
 			"caption"=>"Option 43"
 		]);
 		$this->html = $menu->render();

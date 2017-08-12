@@ -9,7 +9,11 @@ class MenuItem extends HTML implements \JsonSerializable{
 	private $_submenu = false;
 	public $action = false;
 	public $events = array();
-	
+	public $classImage = false;
+	public $id = false;
+	public $index = false;
+	public $parent = false;
+	public $icon = false;
 	
 	public function jsonSerialize(){
 		return array_filter((array)$this, function($value){
@@ -22,39 +26,43 @@ class MenuItem extends HTML implements \JsonSerializable{
 	public function __construct($opt){
 		foreach($opt as $k => $v){
 			
-			if($k == "id"){
-				continue;
-			}
-			
 			$this->$k = $v;
 			
 		}
 		$this->class = "item";
 		
 		$option = $this->add("a");
-		$icon = $option->add("div");
-		$caption = $option->add("span");
-		
 		$option->class = "option";
-		$icon->class = "icon sx";
-		$caption->class = "caption";
-		
-		if($this->action){
-			$option->onclick = $this->action;
-		}
-		
-		foreach($this->events as $k => $v){
+		$option->id = $this->id;
+		if($this->wIcon){
+			$icon = $option->add("div");
+			$icon->class = "icon";
+			if($this->classImage){
+
+				$icon->class .= " ".$this->classImage;
+			}
 			
-			$k = "on$k";
-			
-			if(!isset($option->$k)){
-				$option->$k = $v;
-			}else{
-				$option->$k .= $v;
+			if($this->icon){
+				$img = $icon->add("img");
+				$img->src = $this->icon;
 			}
 			
 		}
+			
+		$caption = $option->add("span");
+		$caption->class = "caption";
 		
+		foreach($this->events as $k => $v){
+			$option->{"on$k"} = $v;
+		}
+
+		if($this->action){
+			if(!isset($option->onclick)){
+				$option->onclick = $this->action;
+			}else{
+				$option->onclick .= $this->action;
+			}
+		}
 
 		$caption->innerHTML = $this->caption;
 		
@@ -104,7 +112,7 @@ class Menu implements \JsonSerializable{
 	public $type = "normal";
 	public $mode = "default";
 	public $caption = false;
-	
+	private $dinamic = true;
 	public $value = false;
 	public $className = false;
 	public $items = false;
@@ -122,7 +130,10 @@ class Menu implements \JsonSerializable{
 	private $_item = array();
 	
 	
+	
 	private $_menu = [];
+	
+	
 	public function jsonSerialize(){
 		
 		return $this;
@@ -154,9 +165,9 @@ class Menu implements \JsonSerializable{
 	
 	public function add($opt){
 		
-		$this->_item[$opt["id"]] = $opt;
+		$this->_item[$opt["index"]] = $opt;
 		
-		$opt["ref"] = true;
+		
 		
 		//$this->items[] = $opt;
 		
@@ -167,8 +178,18 @@ class Menu implements \JsonSerializable{
 		
 		$main = new HTML("div");
 		$main->id = $this->id;
+		
+		
+		if($this->dinamic){
+			
+			$this->target = $main->id;
+			$this->items = &$this->_item;
+			return $main->render();
+		}
+		
 		$this->main = $main->id;
 		$main->class = "sg-menu";
+		
 		
 		if($this->caption !== false){
 			
@@ -187,20 +208,29 @@ class Menu implements \JsonSerializable{
 			
 			$_menu = $menu;
 			
+			
+			if($this->wIcon){
+				$item["wIcon"] = true; 
+			}
+			if($this->wCheck){
+				$item["wCheck"] = true; 
+			}
+			
+			
 			$items[$k] = $_item = new MenuItem($item);
 			
-			if($_item->parentId !== false){
+			if($_item->parent !== false){
 				
-				$parent = $items[$_item->parentId];
-				
-				
+				$parent = $items[$_item->parent];
 				
 				
-				if(!isset($this->_menu[$_item->parentId])){
+				
+				
+				if(!isset($this->_menu[$_item->parent])){
 					
 					$parent->createMenu();
 					
-					$this->_menu[$_item->parentId] = true;
+					$this->_menu[$_item->parent] = true;
 					
 				}
 				$_menu = $parent->getMenu();

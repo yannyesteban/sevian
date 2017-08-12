@@ -87,12 +87,13 @@
     background-color: #7f7f7f;
     color: #ececec;
     text-align: center;
-    padding: 4px;
+    line-height: 2.6em;
+    margin: 1px;
     background-color: rgba(50, 50, 50, 0.67);
     color: #ececec;
-    font-weight: bold;
-    text-align: center;
-    padding: 4px; }
+    font-weight: bold; }
+  .sg-menu .item, .sg_menu .item {
+    padding: 1px; }
   .sg-menu .item > .option, .sg_menu .item > .option {
     background-color: rgba(0, 0, 0, 0.16);
     color: white;
@@ -101,7 +102,6 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin: 2px;
     outline: 0;
     text-decoration: none; }
     .sg-menu .item > .option:hover, .sg_menu .item > .option:hover {
