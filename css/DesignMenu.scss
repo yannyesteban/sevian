@@ -1,0 +1,22 @@
+/* Scss Document */
+
+
+.design{
+	
+	
+	border:1px solid red;
+	min-height: 50px;
+	
+	padding:10px;
+	.menu{
+		border:1px solid green;
+		min-height: 50px;
+		
+		.item{
+			margin:4px;
+			padding: 4px;
+			border:1px solid white;
+		}
+		
+	}
+}

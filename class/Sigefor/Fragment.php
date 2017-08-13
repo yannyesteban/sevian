@@ -39,7 +39,7 @@ class Fragment extends Sevian\Panel{
 	public function render(){
 		
 		$this->execute();
-		return $this->html;
+		return $this->html."...";
 		
 	}
 	

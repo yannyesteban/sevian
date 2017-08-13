@@ -79,7 +79,8 @@ $cssSheets = array(
 	"{$PATH}css/selectText.css",
 	"{$PATH}css/sgTab.css",
 	"{$PATH}css/sgAjax.css",
-	"{$PATH}css/grid.css"
+	"{$PATH}css/grid.css",
+	"{$PATH}css/DesignMenu.css"
 
 );
 
@@ -93,5 +94,6 @@ $jsFiles[] = array("file" => "{$PATH}js/sgSevian.js", "begin" => false);
 $jsFiles[] = array("file" => "{$PATH}js/sgTab.js", "begin" => false);
 
 $jsFiles[] = array("file" => "{$PATH}js/Sevian/Menu.js", "begin" => false);
+$jsFiles[] = array("file" => "{$PATH}js/Sevian/DesignMenu.js", "begin" => false);
 
 ?>

@@ -78,10 +78,20 @@ $conections["sevian_2017_pg"] = array(
 $clsElement["Menu1"] = [
 	"file" 	=> "../admin/Menu1.php",
 	"class" => "Menu1"];
-
+$clsElement["Design"] = [
+	"file" 	=> "../admin/DesignMenu.php",
+	"class" => "DesignMenu"];
 $elements[] = array(
 	"panel"		=>1,
 	"element"	=>"Menu1",
+	"name"		=>"uno",
+	"method"	=>"toolbar",
+	"designMode"=>false,
+	"fixed"		=>true,
+);
+$elements[] = array(
+	"panel"		=>4,
+	"element"	=>"Design",
 	"name"		=>"uno",
 	"method"	=>"toolbar",
 	"designMode"=>false,

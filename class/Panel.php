@@ -69,7 +69,7 @@ class Panel{
 	
 	private function getInfoRequest(){
 		
-		$info = new InfoRequest();
+		$info = new \InfoRequest();
 		
 		$info->panel = $this->panel;
 		$info->targetId = "";//$this->targetId;

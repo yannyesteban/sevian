@@ -8,11 +8,68 @@ class Menu1 extends Sevian\Panel{
 	
 	public function render(){
 		
+		
+		$action = Sevian\Action::Send([
+			"async"=>true,
+			"panel"=>4,
+			"valid"=>false,
+			"params"=>[
+				[
+					"setPanel"=>[
+						"panel"=>4,
+						"element"=>"menu",
+						"name"=>"uno",
+						"method"=>"load",
+					],
+				]
+				
+			]
+			
+		]);
+		
+		$action2 = Sevian\Action::Send([
+			"async"=>true,
+			"panel"=>4,
+			"valid"=>false,
+			"params"=>[
+				[
+					"setPanel"=>[
+						"panel"=>4,
+						"element"=>"Fragment",
+						"name"=>"uno",
+						"method"=>"load",
+					],
+				]
+				
+			]
+			
+		]);
+		
+		$action3 = Sevian\Action::Send([
+			"async"=>true,
+			"panel"=>4,
+			"valid"=>false,
+			"params"=>[
+				[
+					"setPanel"=>[
+						"panel"=>4,
+						"element"=>"Design",
+						"name"=>"uno",
+						"method"=>"load",
+					],
+				]
+				
+			]
+			
+		]);
+		
+	//	echo $action;
+		
 		$menu = new Sevian\Menu([
 			"id"=>"menu22",
 			"caption"=>"Menú Secundario",
 			"type"=>"default",
-			"dinamic"=>true,
+			"dinamic"=>false,
 			"wIcon"=>true,
 			
 			//"pullDeltaX"=>15
@@ -25,10 +82,10 @@ class Menu1 extends Sevian\Panel{
 			"index"=>0,
 			"parent"=>false,
 			"caption"=>"Option 1",
-			"action"=>"alert(1);",
+			"action"=>$action,
 			"classImage"=>"sx",
 			"events"=>[
-				"click"=>"alert(2);"
+				//"click"=>"alert(2);"
 
 			]
 			
@@ -36,12 +93,14 @@ class Menu1 extends Sevian\Panel{
 		$menu->add([
 			"index"=>1,
 			"parent"=>false,
-			"caption"=>"Option 2"
+			"caption"=>"Option 2",
+			"action"=>$action2,
 		]);
 		$menu->add([
 			"index"=>2,
 			"parent"=>false,
-			"caption"=>"Option 3",
+			"caption"=>"Design Menu",
+			"action"=>$action3,
 			"icon"=>"../../Iconos/edit.png",
 		]);
 		$menu->add([

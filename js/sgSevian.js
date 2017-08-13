@@ -333,7 +333,7 @@ var sevian = false;
 			if(opt.async){
 				var ME = this;
 				var ajax = new sgAjax({
-					url: "index.php",
+					url: "",
 					method: "post",
 					form: dataForm,
 					

@@ -33,9 +33,9 @@ class Request{
 		$a='[
 		{
 			"setPanel":{
-				"panel":8,
-				"element":"menu",
-				"name":"prueba 01",
+				"panel":4,
+				"element":"Fragment",
+				"name":"uno",
 				"method":"load",
 				
 				"eparams":{
