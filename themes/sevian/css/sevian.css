@@ -50,7 +50,8 @@ body {
       border: 0px solid #bcbcbc; }
     .sevian .panel_left .p-main {
       display: flex;
-      flex-direction: row; }
+      flex-direction: row;
+      overflow: auto; }
       .sevian .panel_left .p-main .m-menu {
         border: 0px solid #c7c7c7;
         flex: 0 0 260px;
@@ -60,7 +61,8 @@ body {
         border: 0px solid #c7c7c7;
         flex: 1 1 auto;
         margin: 1px;
-        background-color: rgba(187, 187, 187, 0.49); }
+        background-color: rgba(187, 187, 187, 0.49);
+        overflow: auto; }
   .sevian .panel_right {
     margin: 2px;
     flex: 0 0 310px;

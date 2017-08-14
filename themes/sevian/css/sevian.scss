@@ -97,7 +97,7 @@ body{
 		.p-main{
 			display: flex;
 			flex-direction: row;
-			
+			overflow: auto;
 			.m-menu{
 				border: $border3;
 				flex:0 0 260px;
@@ -109,6 +109,7 @@ body{
 				flex:1 1 auto;
 				margin: 1px;
 				background-color: rgba(187,187,187,0.49);
+				overflow: auto;
 			}
 		}
 	}

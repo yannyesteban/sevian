@@ -8,6 +8,32 @@ if(!Sevian.Input){
 var sgDesignMenu = false;
 (function(namespace, $){
 	
+	var allowDrop = function(event){
+		event.preventDefault();
+	};
+	var drag = function(event) {
+		event.dataTransfer.setData("text", event.target.id);
+	};	
+	var drop = function(event) {
+		event.preventDefault();
+		var data = event.dataTransfer.getData("text");
+		event.target.appendChild(document.getElementById(data));
+	};
+	
+	var _dragOver = function(event){
+		event.preventDefault();
+		event.stopPropagation();
+	};
+	
+	
+	var moveTo = function(from, to){
+		
+		
+		
+		
+	};
+	
+	
 	
 	var Item = function(opt){
 		this._target = false;
@@ -18,20 +44,159 @@ var sgDesignMenu = false;
 			//}
 			
 		}
-		
+		this._menu = false;
 		this._target = $(this.target);
 		this.create();
 		
 	};
 	Item.prototype = {
+		
+		get: function(){
+			return this._main;	
+		},
+		
+		createMenu: function(){
+			if(!this._menu){
+				
+				this._menu = this._main.create("UL").addClass("submenu");
+			}
+			
+			
+		},
+		
+		getMenu: function(){
+			if(!this._menu){
+				this.createMenu();
+			}
+			return this._menu;
+			
+		},
+		
 		create: function(){
 			
 			
-			this._main = this._target.create("div");
+			this._main = this._target.create("LI").addClass("item").ds("dmIndex", this.index).attr("_draggable", "false")
+			.id(this.id)
 			
-			this._main.text(this.caption).addClass("item");
-			db(this.caption, "red")
-		}	
+			
+			
+			
+			var option = this._main.create("div").addClass("option");
+			
+			option.create("input").attr("type", "radio").value("1");
+			option.create("input").attr("type", "button").value(this.caption);
+			option.create("input").attr("type", "button").value("U");
+			option.create("input").attr("type", "button").value("D");
+			option.create("input").attr("type", "button").value("L");
+			option.create("input").attr("type", "button").value("R");
+			option.create("input").attr("type", "text").attr("name", this.chkName).value(this.caption);
+			var ME = this;
+			option.create("span").addClass("drag-container").text("_..._")
+				.on("drop", function(event){
+					event.preventDefault();
+					event.stopPropagation();
+					var data = event.dataTransfer.getData("text");
+					//event.target.parentNode.appendChild(document.getElementById(data));
+				
+					ME.getMenu().append(document.getElementById(data));
+					//$("#borrar").append(document.getElementById(data));
+					//$(this).addClass("a")
+					
+					//event.target.className = "a";
+					//event.target.parentNode.className = "b";
+					//event.target.parentNode.parentNode.className = "c";
+					//event.target.parentNode.parentNode.parentNode.className = "d";
+				})
+				.on("dragenter", function(event){
+					//db($(this).text());
+					if(event.target.className == "drag-container"){
+						
+						
+					}
+				//event.preventDefault();
+					event.stopPropagation();
+				 	event.target.style.border = "3px dotted red";
+					//$(event.target).addClass("b")
+				
+				})
+				.on("dragover", function(event){
+				
+					//db($(this).text(), "red");
+				
+					//$(event.target).addClass("a")
+					event.preventDefault();
+					event.stopPropagation();
+				})
+				.on("dragleave", function(event){
+				
+					db($(this).text(), "blue");
+					//$(event.target).removeClass("b")
+					if(event.target.className == "drag-container"){
+						
+						event.target.style.border = "";
+					}
+					//$(event.target).addClass("a")
+					event.preventDefault();
+					event.stopPropagation();
+				});
+			
+			this._main
+				.on("drop", function(event){
+				
+					event.preventDefault();
+					var data = event.dataTransfer.getData("text");
+					//event.target.appendChild(document.getElementById(data));
+				
+					var main = event.target.parentNode.parentNode;
+					//var first = main.firstChild;
+				//event.target.parentNode.className="a"
+				
+				//
+				
+				//main.appendChild(document.getElementById(data));
+				
+				//var aux = $().create("div").text("hola").addClass("b");
+				
+				//aux.append(document.getElementById(data));
+				//
+				main.insertBefore(document.getElementById(data), event.target.parentNode);
+				//	$(main).insertFirst(document.getElementById(data));
+				})
+
+				.on("dragover", function(event){
+				
+
+					event.preventDefault();
+
+				});
+			
+			
+			
+			
+			
+			this._main.attr("draggable", "true").id(this.id+"x")
+			
+			.on("dragstart", function(event){
+				 //event.preventDefault();
+				//  event.stopPropagation(); // Stops some browsers from redirecting.
+  			 	
+				event.dataTransfer.setData("text", event.target.id);
+				
+				event.dataTransfer.effectAllowed = "copyMove";
+			})
+			
+			
+			
+			;
+			
+			//option.text(this.caption);
+			
+			
+			//this._main.text(this.caption).addClass("item");
+			//db(this.caption, "red");
+		},
+		
+		
 		
 		
 	};
@@ -39,9 +204,13 @@ var sgDesignMenu = false;
 	
 	var DesignMenu = function(opt){
 		
+		this.name = false;
+		
 		this.data = [];
 		this.target = false;
 		this.main = false;
+		this._menu = false;
+		this._item = [];
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
@@ -55,11 +224,74 @@ var sgDesignMenu = false;
 	
 	DesignMenu.prototype = {
 		create: function(){
-			this._main = this._target.create("div");
-			this._main.addClass("menu");
+			var data = false, main = false, parent, ME = this;
+			this._main = this._target.create("div")
+			.on("_dragover", drag)
+			.on("_drop", drop);
+			
+			this._main.create("div").addClass("delete").id("borrar").text("Borrar")
+			.on("dragover", function(event){
+				
+				event.preventDefault();
+				
+			})
+			.on("drop", function(event){
+				event.preventDefault();
+				var data = event.dataTransfer.getData("text");
+				
+				
+				var parent = document.getElementById(data).parentNode;
+				
+				parent.removeChild(document.getElementById(data))
+				//db(event.target.id)
+				//event.target.appendChild(document.getElementById(data));
+			});
+			this._main.create("div").addClass("delete").id("init").text("agregar")
+			.on("dragover", function(event){
+				
+				event.preventDefault();
+				
+			})
+			.on("drop", function(event){
+				event.preventDefault();
+				var data = event.dataTransfer.getData("text");
+				
+				
+				//var parent = document.getElementById(data).parentNode;
+				
+				ME._menu.append(document.getElementById(data));
+				
+				
+				//parent.removeChild(document.getElementById(data))
+				//db(event.target.id)
+				//event.target.appendChild(document.getElementById(data));
+			});
+			
+			this._menu = this._main.create("UL").addClass("menu");
+			
+			//this._main.addClass("menu");
 			for(var x in this.data){
-				this.data[x].target = this._main;
-				new Item(this.data[x])
+				data = this.data[x];
+				
+				if(data.parent !== false){
+					//main = this._main.query("div[data-dm-index="+data.parent+"]");
+					
+					main = this._item[data.parent].getMenu();
+					
+					//main = this._main.query("li[data-dm-index='"+data.parent+"']").getMenu();
+					
+				//menu.getMenu();
+					
+					
+					
+				}else{
+					main = this._menu;
+				}
+				
+				data.id = "i"+x;
+				data.target = main;
+				data.chkName = this.name+"_chk"
+				this._item[data.index] = new Item(data);
 				
 			}
 			
@@ -80,7 +312,7 @@ function loadMenu(){
 		{index:0, parent: false, caption: "cero", action:false},
 		{index:1, parent: false, caption: "uno", action:false},
 		{index:2, parent: false, caption: "dos", action:false},
-		{index:3, parent: 0, caption: "tres", action:false},
+		{index:3, parent: false, caption: "tres", action:false},
 		{index:4, parent: 0, caption: "cuatro", action:false},
 		{index:5, parent: false, caption: "cinco", action:false},
 		{index:6, parent: false, caption: "seis", action:false},
@@ -98,6 +330,7 @@ function loadMenu(){
 	];
 	
 	var D = new Sevian.Input.DesignMenu({
+		name:"menu_1",
 		data: data,
 		target: "#design",
 	})
