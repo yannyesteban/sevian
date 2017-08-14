@@ -4,7 +4,13 @@
 .design{
 	
 	
-	border:1px solid red;
+	.over{
+		
+		border:1px dotted purple !important;
+	}
+	
+	border:2px solid blue;
+	padding: 4px;
 	min-height: 50px;
 	
 	padding:10px;
@@ -44,6 +50,16 @@
 			
 	}
 	
+	.add{
+		display: inline-block;
+		height: 80px;
+		width: 80px;
+		background-color: rgba(30,191,94,1.00);
+		//border: 2px solid rgba(50,77,4,1.00);
+		color:white;
+		//padding: 5px;
+			
+	}
 	
 	.a{
 		border:1px solid red;

@@ -95,49 +95,27 @@ var sgDesignMenu = false;
 				.on("drop", function(event){
 					event.preventDefault();
 					event.stopPropagation();
+
 					var data = event.dataTransfer.getData("text");
-					//event.target.parentNode.appendChild(document.getElementById(data));
-				
 					ME.getMenu().append(document.getElementById(data));
-					//$("#borrar").append(document.getElementById(data));
-					//$(this).addClass("a")
-					
-					//event.target.className = "a";
-					//event.target.parentNode.className = "b";
-					//event.target.parentNode.parentNode.className = "c";
-					//event.target.parentNode.parentNode.parentNode.className = "d";
 				})
 				.on("dragenter", function(event){
-					//db($(this).text());
-					if(event.target.className == "drag-container"){
-						
-						
-					}
-				//event.preventDefault();
+					event.preventDefault();
 					event.stopPropagation();
-				 	event.target.style.border = "3px dotted red";
+				 	this.classList.add('over');
 					//$(event.target).addClass("b")
 				
 				})
 				.on("dragover", function(event){
-				
-					//db($(this).text(), "red");
-				
-					//$(event.target).addClass("a")
 					event.preventDefault();
 					event.stopPropagation();
 				})
 				.on("dragleave", function(event){
-				
-					db($(this).text(), "blue");
-					//$(event.target).removeClass("b")
-					if(event.target.className == "drag-container"){
-						
-						event.target.style.border = "";
-					}
-					//$(event.target).addClass("a")
-					event.preventDefault();
+					//event.preventDefault();
 					event.stopPropagation();
+					this.classList.remove('over');
+
+					
 				});
 			
 			this._main
@@ -178,11 +156,33 @@ var sgDesignMenu = false;
 			
 			.on("dragstart", function(event){
 				 //event.preventDefault();
-				//  event.stopPropagation(); // Stops some browsers from redirecting.
-  			 	
+				event.stopPropagation(); // Stops some browsers from redirecting.
+  			 	//this.style.opacity = '0.4';
 				event.dataTransfer.setData("text", event.target.id);
+				this.style.transform = "scale(0.5)";
 				
-				event.dataTransfer.effectAllowed = "copyMove";
+				//event.dataTransfer.effectAllowed = "copyMove";
+				/*
+				var dragIcon = $.create("img");
+				dragIcon.get().src = '../images/menu.png';
+				var img  = $().create("div").text("HOLA");
+				img.style({
+					display:"none",
+					position:"absolute",
+					left:"0px",
+					top:"0px"
+				});
+				
+				this.style.display = "none"
+				
+				
+				event.dataTransfer.setDragImage(dragIcon.get(), -0, -0);
+				*/
+			})
+			.on("dragend", function(event){
+				event.dataTransfer.getData("text");
+				this.style.transform = "scale(1)";
+				
 			})
 			
 			
@@ -242,16 +242,12 @@ var sgDesignMenu = false;
 				
 				var parent = document.getElementById(data).parentNode;
 				
-				parent.removeChild(document.getElementById(data))
+				parent.removeChild(document.getElementById(data));
 				//db(event.target.id)
 				//event.target.appendChild(document.getElementById(data));
 			});
-			this._main.create("div").addClass("delete").id("init").text("agregar")
-			.on("dragover", function(event){
-				
-				event.preventDefault();
-				
-			})
+			this._main.create("div").addClass("add").id("init").text("agregar")
+			
 			.on("drop", function(event){
 				event.preventDefault();
 				var data = event.dataTransfer.getData("text");
@@ -265,7 +261,31 @@ var sgDesignMenu = false;
 				//parent.removeChild(document.getElementById(data))
 				//db(event.target.id)
 				//event.target.appendChild(document.getElementById(data));
-			});
+			})
+			
+			.on("dragenter", function(event){
+					event.preventDefault();
+					event.stopPropagation();
+				 	this.classList.add('over');
+					//$(event.target).addClass("b")
+				
+				})
+			.on("dragover", function(event){
+				event.preventDefault();
+				event.stopPropagation();
+			})
+			.on("dragleave", function(event){
+				//var data = event.dataTransfer.getData("text");
+				//alert(data)
+				document.getElementById(data).style.transform = "scale(1)";
+				//event.preventDefault();
+				event.stopPropagation();
+				this.classList.remove('over');
+
+
+			})
+			
+			;
 			
 			this._menu = this._main.create("UL").addClass("menu");
 			
