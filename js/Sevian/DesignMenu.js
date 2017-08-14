@@ -159,7 +159,7 @@ var sgDesignMenu = false;
 				event.stopPropagation(); // Stops some browsers from redirecting.
   			 	//this.style.opacity = '0.4';
 				event.dataTransfer.setData("text", event.target.id);
-				this.style.transform = "scale(0.5)";
+				this.style.transform = "scale(0.9)";
 				
 				//event.dataTransfer.effectAllowed = "copyMove";
 				/*
