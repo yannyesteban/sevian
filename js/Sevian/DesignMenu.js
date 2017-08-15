@@ -139,7 +139,7 @@ var sgDesignMenu = false;
 			
 			
 			
-			var option = this._main.create("div").addClass("option");
+			var option = this.option = this._main.create("div").addClass("option").id("o"+this.id);
 			
 			option
 				
@@ -219,8 +219,10 @@ var sgDesignMenu = false;
 			})
 			
 			.on("dragend", function(event){
-				db("THE END");
-				$(this).removeClass("effect-up").removeClass("effect-down");
+				//db("THE END"+$(this).id());
+				db(event.target.id+"....")
+				//this.style.fontSize = "14pt;"
+				//ME.option.removeClass("effect-up").removeClass("effect-down");
 				
 			})
 			
@@ -228,8 +230,8 @@ var sgDesignMenu = false;
 			
 			
 			.on("dragstart", function(event){
-				db(this.tagName, "red")
-				db(ME.id, "blue");
+				//db(this.tagName, "red")
+				//db(ME.id, "blue");
 				
 				event.dataTransfer.setData("text", ME.id);//event.target.id);
 				
