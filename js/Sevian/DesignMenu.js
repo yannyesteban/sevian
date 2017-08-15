@@ -145,7 +145,7 @@ var sgDesignMenu = false;
 				
 			.on("drop", function(event){
 				
-				db("DROP 1 "+event.dataTransfer.getData("text"))
+				db("DROP");
 				event.preventDefault();
 				event.stopPropagation();
 
@@ -159,19 +159,23 @@ var sgDesignMenu = false;
 				do{
 					parent = parent.parentNode;
 				}while(parent.tagName !== "LI" && parent);
-
+				
+				
+				var rect = this.getBoundingClientRect();
+				var diff = event.clientY-rect.top;
+				
+				
 				var main = parent.parentNode;
 				main.insertBefore(elem, parent);
-				var rect = this.getBoundingClientRect();
-				db((rect.top.toFixed(0)+"-"+event.clientY), "aqua", "blue");
+				
 				//db((rect.top-event.clientY)+"---"+this.offsetHeight+"..."+rect.top+"..."+event.clientY, "aqua", "blue");
 				
-				if((event.clientY-rect.top)<this.offsetHeight/2){
-					main.insertBefore(parent, elem);
-					db("UP", "aqua", "blue")
-				}else{
+				if((diff)<this.offsetHeight/2){
 					
-					db("down", "yellow", "orange")
+					//db("UP", "aqua", "blue")
+				}else{
+					main.insertBefore(parent, elem);
+					//db("down", "yellow", "orange")
 				}
 				
 				
@@ -196,7 +200,7 @@ var sgDesignMenu = false;
 				//db("ID: "+this.id+"..."+this.offsetHeight+"..."+rect.top+"..."+event.clientY, "aqua", "blue");
 				//return;
 				
-				db((rect.top.toFixed(0)+"-"+event.clientY), "aqua", "purple");
+				//db((rect.top.toFixed(0)+"-"+event.clientY), "aqua", "purple");
 				
 				if((event.clientY-rect.top)<this.offsetHeight/2){
 					$(this).removeClass("effect-down");
@@ -210,6 +214,12 @@ var sgDesignMenu = false;
 				
 			})
 			.on("dragleave", function(event){
+				$(this).removeClass("effect-up").removeClass("effect-down");
+				
+			})
+			
+			.on("dragend", function(event){
+				db("THE END");
 				$(this).removeClass("effect-up").removeClass("effect-down");
 				
 			})
