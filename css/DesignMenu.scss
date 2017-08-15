@@ -3,11 +3,30 @@
 
 .design{
 	
+	ul:hover{
+		
+	}
 	
+	.ul_over{
+		border:2px solid green;
+		min-height: 10px;
+	}
 	.over{
 		
 		border:1px dotted purple !important;
+		
 	}
+	
+	
+	
+	.hand{
+		background-color: green;
+		display: inline-block;
+		width: 30px;
+		color:white;
+		height: 22px;
+	}
+	
 	
 	border:2px solid blue;
 	padding: 4px;
@@ -19,6 +38,7 @@
 		min-height: 50px;
 		.option{
 			background-color: rgba(229,106,108,0.32);
+			padding: 4px;
 		}
 		.item{
 			margin:4px;

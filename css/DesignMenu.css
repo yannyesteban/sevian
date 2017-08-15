@@ -4,13 +4,23 @@
   padding: 4px;
   min-height: 50px;
   padding: 10px; }
+  .design .ul_over {
+    border: 2px solid green;
+    min-height: 10px; }
   .design .over {
     border: 1px dotted purple !important; }
+  .design .hand {
+    background-color: green;
+    display: inline-block;
+    width: 30px;
+    color: white;
+    height: 22px; }
   .design .menu {
     border: 1px solid green;
     min-height: 50px; }
     .design .menu .option {
-      background-color: rgba(229, 106, 108, 0.32); }
+      background-color: rgba(229, 106, 108, 0.32);
+      padding: 4px; }
     .design .menu .item {
       margin: 4px;
       padding: 4px;

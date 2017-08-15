@@ -73,23 +73,107 @@ var sgDesignMenu = false;
 		},
 		
 		create: function(){
+			var ME = this;
 			
+			this._main = this._target.create("li").id(this.id)//.attr("draggable", "true")
+				.addClass("item").ds("dmIndex", this.index).ds("dsMenu","item")
 			
-			this._main = this._target.create("LI").addClass("item").ds("dmIndex", this.index).attr("_draggable", "false")
-			.id(this.id)
+				.on("drop", function(event){
+					event.preventDefault();
+				
+					if(!$.byId(event.dataTransfer.getData("text"))){
+						return;
+					}
+					
+					var elem = $(event.dataTransfer.getData("text")).get();
+					var parent = event.target;
+				
+					do{
+						parent = parent.parentNode;
+					}while(parent.tagName !== "LI" && parent);
+					
+					var main = parent.parentNode;
+					main.insertBefore(elem, parent);
+					main.insertBefore(parent, elem);
+
+				})
+				.on("dragover", function(event){
+					//this.style.border = "4px solid red";
+				
+					//ME.getMenu().style().minHeight = "20px";
+				ME.getMenu().addClass("ul_over");
+					event.preventDefault();
+					event.stopPropagation();
+				})
+				.on("_dragenter", function(event){
+					event.preventDefault();
+					event.stopPropagation();
+				 	this.classList.add('over');
+					//$(event.target).addClass("b")
+				
+				})
+				
+				.on("dragleave", function(event){
+					//event.preventDefault();
+					event.stopPropagation();
+					//ME.getMenu().style().minHeight = "0px";
+				
+					ME.getMenu().removeClass("ul_over");
+					
+				});
+				
+			;
 			
 			
 			
 			
 			var option = this._main.create("div").addClass("option");
+			var hand = option.create("div").addClass("hand").text("....").attr("draggable", "true")
 			
-			option.create("input").attr("type", "radio").value("1");
-			option.create("input").attr("type", "button").value(this.caption);
-			option.create("input").attr("type", "button").value("U");
-			option.create("input").attr("type", "button").value("D");
-			option.create("input").attr("type", "button").value("L");
-			option.create("input").attr("type", "button").value("R");
-			option.create("input").attr("type", "text").attr("name", this.chkName).value(this.caption);
+			
+			.on("dragstart", function(event){
+				db(this.tagName, "red")
+				db(this.id, "blue");
+				
+				event.dataTransfer.setData("text", ME.id);//event.target.id);
+				
+				//event.preventDefault();
+				//event.stopPropagation(); // Stops some browsers from redirecting.
+				
+				
+				
+			});
+			
+			;
+			
+			
+			option.create("input").attr("type", "text").value(this.caption)
+			
+			.on("dragstart", function(event){
+				
+			
+				
+			})
+			
+			.on("_focus", function(){
+				db(ME._main.attr("draggable"),"blue")
+				ME._main.get().draggable = "";
+				this.draggable = "";
+				db(ME._main.attr("draggable"),"red")
+				
+			})
+			.on("_blur", function(){
+				db(ME._main.attr("draggable"),"blue")
+				ME._main.get().draggable = "true";
+				this.draggable = "true";
+				db(ME._main.attr("draggable"),"red")
+				
+			})
+			;
+			
+			
+			
+			
 			var ME = this;
 			option.create("span").addClass("drag-container").text("_..._")
 				.on("drop", function(event){
@@ -97,7 +181,7 @@ var sgDesignMenu = false;
 					event.stopPropagation();
 
 					var data = event.dataTransfer.getData("text");
-					ME.getMenu().append(document.getElementById(data));
+					ME.getMenu().insertFirst(document.getElementById(data));
 				})
 				.on("dragenter", function(event){
 					event.preventDefault();
@@ -118,9 +202,105 @@ var sgDesignMenu = false;
 					
 				});
 			
+			this.createMenu();
+			return;
+			
+			
+			
+			option.create("input").attr("type", "radio").value("1");
+			option.create("input").attr("type", "button").value(this.caption)
+			
+			.attr("draggable", "true")
+				.on("drop", function(event){
+db("opt")
+						event.preventDefault();
+					//event.stopPropagation();
+				})
+			
+			;
+			option.create("input").attr("type", "button").value("U");
+			option.create("input").attr("type", "button").value("D");
+			option.create("input").attr("type", "button").value("L");
+			option.create("input").attr("type", "button").value("R");
+			
+			
+			
+			var t = option.create("input").attr("type", "text")
+				.attr("name", this.chkName).value(this.caption)
+				//.attr("draggable", "false")
+				.on("drop", function(event){
+					db(333)	
+					//event.preventDefault();
+					//event.stopPropagation();
+				})
+			
+			.on("dragstart", function(event){
+				db(1111)
+				//event.preventDefault();
+				//event.stopPropagation();
+				
+			})
+			;
+			var ME = this;
+			option.create("span").addClass("drag-container").text("_..._")
+				.on("drop", function(event){
+					event.preventDefault();
+					event.stopPropagation();
+
+					var data = event.dataTransfer.getData("text");
+					ME.getMenu().insertFirst(document.getElementById(data));
+				})
+				.on("dragenter", function(event){
+					event.preventDefault();
+					event.stopPropagation();
+				 	this.classList.add('over');
+					//$(event.target).addClass("b")
+				
+				})
+				.on("dragover", function(event){
+					event.preventDefault();
+					event.stopPropagation();
+				})
+				.on("dragleave", function(event){
+					//event.preventDefault();
+					event.stopPropagation();
+					this.classList.remove('over');
+
+					
+				});
+			
+			var hand = option.create("span").addClass("hand").text("HAND")
+			
+				.attr("draggable", "true").id(this.id+"hand")
+			;
+			hand.create("input").attr("type", "text").val("HOLA")
+				//.attr("draggable", "false")
+			.on("_dragstart", function(event){
+				db(this.tagName)
+				db(this.id, "blue")
+				//event.preventDefault();
+				//event.stopPropagation(); // Stops some browsers from redirecting.
+				
+				
+				
+			});
+			
+			
+			;
+			hand.on("dragstart", function(event){
+				db(this.id, "red")
+				event.stopPropagation(); // Stops some browsers from redirecting.
+				event.dataTransfer.setData("text", ME.id+"x");//event.target.id);
+				
+				
+			});
+			
+			
+			
+			return;
 			this._main
 				.on("drop", function(event){
-				
+					db(ME.id+"x")
 					event.preventDefault();
 					var data = event.dataTransfer.getData("text");
 					//event.target.appendChild(document.getElementById(data));
@@ -138,6 +318,9 @@ var sgDesignMenu = false;
 				//aux.append(document.getElementById(data));
 				//
 				main.insertBefore(document.getElementById(data), event.target.parentNode);
+				
+				
+				main.insertBefore(event.target.parentNode, document.getElementById(data));
 				//	$(main).insertFirst(document.getElementById(data));
 				})
 
@@ -152,15 +335,14 @@ var sgDesignMenu = false;
 			
 			
 			
-			this._main.attr("draggable", "true").id(this.id+"x")
+			this._main//.attr("draggable", "false").id(this.id+"x")
 			
-			.on("dragstart", function(event){
+			.on("dragstart_", function(event){
+				
 				 //event.preventDefault();
 				event.stopPropagation(); // Stops some browsers from redirecting.
-  			 	//this.style.opacity = '0.4';
-				event.dataTransfer.setData("text", event.target.id);
-				this.style.transform = "scale(0.9)";
-				
+				event.dataTransfer.setData("text", ME.id+"x");/*event.target.id);
+				this.style.transform = "scale(0.9, 1)";
 				//event.dataTransfer.effectAllowed = "copyMove";
 				/*
 				var dragIcon = $.create("img");
@@ -173,32 +355,16 @@ var sgDesignMenu = false;
 					top:"0px"
 				});
 				
-				this.style.display = "none"
-				
-				
 				event.dataTransfer.setDragImage(dragIcon.get(), -0, -0);
 				*/
 			})
-			.on("dragend", function(event){
+			.on("dragend_", function(event){
 				event.dataTransfer.getData("text");
 				this.style.transform = "scale(1)";
 				
 			})
-			
-			
-			
 			;
-			
-			//option.text(this.caption);
-			
-			
-			//this._main.text(this.caption).addClass("item");
-			//db(this.caption, "red");
 		},
-		
-		
-		
-		
 	};
 	
 	
@@ -246,44 +412,46 @@ var sgDesignMenu = false;
 				//db(event.target.id)
 				//event.target.appendChild(document.getElementById(data));
 			});
+			
+			
 			this._main.create("div").addClass("add").id("init").text("agregar")
 			
-			.on("drop", function(event){
-				event.preventDefault();
-				var data = event.dataTransfer.getData("text");
-				
-				
-				//var parent = document.getElementById(data).parentNode;
-				
-				ME._menu.append(document.getElementById(data));
-				
-				
-				//parent.removeChild(document.getElementById(data))
-				//db(event.target.id)
-				//event.target.appendChild(document.getElementById(data));
-			})
-			
-			.on("dragenter", function(event){
+				.on("drop", function(event){
+					event.preventDefault();
+					var data = event.dataTransfer.getData("text");
+
+
+					//var parent = document.getElementById(data).parentNode;
+
+					ME._menu.insertFirst(document.getElementById(data));
+
+
+					//parent.removeChild(document.getElementById(data))
+					//db(event.target.id)
+					//event.target.appendChild(document.getElementById(data));
+				})
+
+				.on("dragenter", function(event){
+						event.preventDefault();
+						event.stopPropagation();
+						this.classList.add('over');
+						//$(event.target).addClass("b")
+
+					})
+				.on("dragover", function(event){
 					event.preventDefault();
 					event.stopPropagation();
-				 	this.classList.add('over');
-					//$(event.target).addClass("b")
-				
 				})
-			.on("dragover", function(event){
-				event.preventDefault();
-				event.stopPropagation();
-			})
-			.on("dragleave", function(event){
-				//var data = event.dataTransfer.getData("text");
-				//alert(data)
-				document.getElementById(data).style.transform = "scale(1)";
-				//event.preventDefault();
-				event.stopPropagation();
-				this.classList.remove('over');
+				.on("dragleave", function(event){
+					//var data = event.dataTransfer.getData("text");
+					//alert(data)
+					document.getElementById(data).style.transform = "scale(1)";
+					//event.preventDefault();
+					event.stopPropagation();
+					this.classList.remove('over');
 
 
-			})
+				})
 			
 			;
 			
