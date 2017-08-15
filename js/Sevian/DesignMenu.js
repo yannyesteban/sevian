@@ -78,9 +78,12 @@ var sgDesignMenu = false;
 			this._main = this._target.create("li").id(this.id)//.attr("draggable", "true")
 				.addClass("item").ds("dmIndex", this.index).ds("dsMenu","item")
 			
-				.on("drop", function(event){
-					event.preventDefault();
+				.on("drop_", function(event){
+					
+					db("DROP 2")
 				
+					event.preventDefault();
+				return;
 					if(!$.byId(event.dataTransfer.getData("text"))){
 						return;
 					}
@@ -97,15 +100,24 @@ var sgDesignMenu = false;
 					main.insertBefore(parent, elem);
 
 				})
-				.on("dragover", function(event){
+				.on("dragover_", function(event){
 					//this.style.border = "4px solid red";
+					//db("ID: "+this.id+"..."+this.offsetHeight+"..."+this.offsetTop+"..."+event.clientY, "aqua", "blue");
+				
+					if((event.clientY-this.offsetTop)<this.offsetHeight/2){
+						//db("UP", "aqua", "blue")
+						
+					}else{
+						//db("down", "yellow", "orange")
+					}
 				
 					//ME.getMenu().style().minHeight = "20px";
-				ME.getMenu().addClass("ul_over");
+					ME.getMenu().addClass("ul_over");
+					//$(this).addClass("li_over");
 					event.preventDefault();
 					event.stopPropagation();
 				})
-				.on("_dragenter", function(event){
+				.on("dragenter_", function(event){
 					event.preventDefault();
 					event.stopPropagation();
 				 	this.classList.add('over');
@@ -113,14 +125,14 @@ var sgDesignMenu = false;
 				
 				})
 				
-				.on("dragleave", function(event){
+				.on("dragleave_", function(event){
 					//event.preventDefault();
 					event.stopPropagation();
 					//ME.getMenu().style().minHeight = "0px";
-				
+					//$(this).removeClass("li_over");
 					ME.getMenu().removeClass("ul_over");
 					
-				});
+				})
 				
 			;
 			
@@ -128,12 +140,86 @@ var sgDesignMenu = false;
 			
 			
 			var option = this._main.create("div").addClass("option");
-			var hand = option.create("div").addClass("hand").text("....").attr("draggable", "true")
+			
+			option
+				
+			.on("drop", function(event){
+				
+				db("DROP 1 "+event.dataTransfer.getData("text"))
+				event.preventDefault();
+				event.stopPropagation();
+
+				if(!$.byId(event.dataTransfer.getData("text"))){
+					return;
+				}
+
+				var elem = $(event.dataTransfer.getData("text")).get();
+				var parent = event.target;
+
+				do{
+					parent = parent.parentNode;
+				}while(parent.tagName !== "LI" && parent);
+
+				var main = parent.parentNode;
+				main.insertBefore(elem, parent);
+				var rect = this.getBoundingClientRect();
+				db((rect.top.toFixed(0)+"-"+event.clientY), "aqua", "blue");
+				//db((rect.top-event.clientY)+"---"+this.offsetHeight+"..."+rect.top+"..."+event.clientY, "aqua", "blue");
+				
+				if((event.clientY-rect.top)<this.offsetHeight/2){
+					main.insertBefore(parent, elem);
+					db("UP", "aqua", "blue")
+				}else{
+					
+					db("down", "yellow", "orange")
+				}
+				
+				
+				
+				
+
+				
+				
+				
+			})	
+			.on("dragenter", function(event){
+					event.preventDefault();
+					event.stopPropagation();
+				 	this.classList.add('over');
+					//$(event.target).addClass("b")
+				
+				})	
+			.on("dragover", function(event){
+				event.preventDefault();
+				//db("ID: "+this.id+"..."+this.offsetHeight+"..."+this.offsetTop+"..."+event.clientY, "aqua", "blue");
+				var rect = this.getBoundingClientRect();
+				//db("ID: "+this.id+"..."+this.offsetHeight+"..."+rect.top+"..."+event.clientY, "aqua", "blue");
+				//return;
+				
+				db((rect.top.toFixed(0)+"-"+event.clientY), "aqua", "purple");
+				
+				if((event.clientY-rect.top)<this.offsetHeight/2){
+					$(this).removeClass("effect-down");
+					$(this).addClass("effect-up");
+					//db("UP", "aqua", "blue")
+				}else{
+					$(this).removeClass("effect-up");
+					$(this).addClass("effect-down");
+					//db("down", "yellow", "orange")
+				}
+				
+			})
+			.on("dragleave", function(event){
+				$(this).removeClass("effect-up").removeClass("effect-down");
+				
+			})
+			
+			var hand = option.create("div").addClass("hand").text("").attr("draggable", "true")
 			
 			
 			.on("dragstart", function(event){
 				db(this.tagName, "red")
-				db(this.id, "blue");
+				db(ME.id, "blue");
 				
 				event.dataTransfer.setData("text", ME.id);//event.target.id);
 				
@@ -516,7 +602,27 @@ function loadMenu(){
 		
 		
 	];
-	
+	var data = [
+		
+		{index:0, parent: false, caption: "cero", action:false},
+		{index:1, parent: false, caption: "uno", action:false},
+		{index:2, parent: false, caption: "dos", action:false},
+		{index:3, parent: false, caption: "tres", action:false},
+		{index:4, parent: false, caption: "cuatro", action:false},
+		{index:5, parent: false, caption: "cinco", action:false},
+		{index:6, parent: false, caption: "seis", action:false},
+		{index:7, parent: false, caption: "siete", action:false},
+		{index:8, parent: false, caption: "ocho", action:false},
+		{index:9, parent: false, caption: "nueve", action:false},
+		{index:10, parent: false, caption: "diez", action:false},
+		{index:11, parent: false, caption: "once", action:false},
+		{index:12, parent: 10, caption: "doce", action:false},
+		{index:13, parent: 10, caption: "trece", action:false},
+		{index:14, parent: 10, caption: "catorce", action:false},
+		{index:15, parent: 10, caption: "quince", action:false},
+		
+		
+	];
 	var D = new Sevian.Input.DesignMenu({
 		name:"menu_1",
 		data: data,

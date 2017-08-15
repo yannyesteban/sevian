@@ -3,17 +3,28 @@
 
 .design{
 	
+	
+	.effect-up{
+		
+		border-top: 3px solid rgba(0,227,255,1.00) !important;
+	}
+	.effect-down{
+		border-bottom: 3px solid rgba(0,227,255,1.00) !important;
+	}
 	ul:hover{
 		
 	}
-	
+	.li_over{
+		//border:3px dotted aqua !important;
+		
+	}
 	.ul_over{
-		border:2px solid green;
-		min-height: 10px;
+		//border:2px solid green;
+		//min-height: 10px;
 	}
 	.over{
 		
-		border:1px dotted purple !important;
+		//border:1px dotted purple !important;
 		
 	}
 	
@@ -37,7 +48,7 @@
 		border:1px solid green;
 		min-height: 50px;
 		.option{
-			background-color: rgba(229,106,108,0.32);
+			background-color: rgba(23,23,23,0.59);
 			padding: 4px;
 		}
 		.item{
