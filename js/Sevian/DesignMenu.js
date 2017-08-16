@@ -41,9 +41,10 @@ var sgDesignMenu = false;
 		}
 	}
 	
-	var _dragOver = function(event){
+	var _dragOver = function(item, className){
 		return function(event){
 			event.preventDefault();
+			item.addClass("ul_over");
 		}
 			
 	};
@@ -57,6 +58,7 @@ var sgDesignMenu = false;
 		return function(event){
 			
 			event.preventDefault();
+			item.removeClass("ul_over");
 			//item.style().border = "2px solid orange";
 		}
 	}

@@ -33,7 +33,20 @@
 }
 
 .design-menu{
-	
+	ul{
+		min-height: 0px;
+		border:2px solid green;
+		transition: 0s all ease-out 0.2s;
+	}
+	.li_over{
+		//border:3px dotted aqua !important;
+		
+	}
+	.ul_over{
+		border:2px solid green;
+		min-height: 40px;
+		transition: 0.3s all ease-out 0.5s;
+	}
 	input{
 		font-family: tahoma;
 		font-size: 9pt;
