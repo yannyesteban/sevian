@@ -78,11 +78,13 @@ var sgDesignMenu = false;
 			this._main = this._target.create("li").id(this.id)//.attr("draggable", "true")
 				.addClass("item").ds("dmIndex", this.index).ds("dsMenu","item")
 			
-				.on("drop_", function(event){
+				.on("drop", function(event){
 					
 					db("DROP 2")
 				
 					event.preventDefault();
+					ME.getMenu().removeClass("ul_over");
+					
 				return;
 					if(!$.byId(event.dataTransfer.getData("text"))){
 						return;
@@ -100,37 +102,28 @@ var sgDesignMenu = false;
 					main.insertBefore(parent, elem);
 
 				})
-				.on("dragover_", function(event){
-					//this.style.border = "4px solid red";
-					//db("ID: "+this.id+"..."+this.offsetHeight+"..."+this.offsetTop+"..."+event.clientY, "aqua", "blue");
-				
-					if((event.clientY-this.offsetTop)<this.offsetHeight/2){
-						//db("UP", "aqua", "blue")
-						
-					}else{
-						//db("down", "yellow", "orange")
-					}
-				
-					//ME.getMenu().style().minHeight = "20px";
+				.on("dragover", function(event){
 					ME.getMenu().addClass("ul_over");
 					//$(this).addClass("li_over");
 					event.preventDefault();
-					event.stopPropagation();
+					//event.stopPropagation();
 				})
-				.on("dragenter_", function(event){
+				.on("dragenter", function(event){
+				
 					event.preventDefault();
-					event.stopPropagation();
-				 	this.classList.add('over');
+					//event.stopPropagation();
+				 	//this.classList.add('over');
 					//$(event.target).addClass("b")
 				
 				})
 				
-				.on("dragleave_", function(event){
-					//event.preventDefault();
-					event.stopPropagation();
+				.on("dragleave", function(event){
+					event.preventDefault();
+					//event.stopPropagation();
 					//ME.getMenu().style().minHeight = "0px";
 					//$(this).removeClass("li_over");
 					ME.getMenu().removeClass("ul_over");
+				
 					
 				})
 				
@@ -148,7 +141,7 @@ var sgDesignMenu = false;
 				db("DROP");
 				event.preventDefault();
 				event.stopPropagation();
-
+ME.getMenu().removeClass("ul_over");
 				if(!$.byId(event.dataTransfer.getData("text"))){
 					return;
 				}
@@ -178,8 +171,8 @@ var sgDesignMenu = false;
 					//db("down", "yellow", "orange")
 				}
 				
-				
-				
+				$(elem).addClass("m_open");
+				ME.option.removeClass("effect-up").removeClass("effect-down");
 				
 
 				
@@ -188,8 +181,8 @@ var sgDesignMenu = false;
 			})	
 			.on("dragenter", function(event){
 					event.preventDefault();
-					event.stopPropagation();
-				 	this.classList.add('over');
+					//event.stopPropagation();
+				 	//this.classList.add('over');
 					//$(event.target).addClass("b")
 				
 				})	
@@ -211,30 +204,33 @@ var sgDesignMenu = false;
 					$(this).addClass("effect-down");
 					//db("down", "yellow", "orange")
 				}
-				
+				//ME.getMenu().addClass("ul_over");
 			})
 			.on("dragleave", function(event){
 				$(this).removeClass("effect-up").removeClass("effect-down");
-				
+				//ME.getMenu().removeClass("ul_over");
 			})
 			
 			.on("dragend", function(event){
 				//db("THE END"+$(this).id());
-				db(event.target.id+"....")
+				//db(event.target.id+"....")
 				//this.style.fontSize = "14pt;"
 				//ME.option.removeClass("effect-up").removeClass("effect-down");
 				
 			})
 			
 			var hand = option.create("div").addClass("hand").text("").attr("draggable", "true")
-			
+			.on("dragend", function(event){
+				db(81.0001)
+				ME._main.removeClass("effect-start");
+			})
 			
 			.on("dragstart", function(event){
 				//db(this.tagName, "red")
-				//db(ME.id, "blue");
-				
+				db(ME.id, "blue");
+				ME.getMenu().removeClass("ul_over");
 				event.dataTransfer.setData("text", ME.id);//event.target.id);
-				
+				ME._main.addClass("effect-start");
 				//event.preventDefault();
 				//event.stopPropagation(); // Stops some browsers from redirecting.
 				
@@ -301,6 +297,34 @@ var sgDesignMenu = false;
 				});
 			
 			this.createMenu();
+			
+			this._menu
+				.on("drop", function(event){
+					event.preventDefault();
+					event.stopPropagation();
+db("menu", "red")
+					var data = event.dataTransfer.getData("text");
+					ME.getMenu().insertFirst(document.getElementById(data));
+				})
+				.on("dragenter", function(event){
+					event.preventDefault();
+					//event.stopPropagation();
+				 	//this.classList.add('over');
+					//$(event.target).addClass("b")
+				
+				})
+				.on("dragover", function(event){
+					event.preventDefault();
+					//event.stopPropagation();
+				})
+				.on("dragleave", function(event){
+					//event.preventDefault();
+					//event.stopPropagation();
+					//this.classList.remove('over');
+
+					
+				});
+			
 			return;
 			
 			
@@ -628,15 +652,16 @@ function loadMenu(){
 		{index:9, parent: false, caption: "nueve", action:false},
 		{index:10, parent: false, caption: "diez", action:false},
 		{index:11, parent: false, caption: "once", action:false},
-		{index:12, parent: 10, caption: "doce", action:false},
-		{index:13, parent: 10, caption: "trece", action:false},
-		{index:14, parent: 10, caption: "catorce", action:false},
-		{index:15, parent: 10, caption: "quince", action:false},
+		{index:12, parent: false, caption: "doce", action:false},
+		{index:13, parent: false, caption: "trece", action:false},
+		{index:14, parent: false, caption: "catorce", action:false},
+		{index:15, parent: false, caption: "quince", action:false},
 		
 		
 	];
 	var D = new Sevian.Input.DesignMenu({
 		name:"menu_1",
+		caption: "Menú Principal",
 		data: data,
 		target: "#design",
 	})

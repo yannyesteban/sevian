@@ -1,13 +1,43 @@
 /* Scss Document */
+@keyframes m_open {
+  0% {
+    opacity: 0;
+    transform-origin: 0 0; }
+  100% {
+    opacity: 1;
+    transform-origin: 0 0; } }
+@keyframes m_close {
+  0% {
+    opacity: 1;
+    visibility: visible; }
+  100% {
+    opacity: 0;
+    visibility: hidden !important; } }
+.m_open {
+  animation: m_open 1s ease-out; }
+
+.m_close {
+  animation: m_open 2s ease-out forwards; }
+
 .design {
   border: 2px solid blue;
   padding: 4px;
   min-height: 50px;
   padding: 10px; }
+  .design .effect-start {
+    opacity: 0.5; }
   .design .effect-up {
     border-top: 3px solid #00e3ff !important; }
   .design .effect-down {
     border-bottom: 3px solid #00e3ff !important; }
+  .design ul {
+    min-height: 0px;
+    border: 2px solid green;
+    transition: 0s all ease-out 0.2s; }
+  .design .ul_over {
+    border: 2px solid green;
+    min-height: 40px;
+    transition: 0.3s all ease-out 0.5s; }
   .design .hand {
     background-color: green;
     display: inline-block;
@@ -46,19 +76,3 @@
     width: 80px;
     background-color: #1ebf5e;
     color: white; }
-  .design .a {
-    border: 1px solid red;
-    margin: 2px;
-    padding: 2px; }
-  .design .b {
-    border: 4px solid green; }
-  .design .c {
-    border: 1px solid blue;
-    margin: 2px;
-    padding: 2px; }
-  .design .d {
-    border: 1px solid purple;
-    margin: 2px;
-    padding: 2px; }
-  .design .li_hover {
-    border-bottom: 4px solid red !important; }
