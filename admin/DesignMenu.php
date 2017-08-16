@@ -31,7 +31,7 @@ class DesignMenu extends Sevian\Panel{
 		$div = new Sevian\HTML("div");
 		$div->id = "design";
 		$div->class = "design";
-		$div->innerHTML = "HOLA";
+		//$div->innerHTML = "HOLA";
 		
 		$this->script = "loadMenu();";
 		
