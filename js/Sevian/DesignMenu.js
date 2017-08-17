@@ -44,7 +44,14 @@ var sgDesignMenu = false;
 	var _dragOver = function(item, className){
 		return function(event){
 			event.preventDefault();
-			item.addClass("ul_over");
+			//event.stopPropagation();
+			if(item.id() === _dragItem.id()){
+				return false;
+				
+			}
+			
+			
+			//item.addClass("ul_over");
 		}
 			
 	};
@@ -58,7 +65,8 @@ var sgDesignMenu = false;
 		return function(event){
 			
 			event.preventDefault();
-			item.removeClass("ul_over");
+			
+			//item.removeClass("ul_over");
 			//item.style().border = "2px solid orange";
 		}
 	}
@@ -71,8 +79,8 @@ var sgDesignMenu = false;
 			
 			event.preventDefault();
 			
-			
-			
+			event.stopPropagation();
+			item.removeClass("ul_over");
 			if(item.id() === _dragItem.id()){
 				return false;
 				
@@ -96,7 +104,7 @@ var sgDesignMenu = false;
 				db("down", "yellow", "orange");
 			}
 			
-			
+			//item.removeClass("ul_over");
 			//previousSibling
 			//nextSibling 
 			
@@ -599,19 +607,49 @@ db("opt")
 			
 			this._option.create("input").attr("type", "radio").attr("name", this.id+"_chk");
 			this._option.create("input").attr("type", "text").value(this.caption);
-			
+			this.createMenu();
 			this._option
 				.attr("draggable", "true")
 				.on("dragstart", _dragStart(this._main))
 				.on("dragend", _dragEnd(this._main))
-			
-			
 				.on("dragenter", _dragEnter(this._main))
 				.on("dragover", _dragOver(this._main))
 				.on("dragleave", _dragLeave(this._main))
-
 				.on("drop", _drop(this._main))
 			;
+
+			
+			this._main
+				.on("dragover", function(event){
+					$(this).addClass("ul_over");
+				})
+			
+				.on("dragleave", function(event){
+					$(this).removeClass("ul_over");
+
+				})
+				.on("drop", function(event){
+					$(this).removeClass("ul_over");
+
+				});
+			var ME = this;
+			this._menu
+				.on("drop", function(event){
+					event.preventDefault();
+					event.stopPropagation();
+db(this.id, "red")
+					//var data = event.dataTransfer.getData("text");
+					this.appendChild(_dragItem.get());
+				})
+			.on("dragover", function(event){
+					event.preventDefault();
+					//event.stopPropagation();
+
+				})
+			
+			
+				.id("name_"+this.id)
+			
 			
 			
 			return;
