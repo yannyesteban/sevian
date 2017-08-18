@@ -229,6 +229,7 @@
 		
 		
 		
+		
 		fields:[
 			{	
 				control: "SelectText",
@@ -270,7 +271,49 @@
 		],
 	
 	});
-	
+	z.addField({
+		caption:"Lotes",
+		//control:"DateInput",
+		//main:"#form5_nombre",
+		control:"SelectText",
+		input:{
+			type:"text",
+			//main:"#nombre",
+			value:"",
+			placeholder:"...seleccione",
+			style:{
+				color:"red"
+			},
+			
+			data_:[
+				[1, "hola"],
+				[2, "Adios"],
+				[3, "Pepe"]
+				
+				
+			],
+			
+			loadData: function(filter){
+				var data = [
+					[1, "BMW"],
+					[2, "Audi"],
+					[3, "Ferrari"]
+
+
+				];
+				this.setData(data);
+				
+				this.evalText(filter);
+			}
+		},
+		comment: "hola",
+		rules:{
+			required:true,
+			alpha:true,
+		}
+		
+		
+	});
 	z.addField({
 		caption:"Nombre y Apellido",
 		//control:"DateInput",

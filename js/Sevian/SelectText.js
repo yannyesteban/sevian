@@ -47,6 +47,9 @@ var sgSelectText;
 		this.parent = false;
 		this.form = false;
 		
+		this.loadData = function(value){
+			alert(value);
+		};
 		
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
@@ -381,7 +384,13 @@ var sgSelectText;
 
 				}
 				if(event.keyCode !== 38 && event.keyCode !== 40 && event.keyCode !== 9){
-					ME.evalText(this.value);
+					
+					if(ME.loadData){
+						ME.loadData(this.value);
+					}else{
+						ME.evalText(this.value);
+					}
+					
 				}
 				return false;
 			};
