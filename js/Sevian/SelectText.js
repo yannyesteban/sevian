@@ -123,7 +123,8 @@ var sgSelectText;
 			
 			this._main.ds("sgType", "selectText"); 
 			this._main.prop({
-				
+				id: this.id + "_mask",
+				name: this.name + "_mask",
 				type:"text",
 				value: "",
 				autocomplete: "off",
