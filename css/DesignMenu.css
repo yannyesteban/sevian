@@ -1,11 +1,13 @@
 /* Scss Document */
-@keyframes m_open {
+@keyframes drop-end {
   0% {
     opacity: 0;
-    transform-origin: 0 0; }
+    transform: scale(0.95);
+    transform-origin: 50% 50%; }
   100% {
     opacity: 1;
-    transform-origin: 0 0; } }
+    transform: scale(1);
+    transform-origin: 50% 50%; } }
 @keyframes m_close {
   0% {
     opacity: 1;
@@ -13,18 +15,19 @@
   100% {
     opacity: 0;
     visibility: hidden !important; } }
-.m_open {
-  animation: m_open 1s ease-out; }
+.drop-end {
+  animation: drop-end 1s ease-out; }
 
 .m_close {
   animation: m_open 2s ease-out forwards; }
 
+.design-menu .drag-start {
+  opacity: 0.5;
+  transition: 0.5s opacity ease-out; }
 .design-menu ul ul {
   min-height: 0px;
-  border: 2px solid blue;
   transition: 0s all ease-out 0.2s; }
 .design-menu .ul_over > ul {
-  border: 2px solid green;
   min-height: 20px;
   transition: 0.3s all ease-out 0.5s; }
 .design-menu input {
@@ -61,7 +64,8 @@
   color: white; }
 .design-menu > ul {
   border: 1px solid red;
-  padding: 0px; }
+  padding: 0px;
+  margin: 0px; }
   .design-menu > ul ul {
     padding-left: 15px; }
 .design-menu li {
