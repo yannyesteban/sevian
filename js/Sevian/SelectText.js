@@ -47,9 +47,7 @@ var sgSelectText;
 		this.parent = false;
 		this.form = false;
 		
-		this.loadData = function(value){
-			alert(value);
-		};
+		this.loadData = false;
 		
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
