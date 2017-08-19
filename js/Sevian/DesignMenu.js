@@ -165,7 +165,10 @@ var sgDesignMenu = false;
 			this._option = this._main.create("div").addClass("option");
 			
 			this._option.create("input").attr("type", "radio").attr("name", this.chkName);
-			this._option.create("input").attr("type", "text").value(this.caption);
+			this._option.create("input").attr("type", "text").value(this.caption)
+			.on("dblclick", function(){
+				this.select();
+			});
 			this.createMenu();
 			this._option
 				.attr("draggable", "true")
