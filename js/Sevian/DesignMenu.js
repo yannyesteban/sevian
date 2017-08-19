@@ -23,16 +23,37 @@ var sgDesignMenu = false;
 	var _dragEnd = function(item){
 		return function(event){
 			item.removeClass("drag-start");
+			
 			_dragItem = false;
 		};
 	};
 	
 	var _dragOver = function(item){
 		return function(event){
+			
+			if(item.ds("dmModeItem") === "new"){
+				return false;
+			}
+			
+			
 			event.preventDefault();
 			if(item.id() === _dragItem.id()){
 				return false;
 			};
+			
+			
+			var elem = _dragItem.get();
+			var rect = item.get().getBoundingClientRect();
+			var diff = event.clientY - rect.top;
+			if((diff) < this.offsetHeight/2){
+				item.addClass("effect-up");
+				item.removeClass("effect-down");
+			}else{
+				item.addClass("effect-down");
+				item.removeClass("effect-up");
+			}
+			
+			
 		};
 	};
 
@@ -45,6 +66,8 @@ var sgDesignMenu = false;
 	var _dragLeave = function(item){
 		return function(event){
 			event.preventDefault();
+			item.removeClass("effect-down");
+			item.removeClass("effect-up");
 		};
 	};
 	
@@ -56,10 +79,19 @@ var sgDesignMenu = false;
 			event.stopPropagation();
 			
 			item.removeClass("ul_over");
-
+			item.removeClass("effect-down");
+			item.removeClass("effect-up");
+			if(item.ds("dmModeItem") === "new"){
+				return false;
+			}
+			
 			if(item.id() === _dragItem.id()){
 				return false;
 			}
+			
+			
+			
+			
 			if(_dragItem.ds("dmModeItem") === "new"){
 				_dragItem.ds("dmModeItem", "normal");
 				menu.addNewItem();
@@ -74,10 +106,10 @@ var sgDesignMenu = false;
 			
 			if((diff) < this.offsetHeight/2){
 				target.insertBefore(elem, item.get());
-				db("UP", "aqua", "blue");
+				//db("UP", "aqua", "blue");
 			}else{
 				target.insertBefore(elem, item.get().nextSibling);
-				db("down", "yellow", "orange");
+				//db("down", "yellow", "orange");
 			}
 			
 			_dragItem.addClass("drop-end");
@@ -181,6 +213,10 @@ var sgDesignMenu = false;
 				
 				})
 				.on("dragover", function(event){
+					if(ME._main.ds("dmModeItem") === "new"){
+						return false;
+					}
+				
 					event.preventDefault();
 
 				});
@@ -234,8 +270,32 @@ var sgDesignMenu = false;
 			this._main.addClass(this.className);
 			
 			
-			this._main.create("input").attr("type","radio");
-			this._caption = this._main.create("span").addClass("caption").text(this.caption);
+				
+			
+			
+			
+			
+			var header = this._main.create("div").addClass("caption");
+			header.create("input").attr("type","radio").attr("name", this.name + "_chk").attr("checked", true);
+			
+			header.create("span").addClass("caption").text(this.caption);
+			
+			header.on("dragover", function(event){
+					event.preventDefault();	
+					
+				})
+				.on("drop", function(event){
+					event.preventDefault();
+					if(_dragItem.ds("dmModeItem") === "new"){
+						_dragItem.ds("dmModeItem", "normal");
+						ME.addNewItem();
+					}
+					ME._menu.append(_dragItem.get());
+					
+				
+					
+				});
+			
 			
 			this._menu = this._main.create("UL").addClass("menu");
 			this.length = 0;
@@ -277,7 +337,7 @@ var sgDesignMenu = false;
 				newLI.create("input").attr("type","text").value("New Item")
 			;
 			*/
-			this._main.create("div").addClass("delete-zone").text("x")
+			this._main.create("div").addClass("delete-zone").text("DELETE")
 				.on("dragover", function(event){
 					
 					if(_dragItem.ds("dmModeItem") !== "new"){
@@ -298,6 +358,9 @@ var sgDesignMenu = false;
 					this.innerHTML = ME.getCode();
 				});
 			
+			
+			
+			
 		},
 		
 		addNewItem: function(){
@@ -305,6 +368,8 @@ var sgDesignMenu = false;
 			var item = this.add({target:this.newUL, caption:"New Item "+(this.length + 1), index:this.length});
 			
 			item.get().ds("dmModeItem","new");
+			
+
 			
 			//var option = new Item({target:this.newUL, caption:"New Item "+this.length, index:this.length});
 			//this.length++;
@@ -344,15 +409,43 @@ var sgDesignMenu = false;
 			
 			var childs = node.queryAll("li");
 			var n = childs.length;
-			var a = [], item = false;
+			var 
+				a = [],
+				item = false,
+				_index = false,
+				_parent = false;
+			this.recount = false;
 			for(var i = 0; i < n; i++){
 				
-				item = {
-					index: $(childs[i]).ds("dmIndex"),
-					parent: $(childs[i].parentNode.parentNode).ds("dmIndex") || false,
-					caption: $(childs[i]).query("input[type='text']").value,
-				};
-				db(item.caption)
+				
+				
+				if(this.recount){
+					$(childs[i]).ds("dmNewIndex", i);
+					
+					
+					_parent = $(childs[i].parentNode.parentNode).ds("dmNewIndex");
+					
+					if(_parent ===undefined){
+						_parent = false;
+					}
+					
+					item = {
+						index: $(childs[i]).ds("dmNewIndex"),
+						parent: _parent,
+						caption: $(childs[i]).query("input[type='text']").value,
+					};
+					
+				}else{
+					item = {
+						index: $(childs[i]).ds("dmIndex"),
+						parent: $(childs[i].parentNode.parentNode).ds("dmIndex") || false,
+						caption: $(childs[i]).query("input[type='text']").value,
+					};
+				
+				}
+				
+				
+				
 				a.push(item);
 			}
 			
