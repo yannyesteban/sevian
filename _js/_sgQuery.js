@@ -298,6 +298,9 @@ _sgObjet.prototype = {
 	ds: function(prop, value){
 		
 		if(prop){
+			if(value === undefined){
+				return this.e.dataset[prop];
+			}
 			_sg.prop(this.e.dataset, prop, value);
 			return this;	
 		}else{

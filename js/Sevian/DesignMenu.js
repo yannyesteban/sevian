@@ -60,10 +60,11 @@ var sgDesignMenu = false;
 			if(item.id() === _dragItem.id()){
 				return false;
 			}
-			
-			if(1==1){
+			if(_dragItem.ds("dmModeItem") === "new"){
+				_dragItem.ds("dmModeItem", "normal");
 				menu.addNewItem();
 			}
+			
 			
 			
 			var target = item.get().parentNode;
@@ -170,10 +171,13 @@ var sgDesignMenu = false;
 				
 				
 					_dragItem.addClass("drop-end");
-				
-					if(1==1){
+					
+					if(_dragItem.ds("dmModeItem") === "new"){
+						_dragItem.ds("dmModeItem", "normal");
 						ME.menu.addNewItem();
 					}
+					
+					
 				
 				})
 				.on("dragover", function(event){
@@ -275,21 +279,32 @@ var sgDesignMenu = false;
 			*/
 			this._main.create("div").addClass("delete-zone").text("x")
 				.on("dragover", function(event){
-					event.preventDefault();
+					
+					if(_dragItem.ds("dmModeItem") !== "new"){
+						event.preventDefault();
+					}
 				})
 				.on("drop", function(event){
 					event.preventDefault();
-					_dragItem.get().parentNode.removeChild(_dragItem.get());
+				
+					if(_dragItem.ds("dmModeItem") !== "new"){
+						_dragItem.get().parentNode.removeChild(_dragItem.get());
+					}
+				
+					
 				});
-			
+			this.result = this._main.create("div").id("str").text(".....")
+				.on("click", function(){
+					this.innerHTML = ME.getCode();
+				});
 			
 		},
 		
 		addNewItem: function(){
 			
-			var item = this.add({target:this.newUL, caption:"New Item "+this.length, index:this.length});
+			var item = this.add({target:this.newUL, caption:"New Item "+(this.length + 1), index:this.length});
 			
-			
+			item.get().ds("dmModeItem","new");
 			
 			//var option = new Item({target:this.newUL, caption:"New Item "+this.length, index:this.length});
 			//this.length++;
@@ -318,11 +333,41 @@ var sgDesignMenu = false;
 			opt.chkName = this.name + "_chk";
 			this._item[opt.index] = new Item(opt);
 			
-			db(this._item[opt.index].menu.caption, "red")
+			
 			this.length++;
 			return this._item[opt.index];
 			
+		},
+		
+		
+		getItems: function(node){
+			
+			var childs = node.queryAll("li");
+			var n = childs.length;
+			var a = [], item = false;
+			for(var i = 0; i < n; i++){
+				
+				item = {
+					index: $(childs[i]).ds("dmIndex"),
+					parent: $(childs[i].parentNode.parentNode).ds("dmIndex") || false,
+					caption: $(childs[i]).query("input[type='text']").value,
+				};
+				db(item.caption)
+				a.push(item);
+			}
+			
+			return a;
+		},
+		
+		getCode: function(){
+		
+			return JSON.stringify(this.getItems(this._menu)); 
+		
+			
+		
+		
 		}
+		
 	};
 	
 	Sevian.Input.DesignMenu = DesignMenu;
