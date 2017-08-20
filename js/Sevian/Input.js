@@ -25,7 +25,7 @@ var ssInput = false;
 		this.target = false;
 		this.main = false;
 		
-		this.title = "";
+		
 		
 		this.data = [];
 		this.parent = false;

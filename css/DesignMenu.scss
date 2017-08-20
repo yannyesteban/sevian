@@ -58,9 +58,47 @@
 
 .design-menu{
 	
-	.option{
+	margin:4px;
+	border: 2px solid rgba(191,191,191,1.00);
+	padding: 4px;
+	
+	>ul{
+		border:2px solid rgba(156,151,151,1.00);
+	}
+	.item-option{
+		display: flex;
+		height: 24px;
+		
+		img{
+			width: auto;
+			height: 20px;
+			width: 20px;
+			margin-right: 4px;
+		}
+		img[src=""]{
+			width: auto;
+			height: 0px;
+			width: 20px;
+			margin-right: 4px;
+		}
+		
+		
+	}
+	
+	.option, .item-option{
 		line-height: 1.6em;
 		
+		>span{
+			display: inline-block;
+			background-color: rgba(0,0,0,0.55);
+			color:white;
+			width:20px;
+			//height:20px;
+			border: 1px solid rgba(104,104,104,1.00);
+			text-align: center;
+			margin-left: 2px;
+			
+		}
 		input[type="button"]{
 			border: 1px solid rgba(108,108,108,1.00);
 			background-color: rgba(0,0,0,0.74);
@@ -70,6 +108,8 @@
 			//width: 1.5em;
 			margin: 1px;
 			text-align: left;
+			
+			
 		}
 		
 		.item-action[data-dm-action=""]{

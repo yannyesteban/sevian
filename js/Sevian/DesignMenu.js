@@ -9,11 +9,105 @@ var sgDesignMenu = false;
 
 (function(namespace, $){
 	
+	var dragItem = false;
+	
+	var dragStart = function(item){
+		return function(event){
+			item.addClass("drag-start");
+			event.dataTransfer.setData("text","");
+			dragItem = item;
+		};
+	};
+	var dragEnd = function(item){
+		return function(event){
+			item.removeClass("drag-start");
+			dragItem = false;
+		};
+	};
+	var dragOver = function(item){
+		return function(event){
+			
+		};
+	};
+	var dragLeave = function(item){
+		return function(event){
+			
+		};
+	};
+	var dragEnter = function(item){
+		return function(event){
+			
+		};
+	};
+	var drop = function(item){
+		return function(event){
+			
+		};
+	};
+	
+	var _item = function(opt){
+		
+		this.index = false;
+		this.parent = false;
+		this.caption = false;
+		this.action = false;
+		this.image = false;
+		//this.index = false;
+		
+		this.target = false;
+		this._target = false;
+		for(var x in opt){
+			this[x] = opt[x];
+		}
+		
+		if(this.target){
+			this._target = $(this.target);
+		}
+		
+		this.create();
+	};
+	
+	
+	_item.prototype = {
+		
+		get: function(){
+			return this._main;
+		},
+		
+		create: function(){
+			
+			this._main = $.create("li");
+			this._option = this._main.create("div").addClass("item-option");
+			this._check = this._option.create("input").prop({"type": "radio", name: this.chkName});
+			this._image = this._option.create("img").attr("src", this.image);
+			this._text = this._option.create("input").attr("type", "text").value(this.caption);
+			this._add = this._option.create("span").text("+");
+			this._remove = this._option.create("span").text("-");
+			this._action = this._option.create("span").text("...");
+			this._menu = this._main.create("ul");
+			
+			if(this._target){
+				this._target.append(this._main);
+			}
+			
+		},
+		getMenu: function(){
+			return this._menu;
+		
+		},
+		
+		
+	};
+	
+	
+	
+	
 	var _dragItem = false;
 	
 	var _dragStart = function(item){
 		return function(event){
 			item.addClass("drag-start");
+			//event.dataTransfer.setData("nombre", "yanny");
 			event.dataTransfer.setData("text", "");
 			_dragItem = item;
 			
@@ -28,13 +122,18 @@ var sgDesignMenu = false;
 		};
 	};
 	
-	var _dragOver = function(item){
+	var _dragOver = function(item, _type){
+		
 		return function(event){
 			
 			
 			if(event.dataTransfer.getData("text") !== ""){
 				event.preventDefault();
 				
+				return false;
+			}
+			
+			if(!_dragItem){
 				return false;
 			}
 			
@@ -88,7 +187,7 @@ var sgDesignMenu = false;
 			
 			event.preventDefault();
 			event.stopPropagation();
-			
+			//db(event.dataTransfer.getData("nombre"),"red","yellow")
 			
 			if(event.dataTransfer.getData("text")!= ""){
 				
@@ -137,7 +236,7 @@ var sgDesignMenu = false;
 				target.insertBefore(elem, item.get().nextSibling);
 				//db("down", "yellow", "orange");
 			}
-			
+			menu.getCode();
 			//_dragItem.addClass("drop-end");
 			
 		};
@@ -152,6 +251,8 @@ var sgDesignMenu = false;
 		this._target = false;
 		this.image = "";
 		this.action = "";
+		
+		this._type = "ITEM.....";
 		for(var x in opt){
 			//if(opt.hasOwnProperty(x)){
 			
@@ -242,7 +343,7 @@ var sgDesignMenu = false;
 				.on("dragstart", _dragStart(this._main))
 				.on("dragend", _dragEnd(this._main))
 				.on("dragenter", _dragEnter(this._main))
-				.on("dragover", _dragOver(this._main))
+				.on("dragover", _dragOver(this._main, this._type))
 				.on("dragleave", _dragLeave(this._main))
 				.on("drop", _drop(this._main, this.menu, this._img))
 			;
@@ -288,7 +389,10 @@ var sgDesignMenu = false;
 				})
 				.on("dragover", function(event){
 					
-				
+					if(!_dragItem){
+						event.preventDefault();
+						return false;
+					}
 				
 					if(ME._main.ds("dmName") !== _dragItem.ds("dmName")){
 						return false;
@@ -325,11 +429,38 @@ var sgDesignMenu = false;
 	
 	var DesignMenu = function(opt){
 		
-		this.name = false;
-		
-		this.data = [];
 		this.target = false;
 		this.main = false;
+		
+		
+		this.type = "";
+		
+		this.id = "";
+		this.name = "";
+		
+		this.className = false;
+		this.title = "";
+		this.value = "";
+		this.default = false;
+		
+		
+		
+		
+		this.data = [];
+		this.parent = false;
+		this.propertys = {};
+		this.style = {};
+		this.events = {};
+		this.rules = {};
+		
+		this.modeInit = 1;
+		
+		this.placeholder = false;
+		
+		this.status = "normal";
+		this.mode = "request";
+		
+		
 		this._menu = false;
 		
 		this.length = 0;
@@ -339,6 +470,7 @@ var sgDesignMenu = false;
 			}
 			
 		}
+		this.input = false;
 		this._item = [];
 		this._target = $(this.target);
 		this.create();
@@ -355,6 +487,7 @@ var sgDesignMenu = false;
 			
 			this.length = 0;
 			this._item = [];
+			
 			if(!this._main){
 				this._main = $.create("div");
 			}
@@ -363,10 +496,33 @@ var sgDesignMenu = false;
 			this._main.addClass(this.className);
 			
 			
+			this._input = this._main.create("textarea").attr("name", this.name);
 			
 			
+			if(this.target){
+				this._target = $(this.target);
+				this._target.append(this._main);
+			}
+			var opt = {
+				target: this._main.create("ul"),
+				caption: this.caption,
+				chkName : this.name + "_chk",
+			};
+			this.item = new _item(opt);
 			
+			this._menu = this.item._menu;
 			
+			this.length = 0;
+			for(var x in this.data){
+				
+				this.add(this.data[x]);
+				 
+			}
+			
+			this.newUL = this._main.create("ul").addClass("new-item");
+			this.addNewItem();
+			
+			return;
 			
 			var header = this._main.create("div").addClass("caption");
 			header.create("input").attr("type","radio").attr("name", this.name + "_chk").attr("checked", true);
@@ -499,7 +655,7 @@ var sgDesignMenu = false;
 				main = this._menu;
 			}
 
-			this._item[opt.index] = new Item({
+			this._item[opt.index] = new _item({
 				target: main,
 				index: (opt.index === false || opt.index === undefined)? this.length : opt.index,
 				parent: opt.parent,
@@ -566,7 +722,7 @@ var sgDesignMenu = false;
 				
 				a.push(item);
 			}
-			
+			this._input.value(JSON.stringify(a));
 			return a;
 		},
 		
@@ -575,13 +731,114 @@ var sgDesignMenu = false;
 		},
 		
 		getCode: function(){
-		
+			
 			return JSON.stringify(this.getItems(this._menu)); 
 		
 			
 		
 		
-		}
+		},
+		
+		
+		setValue: function(value){
+			this._main.get().value = value;
+		},
+		getValue: function(){
+			return this._main.get().value;
+		},
+		addClass: function(className){
+			if(className){
+				this._main.addClass(className);
+			}
+		},
+		setClass: function(value){
+			
+		},
+		getClass: function(){
+			
+		},
+		
+		on: function(event, fn){
+			if(typeof(fn) === "function"){
+				this._main.on(event, fn.bind(this));
+			}else if(typeof(fn) === "string"){
+				this._main.on(event, Function(fn).bind(this));
+			}
+		},
+		off: function(event, fn){
+			
+		},
+		
+		getText: function(){
+			if(this.type === "select"){
+				return this._main.get().options[this._main.get().selectedIndex].text;	
+			}
+			return this._main.get().value;
+		},
+		
+		readOnly:function(value){
+			
+		},
+		
+		disabled:function(value){
+			
+		},
+	
+		setStatus:function(value){
+			this.status = value;
+			this._main.ds("status", value);
+		},	
+		
+		setMode:function(value){
+			this.mode = value;
+			this._main.ds("mode", value);
+		},	
+		
+		show:function(value){
+			
+		},	
+	
+		focus:function(){
+			this._main.get().focus();
+		},	
+		
+		selectText: function(){
+			if(this._main.get().select){
+				this._main.get().select();
+			}
+			
+			
+		},
+		
+		setData:function(data){
+			
+		},
+		
+		resetUNO: function(){
+			if(this.default !== false){
+				this.setValue(this.default);
+			}
+				
+		},
+		
+		valid: function(){
+			
+			var result = valid.valid(this.rules, this.getValue(), this.title);
+			
+			if(result){
+					
+				this.focus();
+				this.setStatus("invalid");
+				return false;
+			}else{
+				this.setStatus("valid");
+				
+			}
+			
+			return true;
+		},
+		
+		
 		
 	};
 	
@@ -617,7 +874,7 @@ function loadMenu(){
 	];
 	var data = [
 		
-		{index:0, parent: false, caption: "cero", action:"Yanny", image:"#"},
+		{index:0, parent: false, caption: "cero", action:"Yanny", image:"http://localhost/Awesome%20Icons%20Bundle%206000%20Icons%20PSD%20AI%20SVG%20EPS%20CreativeMarket%20442434/flat-icons/Financial/png_64/Basket.png"},
 		{index:1, parent: false, caption: "uno", action:"Esteban"},
 		{index:2, parent: false, caption: "dos", action:false},
 		{index:3, parent: false, caption: "tres", action:false},
