@@ -25,6 +25,30 @@
 	}
 }
 
+.img-drag[src='']{
+	//max-width: 60px;
+	//max-height: 60px;
+	border:15px solid blue;
+	display: block;
+}
+
+.img-drag{
+	max-width: 30px;
+	max-height: 30px;
+	//border:61px solid redtrans;
+	display: block;
+}
+.sg-images-dir{
+	
+	img{
+		width: 40px;
+		height: 40px;
+		margin:6px;
+		border: 2px solid rgba(0,0,0,0.23);
+		padding: 2px;
+	}
+	
+}
 .drop-end{
 	animation: drop-end 1s ease-out ;
 }
@@ -33,6 +57,65 @@
 }
 
 .design-menu{
+	
+	.option{
+		line-height: 1.6em;
+		
+		input[type="button"]{
+			border: 1px solid rgba(108,108,108,1.00);
+			background-color: rgba(0,0,0,0.74);
+			color:white;
+			height: 1.5em;
+			font-weight: bold;
+			//width: 1.5em;
+			margin: 1px;
+			text-align: left;
+		}
+		
+		.item-action[data-dm-action=""]{
+			background-color: aqua;
+		}
+		
+		.item-action{
+			vertical-align: middle;
+			display: inline-block;
+			//border:1px solid white;
+			background-color: rgba(255,255,255,0.18);
+			width: 20px;
+			height: 20px;
+			float: right;
+			color:white;
+		}
+	}
+	
+	.div-image{
+		padding-top: 8px;
+		//border: 1px solid white;
+		position: relative;
+		display: inline-block;
+		height: 20px;
+		width: 20px;
+		margin-top: 4px;
+		line-height: 20px;
+	}
+	.item-image{
+		margin: 1px;
+		vertical-align: middle;
+		//position: absolute;
+		height: 1.5em;
+		width: 1.5em;
+		//margin-top: 6px;
+		//border:1px solid white;
+		
+	}
+	.item-image[src='']{
+		border:10px solid transparent;
+		display: inline;
+		height: 0px;
+		width: 0px;
+		margin: 1px;
+	}
+	
 	width: 400px;
 	> ul{
 		background-color: rgba(86,9,10,1.00);
@@ -57,6 +140,7 @@
 			display: none;
 		}
 		input[type='radio']{
+			pointer-events: none;
 			//display: none;
 		}
 		.option{
@@ -117,7 +201,7 @@
 		min-height: 20px;
 		transition: 0.3s all ease-out 0.5s;
 	}
-	input{
+	input[type='text']{
 		font-family: tahoma;
 		font-size: 9pt;
 		//height: 1.4em;

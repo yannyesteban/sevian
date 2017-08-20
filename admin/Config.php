@@ -59,6 +59,9 @@ $clsElement["sgForm"] = [
 $clsElement["Fragment"] = [
 	"file" 	=> "Sigefor/Fragment.php",
 	"class" => "Sigefor\Fragment"];
+$clsElement["ImagesDir"] = [
+	"file" 	=> "ImagesDir.php",
+	"class" => "Sevian\ImagesDir"];
 
 $commands["procedure"] = [
 	"element"	=>	"procedure",

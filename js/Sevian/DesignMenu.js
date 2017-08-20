@@ -14,7 +14,7 @@ var sgDesignMenu = false;
 	var _dragStart = function(item){
 		return function(event){
 			item.addClass("drag-start");
-			event.dataTransfer.setData("text", "start");
+			event.dataTransfer.setData("text", "");
 			_dragItem = item;
 			
 		};
@@ -30,6 +30,17 @@ var sgDesignMenu = false;
 	
 	var _dragOver = function(item){
 		return function(event){
+			
+			
+			if(event.dataTransfer.getData("text") !== ""){
+				event.preventDefault();
+				
+				return false;
+			}
+			
+			if(item.ds("dmName") !== _dragItem.ds("dmName")){
+				return false;
+			}
 			
 			if(item.ds("dmModeItem") === "new"){
 				return false;
@@ -71,16 +82,31 @@ var sgDesignMenu = false;
 		};
 	};
 	
-	var _drop = function(item, menu){
+	var _drop = function(item, menu, img){
 		
 		return function(event){
 			
 			event.preventDefault();
 			event.stopPropagation();
 			
+			
+			if(event.dataTransfer.getData("text")!= ""){
+				
+				img.attr("src", event.dataTransfer.getData("text"));
+				return;
+			}
+			
 			item.removeClass("ul_over");
 			item.removeClass("effect-down");
 			item.removeClass("effect-up");
+			_dragItem.addClass("drop-end");
+			
+			
+			
+			if(item.ds("dmName") !== _dragItem.ds("dmName")){
+				return false;
+			}
+			
 			if(item.ds("dmModeItem") === "new"){
 				return false;
 			}
@@ -112,7 +138,7 @@ var sgDesignMenu = false;
 				//db("down", "yellow", "orange");
 			}
 			
-			_dragItem.addClass("drop-end");
+			//_dragItem.addClass("drop-end");
 			
 		};
 	};
@@ -124,6 +150,8 @@ var sgDesignMenu = false;
 		this.caption = false;
 		this.menuName = false;
 		this._target = false;
+		this.image = "";
+		this.action = "";
 		for(var x in opt){
 			//if(opt.hasOwnProperty(x)){
 			
@@ -160,16 +188,55 @@ var sgDesignMenu = false;
 		
 		create: function(){
 			this._main = $.create("li").id(this.id)
-				.addClass("item").ds("dmIndex", this.index).ds("dsMenu","item");
+				.addClass("item").ds("dmIndex", this.index).ds("dsMenu","item").ds("dmName", this.menuName);
 			
 			this._option = this._main.create("div").addClass("option");
 			
 			this._option.create("input").attr("type", "radio").attr("name", this.chkName);
+			this._img = this._option.create("img").addClass("item-image").attr("src", this.image)
+			.on("dblclick", function(){
+				this.src = "";
+			});
 			this._option.create("input").attr("type", "text").value(this.caption)
 			.on("dblclick", function(){
 				this.select();
 			});
+			
 			this.createMenu();
+			this._option.create("input").attr("type", "button").value("+")
+			
+				.on("click", function(){
+					ME.menu._newItem.get().ds("dmModeItem", "normal");
+					ME._menu.append(ME.menu._newItem.get());
+					ME.menu.addNewItem();
+				});
+			this._option.create("input").attr("type", "button").value("-")
+				.on("click", function(){
+					ME.remove();
+				});
+			this._option.create("span").text("....").addClass("item-action").ds("dmAction", this.action)
+				.attr("title", this.action)
+				.on("dblclick", function(){
+					$(this).ds("dmAction", "");
+					this.title = "";
+				})
+				.on("dragover", function(event){
+					
+				
+					event.preventDefault();
+				})
+				.on("drop", function(event){
+					event.preventDefault();
+					if(event.dataTransfer.getData("text") !== ""){
+						$(this).ds("dmAction", event.dataTransfer.getData("text"));
+						this.title = event.dataTransfer.getData("text");
+						event.stopPropagation();
+						
+					}
+					//
+				});
+			
+			
 			this._option
 				.attr("draggable", "true")
 				.on("dragstart", _dragStart(this._main))
@@ -177,12 +244,16 @@ var sgDesignMenu = false;
 				.on("dragenter", _dragEnter(this._main))
 				.on("dragover", _dragOver(this._main))
 				.on("dragleave", _dragLeave(this._main))
-				.on("drop", _drop(this._main, this.menu))
+				.on("drop", _drop(this._main, this.menu, this._img))
 			;
 
 			
 			this._main
 				.on("dragover", function(event){
+					if(event.dataTransfer.getData("text") !== ""){
+						event.preventDefault();
+						return false;
+					}
 					$(this).addClass("ul_over");
 				})
 				.on("dragleave", function(event){
@@ -216,6 +287,12 @@ var sgDesignMenu = false;
 				
 				})
 				.on("dragover", function(event){
+					
+				
+				
+					if(ME._main.ds("dmName") !== _dragItem.ds("dmName")){
+						return false;
+					}
 					if(ME._main.ds("dmModeItem") === "new"){
 						return false;
 					}
@@ -233,6 +310,16 @@ var sgDesignMenu = false;
 			}
 			
 		},
+		
+		
+		remove: function(){
+			if(this.get().ds("dmModeItem") !== "new"){
+				db("ok")
+				this.get().get().parentNode.removeChild(this.get().get());
+			}else{
+				db("error")
+			}
+		},
 	};
 	
 	
@@ -244,13 +331,15 @@ var sgDesignMenu = false;
 		this.target = false;
 		this.main = false;
 		this._menu = false;
-		this._item = [];
+		
+		this.length = 0;
 		for(var x in opt){
 			if(opt.hasOwnProperty(x)){
 				this[x] = opt[x];
 			}
 			
 		}
+		this._item = [];
 		this._target = $(this.target);
 		this.create();
 		
@@ -264,7 +353,8 @@ var sgDesignMenu = false;
 //				parent = false,
 				ME = this;
 			
-			
+			this.length = 0;
+			this._item = [];
 			if(!this._main){
 				this._main = $.create("div");
 			}
@@ -273,7 +363,7 @@ var sgDesignMenu = false;
 			this._main.addClass(this.className);
 			
 			
-				
+			
 			
 			
 			
@@ -281,9 +371,27 @@ var sgDesignMenu = false;
 			var header = this._main.create("div").addClass("caption");
 			header.create("input").attr("type","radio").attr("name", this.name + "_chk").attr("checked", true);
 			
-			header.create("span").addClass("caption").text(this.caption);
+			header.create("input").attr("type", "text").addClass("caption").value(this.caption);
+			
+			header.create("input").attr("type", "button").value("+")
+			
+			.on("click", function(){
+				ME._newItem.get().ds("dmModeItem", "normal");
+				ME._menu.append(ME._newItem.get());
+				ME.addNewItem();
+			});
+			header.create("input").attr("type", "button").value("R")
+			
+			.on("click", function(){
+				ME.reset();
+			});
 			
 			header.on("dragover", function(event){
+				
+				if(ME.name !== _dragItem.ds("dmName")){
+						return false;
+					}
+				
 					event.preventDefault();	
 					
 				})
@@ -305,21 +413,7 @@ var sgDesignMenu = false;
 			for(var x in this.data){
 				
 				this.add(this.data[x]);
-				continue;
-				
-				data = this.data[x];
-				
-				if(data.parent !== false){
-					main = this._item[data.parent].getMenu();
-				}else{
-					main = this._menu;
-				}
-				data.menuName = this.name;
-				data.id = this.name + "_i_" + x;
-				data.target = main;
-				//data.chkName = this.name+"_chk"
-				this._item[data.index] = new Item(data);
-				this.length++; 
+				 
 			}
 			
 			
@@ -342,7 +436,11 @@ var sgDesignMenu = false;
 			*/
 			this._main.create("div").addClass("delete-zone").text("DELETE")
 				.on("dragover", function(event){
-					
+					if(ME.name !== _dragItem.ds("dmName")){
+						return false;
+					}	
+				
+				
 					if(_dragItem.ds("dmModeItem") !== "new"){
 						event.preventDefault();
 					}
@@ -366,13 +464,24 @@ var sgDesignMenu = false;
 			
 		},
 		
+		
+		loadItems: function(data){
+			this.length = 0;
+			this._item = [];
+			
+			this._menu.text("");
+			for(var x in data){
+				this.add(data[x]);
+			}	
+			
+		},
 		addNewItem: function(){
 			
-			var item = this.add({target:this.newUL, caption:"New Item "+(this.length + 1), index:this.length});
+			this._newItem = this.add({target:this.newUL, caption:"New Item "+(this.length + 1), index:this.length});
 			
-			item.get().ds("dmModeItem","new");
+			this._newItem.get().ds("dmModeItem","new");
 			
-
+			
 			
 			//var option = new Item({target:this.newUL, caption:"New Item "+this.length, index:this.length});
 			//this.length++;
@@ -382,7 +491,6 @@ var sgDesignMenu = false;
 		add: function(opt){
 			var main = false;
 			
-			//opt = this.data[x];
 			if(opt.target){
 				main = opt.target;
 			}else if(opt.parent !== false && opt.parent !== undefined){
@@ -390,16 +498,19 @@ var sgDesignMenu = false;
 			}else{
 				main = this._menu;
 			}
-			
-			if(opt.index === false || opt.index === undefined){
-				opt.index = this.length;
-			}
-			opt.id = this.name + "_i" + opt.index;
-			opt.menu = this;
-			opt.menuName = this.name;
-			opt.target = main;
-			opt.chkName = this.name + "_chk";
-			this._item[opt.index] = new Item(opt);
+
+			this._item[opt.index] = new Item({
+				target: main,
+				index: (opt.index === false || opt.index === undefined)? this.length : opt.index,
+				parent: opt.parent,
+				id: this.name + "_i" + opt.index,
+				caption: opt.caption,
+				chkName: this.name + "_chk",
+				menuName: this.name,
+				menu: this,
+				action: opt.action || "",
+				image: opt.image || ""
+			});
 			
 			
 			this.length++;
@@ -428,7 +539,7 @@ var sgDesignMenu = false;
 					
 					_parent = $(childs[i].parentNode.parentNode).ds("dmNewIndex");
 					
-					if(_parent ===undefined){
+					if(_parent === undefined){
 						_parent = false;
 					}
 					
@@ -436,6 +547,8 @@ var sgDesignMenu = false;
 						index: $(childs[i]).ds("dmNewIndex"),
 						parent: _parent,
 						caption: $(childs[i]).query("input[type='text']").value,
+						image: $(childs[i]).query("img").getAttribute("src"),
+						action: $(childs[i]).query(".item-action").dataset.dmAction,
 					};
 					
 				}else{
@@ -443,6 +556,8 @@ var sgDesignMenu = false;
 						index: $(childs[i]).ds("dmIndex"),
 						parent: $(childs[i].parentNode.parentNode).ds("dmIndex") || false,
 						caption: $(childs[i]).query("input[type='text']").value,
+						image: $(childs[i]).query("img").getAttribute("src"),
+						action: $(childs[i]).query(".item-action").dataset.dmAction,
 					};
 				
 				}
@@ -453,6 +568,10 @@ var sgDesignMenu = false;
 			}
 			
 			return a;
+		},
+		
+		reset: function(){
+			this.loadItems(this.data);
 		},
 		
 		getCode: function(){
@@ -498,8 +617,8 @@ function loadMenu(){
 	];
 	var data = [
 		
-		{index:0, parent: false, caption: "cero", action:false},
-		{index:1, parent: false, caption: "uno", action:false},
+		{index:0, parent: false, caption: "cero", action:"Yanny", image:"#"},
+		{index:1, parent: false, caption: "uno", action:"Esteban"},
 		{index:2, parent: false, caption: "dos", action:false},
 		{index:3, parent: false, caption: "tres", action:false},
 		{index:4, parent: false, caption: "cuatro", action:false},
@@ -513,16 +632,26 @@ function loadMenu(){
 		{index:12, parent: 1, caption: "doce", action:false},
 		{index:13, parent: 11, caption: "trece", action:false},
 		{index:14, parent: 11, caption: "catorce", action:false},
-		{index:15, parent: 1, caption: "quince", action:false},
+		{index:15, parent: 1, caption: "quince", action:"Nuñez"},
 		
 		
 	];
-	var D = new Sevian.Input.DesignMenu({
+	
+	//data = [];
+	new Sevian.Input.DesignMenu({
 		name:"menu_1",
 		caption: "Menú Principal",
 		data: data,
 		target: "#design",
-	})
+	});
+	
+	data = [];
+	new Sevian.Input.DesignMenu({
+		name:"menu_2",
+		caption: "Menú Secundario",
+		data: data,
+		target: "#design2",
+	});
 	//alert($("#design").text());
 	
 	

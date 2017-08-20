@@ -11,7 +11,7 @@
 		
 		
 	</div>
-	<div class="panel_right"></div>
+	<div class="panel_right">--5--</div>
 	
 	
 	<span hidden="hidden">
@@ -19,7 +19,7 @@
 	--2--
 	--3--
 	
-	--5--
+	
 	--6--
 	--7--
 	--8--

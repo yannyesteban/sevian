@@ -31,11 +31,14 @@ class DesignMenu extends Sevian\Panel{
 		$div = new Sevian\HTML("div");
 		$div->id = "design";
 		$div->class = "design";
+		$div2 = new Sevian\HTML("div");
+		$div2->id = "design2";
+		$div2->class = "design";
 		//$div->innerHTML = "HOLA";
 		
 		$this->script = "loadMenu();";
 		
-		return $div->render();
+		return $div->render().$div2->render();
 		
 	}
 	

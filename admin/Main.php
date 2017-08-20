@@ -97,6 +97,14 @@ $elements[] = array(
 	"designMode"=>false,
 	"fixed"		=>true,
 );
+$elements[] = array(
+	"panel"		=>5,
+	"element"	=>"ImagesDir",
+	"name"		=>"uno",
+	"method"	=>"toolbar",
+	"designMode"=>false,
+	"fixed"		=>true,
+);
 
 /*
 $elements[] = array(
