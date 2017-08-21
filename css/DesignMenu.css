@@ -49,13 +49,13 @@
     height: 24px; }
     .design-menu .item-option img {
       width: auto;
-      height: 20px;
-      width: 20px;
+      height: 24px;
+      width: 24px;
       margin-right: 4px; }
     .design-menu .item-option img[src=""] {
       width: auto;
       height: 0px;
-      width: 20px;
+      width: 24px;
       margin-right: 4px; }
   .design-menu .option, .design-menu .item-option {
     line-height: 1.6em; }
