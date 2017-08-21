@@ -15,6 +15,10 @@ class ImagesDir extends Panel{
 		
 		$path = 'C:\www\Awesome Icons Bundle 6000 Icons PSD AI SVG EPS CreativeMarket 442434\flat-icons\Financial\png_64';
 		$path2 = '../../Awesome Icons Bundle 6000 Icons PSD AI SVG EPS CreativeMarket 442434\flat-icons\Financial\png_64';
+		
+		
+		$path = "C:\www\sevian\icons\png";
+		$path2 = "../icons/png";
 		$list = scandir($path);
 		
 		$div = new HTML("div");
