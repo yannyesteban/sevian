@@ -10,37 +10,80 @@ var sgDesignMenu = false;
 (function(namespace, $){
 	
 	var dragItem = false;
+	var dragObj = false;
 	
-	var dragStart = function(item){
+	var dragStart = function(opt){
+	
 		return function(event){
-			item.addClass("drag-start");
 			event.dataTransfer.setData("text","");
-			dragItem = item;
+			dragObj = opt;
+			
+			
+			
+			
+			if(opt.type === "item"){
+			}
+			
 		};
 	};
-	var dragEnd = function(item){
+	var dragEnd = function(opt){
+		
 		return function(event){
 			item.removeClass("drag-start");
-			dragItem = false;
+			dragObj = false;
 		};
 	};
-	var dragOver = function(item){
+	var dragOver = function(opt){
+		return function(event){
+			
+			event.preventDefault();
+		};
+	};
+	var dragLeave = function(opt){
 		return function(event){
 			
 		};
 	};
-	var dragLeave = function(item){
+	var dragEnter = function(opt){
 		return function(event){
-			
+			event.preventDefault();
 		};
 	};
-	var dragEnter = function(item){
+	var drop = function(main){
 		return function(event){
+			event.preventDefault();
+			event.stopPropagation();
 			
-		};
-	};
-	var drop = function(item){
-		return function(event){
+			if(main.type === "submenu" && dragObj){
+				
+				db(main.menu)
+				main.menu.append(dragObj.obj)
+			}
+			
+			if(main.type === "submenu"){
+				return false;
+			}
+			
+			if(dragObj === false){
+				
+				
+				if(event.dataTransfer.getData("text") !== ""){
+					if((event.dataTransfer.getData("text")).match(/\.png/i)){
+						main.item.getImage().attr("src", event.dataTransfer.getData("text"));
+						return false;
+					}
+					
+					
+				}
+				
+			}
+			
+			
+			
+			
+			
+			
+			
 			
 		};
 	};
@@ -77,14 +120,53 @@ var sgDesignMenu = false;
 		create: function(){
 			
 			this._main = $.create("li");
-			this._option = this._main.create("div").addClass("item-option");
+			
+			
+			this._option = this._main.create("span").addClass("item-option")
+				.attr("draggable", "false")
+				.on("dragstart", dragStart(
+					{
+						type: "item",
+						obj: this._main,
+					}
+				))
+
+				.on("dragover", dragOver(
+					{
+						type: "menu",
+						obj: this._main,
+					}
+				))
+				.on("dragenter", dragEnter(
+					{
+						type: "menu",
+						obj: this._main,
+					}
+				))
+				.on("drop", drop(
+					{
+						type: "menu",
+						obj: this._main,
+						menu: this._menu,
+						item: this,
+					}
+				));
+			
+			;
 			this._check = this._option.create("input").prop({"type": "radio", name: this.chkName});
-			this._image = this._option.create("img").attr("src", this.image);
+			this._image = this._option.create("img").attr("src", this.image).on("dragstart", dragStart({}));
 			this._text = this._option.create("input").attr("type", "text").value(this.caption);
 			this._add = this._option.create("span").text("+");
 			this._remove = this._option.create("span").text("-");
 			this._action = this._option.create("span").text("...");
-			this._menu = this._main.create("ul");
+			this._menu = this._main.create("ul").addClass("submenu");
+			this._menu.on("drop", drop({type: 'submenu', obj: this._main, menu: this._menu}))
+				.on("dragover", function(event){event.preventDefault();})
+			;
+			
+			
+			
+			
 			
 			if(this._target){
 				this._target.append(this._main);
@@ -96,7 +178,9 @@ var sgDesignMenu = false;
 		
 		},
 		
-		
+		getImage: function(){
+			return this._image;
+		}
 	};
 	
 	
@@ -492,6 +576,24 @@ var sgDesignMenu = false;
 				this._main = $.create("div");
 			}
 
+			this._main.create("div").text("..........")
+			
+			.on("drop", function(event){
+				db("drop")
+				event.preventDefault();
+			})
+			.on("dragover", function(event){
+				db("over")
+				event.preventDefault();
+			})
+			.attr("draggable", "true").addClass("container")
+			.on("dragstart", function(event){
+				 event.dataTransfer.setData("text", "");
+				//event.preventDefault();
+				//event.stopPropagation();
+			})
+			
+			
 			this._main.addClass("design-menu");
 			this._main.addClass(this.className);
 			
