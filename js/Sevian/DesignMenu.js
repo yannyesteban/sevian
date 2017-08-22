@@ -44,7 +44,7 @@ var sgDesignMenu = false;
 				var hand = opt.item.getHand();
 				var rect = hand.get().getBoundingClientRect();
 				var diff = event.clientY - rect.top;
-				opt.obj.addClass("ul_over");
+				//opt.obj.addClass("ul_over");
 				if((diff) < this.offsetHeight / 2){
 					hand.addClass("effect-up");
 					hand.removeClass("effect-down");
@@ -61,10 +61,11 @@ var sgDesignMenu = false;
 	var dragLeave = function(opt){
 		return function(event){
 			db(this.tagName)
+			//this.style.border = "1px solid green" ;
 			if(dragObj && dragObj.type == "item"){
 				opt.hand.removeClass("effect-down");
 				opt.hand.removeClass("effect-up");
-				opt.obj.removeClass("ul_over");
+				//opt.obj.removeClass("ul_over");
 			}
 		};
 	};
@@ -76,12 +77,15 @@ var sgDesignMenu = false;
 	var drop = function(main){
 		return function(event){
 			event.preventDefault();
-			event.stopPropagation();
+			//event.stopPropagation();
 			
 			if(main.type === "submenu" && dragObj){
 				
 				db(main.menu)
-				main.menu.append(dragObj.obj)
+				main.menu.append(dragObj.obj);
+				if(main.ondrop){
+					main.ondrop();		
+				}
 			}
 			
 			if(main.type === "submenu"){
@@ -93,10 +97,37 @@ var sgDesignMenu = false;
 				if(event.dataTransfer.getData("text") !== ""){
 					if((event.dataTransfer.getData("text")).match(/\.png/i)){
 						main.item.getImage().attr("src", event.dataTransfer.getData("text"));
+						if(main.ondrop){
+							main.ondrop();		
+						}
 						return false;
 					}
 				}
 			}
+			if(dragObj && dragObj.type == "item"){
+				
+				var hand = main.item.getHand();
+				var rect = hand.get().getBoundingClientRect();
+				var diff = event.clientY - rect.top;
+				
+				var target = main.obj.get().parentNode;
+				//opt.obj.addClass("ul_over");
+				if((diff) < this.offsetHeight / 2){
+					target.insertBefore(dragObj.obj.get(), main.obj.get());
+				}else{
+					target.insertBefore(dragObj.obj.get(), main.obj.get().nextSibling);
+				}
+				
+				if(main.ondrop){
+					main.ondrop();		
+				}
+				
+			}
+			
+			
+			
+			//menu.getCode();
+			
 		};
 	};
 	
@@ -131,7 +162,7 @@ var sgDesignMenu = false;
 		
 		create: function(){
 			
-			this._main = $.create("li");
+			this._main = $.create("li").ds("dmIndex", this.index);
 			
 			
 			this._option = this._main.create("span").addClass("item-option");
@@ -159,7 +190,14 @@ var sgDesignMenu = false;
 						item: this,
 					}
 				))
-				
+				.on("dragleave", dragLeave(
+					{
+						type: "menu",
+						obj: this._main,
+						item: this,
+						hand: this._option,
+					}
+				))
 				.on("dragenter", dragEnter(
 					{
 						type: "menu",
@@ -172,28 +210,34 @@ var sgDesignMenu = false;
 						obj: this._main,
 						menu: this._menu,
 						item: this,
+						ondrop: this.ondrop,
 					}
 				));
 			
 			;
 			
-			this._main.on("dragleave", dragLeave(
-					{
-						type: "menu",
-						obj: this._main,
-						item: this,
-						hand: this._option,
-					}
-				))
+			this._main
+				.on("dragover", function(event){
+					$(this).addClass("ul_over");
+				})
+				.on("dragleave", function(event){
+					$(this).removeClass("ul_over");
+				})
+				.on("drop", function(event){
+					event.preventDefault();
+					event.stopPropagation();
+					db("DROP-end")
+					$(this).removeClass("ul_over");
+				})
 			
 			this._check = this._option.create("input").prop({"type": "radio", name: this.chkName});
 			this._image = this._option.create("img").attr("src", this.image).on("dragstart", dragStart({}));
 			this._text = this._option.create("input").attr("type", "text").value(this.caption);
 			this._add = this._option.create("span").text("+");
 			this._remove = this._option.create("span").text("-");
-			this._action = this._option.create("span").text("...");
+			this._action = this._option.create("span").addClass("item-action").text("...");
 			this._menu = this._main.create("ul").addClass("submenu");
-			this._menu.on("drop", drop({type: 'submenu', obj: this._main, menu: this._menu}))
+			this._menu.on("drop", drop({type: 'submenu', obj: this._main, menu: this._menu, ondrop: this.ondrop}))
 				.on("dragover", function(event){event.preventDefault();})
 			;
 			
@@ -793,7 +837,7 @@ var sgDesignMenu = false;
 			}else{
 				main = this._menu;
 			}
-
+			var ME = this;
 			this._item[opt.index] = new _item({
 				target: main,
 				index: (opt.index === false || opt.index === undefined)? this.length : opt.index,
@@ -804,7 +848,10 @@ var sgDesignMenu = false;
 				menuName: this.name,
 				menu: this,
 				action: opt.action || "",
-				image: opt.image || ""
+				image: opt.image || "",
+				ondrop: function(){
+					ME.getCode();
+				}
 			});
 			
 			
