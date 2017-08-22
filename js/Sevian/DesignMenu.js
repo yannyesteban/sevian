@@ -29,7 +29,8 @@ var sgDesignMenu = false;
 	var dragEnd = function(opt){
 		
 		return function(event){
-			item.removeClass("drag-start");
+			//opt.obj.removeClass("drag-start");
+			db("dragEnd")
 			dragObj = false;
 		};
 	};
@@ -37,11 +38,34 @@ var sgDesignMenu = false;
 		return function(event){
 			
 			event.preventDefault();
+			
+			if(dragObj && dragObj.type == "item"){
+				
+				var hand = opt.item.getHand();
+				var rect = hand.get().getBoundingClientRect();
+				var diff = event.clientY - rect.top;
+				opt.obj.addClass("ul_over");
+				if((diff) < this.offsetHeight / 2){
+					hand.addClass("effect-up");
+					hand.removeClass("effect-down");
+				}else{
+					hand.addClass("effect-down");
+					hand.removeClass("effect-up");
+				}
+			}
+			
+				
+			
 		};
 	};
 	var dragLeave = function(opt){
 		return function(event){
-			
+			db(this.tagName)
+			if(dragObj && dragObj.type == "item"){
+				opt.hand.removeClass("effect-down");
+				opt.hand.removeClass("effect-up");
+				opt.obj.removeClass("ul_over");
+			}
 		};
 	};
 	var dragEnter = function(opt){
@@ -66,25 +90,13 @@ var sgDesignMenu = false;
 			
 			if(dragObj === false){
 				
-				
 				if(event.dataTransfer.getData("text") !== ""){
 					if((event.dataTransfer.getData("text")).match(/\.png/i)){
 						main.item.getImage().attr("src", event.dataTransfer.getData("text"));
 						return false;
 					}
-					
-					
 				}
-				
 			}
-			
-			
-			
-			
-			
-			
-			
-			
 		};
 	};
 	
@@ -122,21 +134,32 @@ var sgDesignMenu = false;
 			this._main = $.create("li");
 			
 			
-			this._option = this._main.create("span").addClass("item-option")
-				.attr("draggable", "false")
+			this._option = this._main.create("span").addClass("item-option");
+			
+			this._option.attr("draggable", "false")
 				.on("dragstart", dragStart(
 					{
 						type: "item",
 						obj: this._main,
+						
 					}
 				))
-
+				.on("dragend", dragEnd(
+					{
+						type: "item",
+						obj: this._main,
+						hand: this._option,
+						
+					}
+				))
 				.on("dragover", dragOver(
 					{
 						type: "menu",
 						obj: this._main,
+						item: this,
 					}
 				))
+				
 				.on("dragenter", dragEnter(
 					{
 						type: "menu",
@@ -153,6 +176,16 @@ var sgDesignMenu = false;
 				));
 			
 			;
+			
+			this._main.on("dragleave", dragLeave(
+					{
+						type: "menu",
+						obj: this._main,
+						item: this,
+						hand: this._option,
+					}
+				))
+			
 			this._check = this._option.create("input").prop({"type": "radio", name: this.chkName});
 			this._image = this._option.create("img").attr("src", this.image).on("dragstart", dragStart({}));
 			this._text = this._option.create("input").attr("type", "text").value(this.caption);
@@ -176,6 +209,10 @@ var sgDesignMenu = false;
 		getMenu: function(){
 			return this._menu;
 		
+		},
+		
+		getHand: function(){
+			return this._option;
 		},
 		
 		getImage: function(){
