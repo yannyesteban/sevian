@@ -12,16 +12,17 @@ var sgDesignMenu = false;
 	var dragItem = false;
 	var dragObj = false;
 	
-	var dragStart = function(opt){
+	var dragStart = function(main){
 	
 		return function(event){
-			event.dataTransfer.setData("text","");
-			dragObj = opt;
 			
 			
 			
 			
-			if(opt.type === "item"){
+			
+			if(main.type === "item" || main.type === "new"){
+				event.dataTransfer.setData("text","");
+				dragObj = main;
 			}
 			
 		};
@@ -34,14 +35,17 @@ var sgDesignMenu = false;
 			dragObj = false;
 		};
 	};
-	var dragOver = function(opt){
+	var dragOver = function(main){
 		return function(event){
 			
 			event.preventDefault();
 			
-			if(dragObj && dragObj.type == "item"){
+			
+			
+			
+			if(dragObj && (dragObj.type === "item" || dragObj.type === "new") && main.type === "item"){
 				
-				var hand = opt.item.getHand();
+				var hand = main.item.getHand();
 				var rect = hand.get().getBoundingClientRect();
 				var diff = event.clientY - rect.top;
 				//opt.obj.addClass("ul_over");
@@ -60,7 +64,7 @@ var sgDesignMenu = false;
 	};
 	var dragLeave = function(opt){
 		return function(event){
-			db(this.tagName)
+			
 			//this.style.border = "1px solid green" ;
 			if(dragObj && dragObj.type == "item"){
 				opt.hand.removeClass("effect-down");
@@ -84,8 +88,9 @@ var sgDesignMenu = false;
 				db(main.menu)
 				main.menu.append(dragObj.obj);
 				if(main.ondrop){
-					main.ondrop();		
+					main.ondrop(dragObj);		
 				}
+				
 			}
 			
 			if(main.type === "submenu"){
@@ -104,7 +109,7 @@ var sgDesignMenu = false;
 					}
 				}
 			}
-			if(dragObj && dragObj.type == "item"){
+			if(dragObj && (dragObj.type === "item" || dragObj.type === "new") && main.type === "item"){
 				
 				var hand = main.item.getHand();
 				var rect = hand.get().getBoundingClientRect();
@@ -117,12 +122,15 @@ var sgDesignMenu = false;
 				}else{
 					target.insertBefore(dragObj.obj.get(), main.obj.get().nextSibling);
 				}
-				
+				main.hand.removeClass("effect-down");
+				main.hand.removeClass("effect-up");
 				if(main.ondrop){
-					main.ondrop();		
+					main.ondrop(dragObj);		
 				}
 				
 			}
+			//main.hand.removeClass("effect-down");
+			//main.hand.removeClass("effect-up");
 			
 			
 			
@@ -138,12 +146,19 @@ var sgDesignMenu = false;
 		this.caption = false;
 		this.action = false;
 		this.image = false;
+			
+		this.type = "item";
+		this.mode = "normal";
 		//this.index = false;
 		
 		this.target = false;
 		this._target = false;
 		for(var x in opt){
-			this[x] = opt[x];
+			
+			if(opt[x] !== null){
+				this[x] = opt[x];
+			}
+			
 		}
 		
 		if(this.target){
@@ -162,7 +177,9 @@ var sgDesignMenu = false;
 		
 		create: function(){
 			
-			this._main = $.create("li").ds("dmIndex", this.index);
+			this._main = $.create("li").ds("dmIndex", this.index)
+				.ds("dmTypeItem", this.type)
+				.ds("dmModeItem", this.mode);
 			
 			
 			this._option = this._main.create("span").addClass("item-option");
@@ -170,14 +187,14 @@ var sgDesignMenu = false;
 			this._option.attr("draggable", "false")
 				.on("dragstart", dragStart(
 					{
-						type: "item",
+						type: this.type,
 						obj: this._main,
 						
 					}
 				))
 				.on("dragend", dragEnd(
 					{
-						type: "item",
+						type: this.type,
 						obj: this._main,
 						hand: this._option,
 						
@@ -185,14 +202,14 @@ var sgDesignMenu = false;
 				))
 				.on("dragover", dragOver(
 					{
-						type: "menu",
+						type: this.type,
 						obj: this._main,
 						item: this,
 					}
 				))
 				.on("dragleave", dragLeave(
 					{
-						type: "menu",
+						type: this.type,
 						obj: this._main,
 						item: this,
 						hand: this._option,
@@ -200,17 +217,18 @@ var sgDesignMenu = false;
 				))
 				.on("dragenter", dragEnter(
 					{
-						type: "menu",
+						type: this.type,
 						obj: this._main,
 					}
 				))
 				.on("drop", drop(
 					{
-						type: "menu",
+						type: this.type,
 						obj: this._main,
 						menu: this._menu,
+						hand: this._option,
 						item: this,
-						ondrop: this.ondrop,
+						ondrop: $.bind(this.ondrop, this),
 					}
 				));
 			
@@ -219,6 +237,7 @@ var sgDesignMenu = false;
 			this._main
 				.on("dragover", function(event){
 					$(this).addClass("ul_over");
+					event.stopPropagation();
 				})
 				.on("dragleave", function(event){
 					$(this).removeClass("ul_over");
@@ -226,15 +245,15 @@ var sgDesignMenu = false;
 				.on("drop", function(event){
 					event.preventDefault();
 					event.stopPropagation();
-					db("DROP-end")
+					
 					$(this).removeClass("ul_over");
 				})
 			
 			this._check = this._option.create("input").prop({"type": "radio", name: this.chkName});
 			this._image = this._option.create("img").attr("src", this.image).on("dragstart", dragStart({}));
 			this._text = this._option.create("input").attr("type", "text").value(this.caption);
-			this._add = this._option.create("span").text("+");
-			this._remove = this._option.create("span").text("-");
+			this._add = this._option.create("span").text("+").on("click", $.bind(this.onnew, this));
+			this._remove = this._option.create("span").text("-").on("click", $.bind(this.onremove, this));
 			this._action = this._option.create("span").addClass("item-action").text("...");
 			this._menu = this._main.create("ul").addClass("submenu");
 			this._menu.on("drop", drop({type: 'submenu', obj: this._main, menu: this._menu, ondrop: this.ondrop}))
@@ -261,7 +280,15 @@ var sgDesignMenu = false;
 		
 		getImage: function(){
 			return this._image;
-		}
+		},
+		remove: function(){
+			if(this.get().ds("dmModeItem") !== "new"){
+				
+				this.get().get().parentNode.removeChild(this.get().get());
+			}else{
+				db("error")
+			}
+		},
 	};
 	
 	
@@ -690,8 +717,29 @@ var sgDesignMenu = false;
 				target: this._main.create("ul"),
 				caption: this.caption,
 				chkName : this.name + "_chk",
+				type: "caption",
+				mode: "caption",
+				ondrop: function(){
+					ME.getCode();
+					
+				},
+				
+				onnew: function(event){
+					if(this.get().ds("dmModeItem") != "new"){
+						ME._newItem.get().ds("dmModeItem", "normal");
+						this._menu.append(ME._newItem.get());
+						ME.addNewItem();
+					}
+				},
+				onremove: function(event){
+					this.remove();
+				},
+				
+				
 			};
 			this.item = new _item(opt);
+			//this.item.get().ds("dmModeItem","caption");
+			
 			
 			this._menu = this.item._menu;
 			
@@ -742,7 +790,7 @@ var sgDesignMenu = false;
 					}
 					ME._menu.append(_dragItem.get());
 					
-				
+					
 					
 				});
 			
@@ -816,9 +864,9 @@ var sgDesignMenu = false;
 		},
 		addNewItem: function(){
 			
-			this._newItem = this.add({target:this.newUL, caption:"New Item "+(this.length + 1), index:this.length});
+			this._newItem = this.add({target:this.newUL, mode: "new", caption:"New Item "+(this.length + 1), index:this.length});
 			
-			this._newItem.get().ds("dmModeItem","new");
+			//this._newItem.get().ds("dmModeItem","new");
 			
 			
 			
@@ -838,6 +886,7 @@ var sgDesignMenu = false;
 				main = this._menu;
 			}
 			var ME = this;
+			db(opt.caption+"....", "green")
 			this._item[opt.index] = new _item({
 				target: main,
 				index: (opt.index === false || opt.index === undefined)? this.length : opt.index,
@@ -849,9 +898,28 @@ var sgDesignMenu = false;
 				menu: this,
 				action: opt.action || "",
 				image: opt.image || "",
-				ondrop: function(){
+				type: opt.type || null,
+				mode: opt.mode || null,
+				ondrop: function(dragObject){
 					ME.getCode();
-				}
+					db(dragObject.obj.ds("dmModeItem"),"white","black")
+					if(dragObject.obj.ds("dmModeItem") === "new"){
+						dragObject.obj.ds("dmModeItem", "normal");
+						ME.addNewItem();
+					}
+				},
+				
+				onnew: function(event){
+					if(this.get().ds("dmModeItem") != "new"){
+						ME._newItem.get().ds("dmModeItem", "normal");
+						this._menu.append(ME._newItem.get());
+						ME.addNewItem();
+					}
+				},
+				onremove: function(event){
+					this.remove();
+				},
+				
 			});
 			
 			
@@ -1060,7 +1128,7 @@ function loadMenu(){
 	];
 	var data = [
 		
-		{index:0, parent: false, caption: "cero", action:"Yanny", image:"http://localhost/Awesome%20Icons%20Bundle%206000%20Icons%20PSD%20AI%20SVG%20EPS%20CreativeMarket%20442434/flat-icons/Financial/png_64/Basket.png"},
+		{index:0, parent: false, caption: "cero", action:"Yanny", image:"http://localhost/sevian/icons/png/021-goal.png"},
 		{index:1, parent: false, caption: "uno", action:"Esteban"},
 		{index:2, parent: false, caption: "dos", action:false},
 		{index:3, parent: false, caption: "tres", action:false},
