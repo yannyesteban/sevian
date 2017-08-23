@@ -16,10 +16,6 @@ var sgDesignMenu = false;
 	
 		return function(event){
 			
-			
-			
-			
-			
 			if(main.type === "item"){
 				event.dataTransfer.setData("text","");
 				dragObj = main;
@@ -37,7 +33,7 @@ var sgDesignMenu = false;
 	};
 	var dragOver = function(main){
 		return function(event){
-			
+			//db(main.obj.ds("dmModeItem"),"aqua","blue")
 			if(main.obj.ds("dmModeItem") === "new" && dragObj && dragObj.type === "item"){
 				return false;
 			}
@@ -89,7 +85,7 @@ var sgDesignMenu = false;
 			//event.stopPropagation();
 			
 			db("D.R.O.P.");
-			if(main.mode === "new" && dragObj && dragObj.type === "item"){
+			if(main.obj.ds("dmModeItem") === "new" && dragObj && dragObj.type === "item"){
 				db("er000000000orrrr")
 				return false;
 			}
@@ -118,7 +114,7 @@ var sgDesignMenu = false;
 			if(dragObj === false){
 				
 				if(event.dataTransfer.getData("text") !== ""){
-					if((event.dataTransfer.getData("text")).match(/\.png/i)){
+					if((event.dataTransfer.getData("text")).match(/\.(png|gif|svg|jpg)/i)){
 						main.item.getImage().attr("src", event.dataTransfer.getData("text"));
 						if(main.ondrop){
 							main.ondrop(dragObj);		
@@ -276,7 +272,7 @@ var sgDesignMenu = false;
 			this._remove = this._option.create("span").text("-").on("click", $.bind(this.onremove, this));
 			this._action = this._option.create("span").addClass("item-action").text("...");
 			this._menu = this._main.create("ul").addClass("submenu");
-			this._menu.on("drop", drop({type: 'submenu', hand: this._option, obj: this._main, menu: this._menu, ondrop: this.ondrop, mode: this.mode}))
+			this._menu.on("drop", drop({type: 'submenu', hand: this._option, obj: this._main, menu: this._menu, ondrop: $.bind(this.ondrop, this), mode: this.mode}))
 				.on("dragover", function(event){event.preventDefault();})
 			;
 			
@@ -739,9 +735,14 @@ var sgDesignMenu = false;
 				chkName : this.name + "_chk",
 				type: "caption",
 				mode: "caption",
-				ondrop: function(){
-					ME.getCode();
+				ondrop: function(dragObject){
 					
+					db(dragObject.obj.ds("dmModeItem"),"white","black")
+					if(dragObject.obj.ds("dmModeItem") === "new"){
+						dragObject.obj.ds("dmModeItem", "normal");
+						ME.addNewItem();
+					}
+					ME.getCode();
 				},
 				
 				onnew: function(event){
@@ -750,6 +751,7 @@ var sgDesignMenu = false;
 						this._menu.append(ME._newItem.get());
 						ME.addNewItem();
 					}
+					ME.getCode();
 				},
 				onremove: function(event){
 					this.remove();
@@ -921,12 +923,13 @@ var sgDesignMenu = false;
 				type: opt.type || null,
 				mode: opt.mode || null,
 				ondrop: function(dragObject){
-					ME.getCode();
+					
 					db(dragObject.obj.ds("dmModeItem"),"white","black")
 					if(dragObject.obj.ds("dmModeItem") === "new"){
 						dragObject.obj.ds("dmModeItem", "normal");
 						ME.addNewItem();
 					}
+					ME.getCode();
 				},
 				
 				onnew: function(event){
@@ -935,9 +938,11 @@ var sgDesignMenu = false;
 						this._menu.append(ME._newItem.get());
 						ME.addNewItem();
 					}
+					ME.getCode();
 				},
 				onremove: function(event){
 					this.remove();
+					ME.getCode();
 				},
 				
 			});

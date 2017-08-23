@@ -124,11 +124,10 @@
       display: none; }
     .design-menu .new-item input[type='radio'] {
       pointer-events: none; }
-    .design-menu .new-item .option {
+    .design-menu .new-item .item-option {
       position: relative;
       background-color: #2d6e00;
       color: white;
-      padding: 2px;
       border: 2px solid #003f0b;
       /*
       			-webkit-touch-callout: none;
@@ -137,7 +136,7 @@
       			-moz-user-select: none;
       			-ms-user-select: none;
       			user-select: none;*/ }
-      .design-menu .new-item .option input {
+      .design-menu .new-item .item-option input {
         background-color: rgba(255, 255, 255, 0.18);
         color: white; }
   .design-menu .delete-zone {

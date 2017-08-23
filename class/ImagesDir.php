@@ -27,7 +27,7 @@ class ImagesDir extends Panel{
 			
 			$info = pathinfo($file);
 			
-			if(isset($info['extension']) and $info['extension'] =="png"){
+			if(isset($info['extension']) and ($info['extension'] =="png" or $info['extension'] =="_gif" or $info['extension'] =="jpg")){
 				$item = $div->add("img");
 				//$item->src = "../../Iconos/PNG_icons/".$file;	
 				$item->src = $path2."/".$file;	
