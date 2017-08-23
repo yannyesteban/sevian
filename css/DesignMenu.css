@@ -38,6 +38,7 @@
   animation: m_open 2s ease-out forwards; }
 
 .design-menu {
+  /**/
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;

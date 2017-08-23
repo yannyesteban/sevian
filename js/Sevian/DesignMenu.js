@@ -42,7 +42,10 @@ var sgDesignMenu = false;
 			if(main.obj.ds("dmModeItem") === "new" && dragObj && dragObj.type === "item"){
 				return false;
 			}
-			
+			if(dragObj && main.menuName !== dragObj.menuName){
+				db("ouch")
+				return false;
+			}
 			
 			event.preventDefault();
 			
@@ -212,11 +215,12 @@ var sgDesignMenu = false;
 			
 			this._option = this._main.create("span").addClass("item-option");
 			
-			this._option.attr("draggable", "false")
+			this._option.attr("draggable", "true")
 				.on("dragstart", dragStart(
 					{
 						type: this.type,
 						obj: this._main,
+						menuName: this.menuName,
 						
 					}
 				))
@@ -234,6 +238,7 @@ var sgDesignMenu = false;
 						obj: this._main,
 						item: this,
 						mode: this.mode,
+						menuName: this.menuName,
 					}
 				))
 				.on("dragleave", dragLeave(
@@ -258,6 +263,7 @@ var sgDesignMenu = false;
 						hand: this._option,
 						item: this,
 						mode: this.mode,
+						menuName: this.menuName,
 						ondrop: $.bind(this.ondrop, this),
 					}
 			));
@@ -283,8 +289,39 @@ var sgDesignMenu = false;
 			this._image = this._option.create("img").attr("src", this.image)
 				.on("dblclick", this.ondeleteimg)
 				.on("dragstart", dragStart({}));
+			
+			
+			var option = this._option;
 			this._text = this._option.create("input").attr("type", "text").value(this.caption)
-				.on("change", this.onchange);
+				.on("change", this.onchange).on("dblclick", function(){
+					//this.select();
+				})
+				.on("focus", function(){
+					//this.select();
+					option.attr("draggable", false);
+				})
+				.on("blur", function(){
+					//this.select();
+					option.attr("draggable", true);
+				})
+			.on("dragstart", function(event){
+				event.preventDefault();
+				event.stopPropagation();
+				event.cancelBubble =true;
+				event.dataTransfer.setData("text", false);
+			})
+			.on("dragover", function(event){
+				event.preventDefault();
+				event.stopPropagation();
+				event.cancelBubble =true;
+			})
+			.on("drag", function(event){
+				event.preventDefault();
+				event.stopPropagation();
+				event.cancelBubble =true;
+			})
+			
+			;
 			this._add = this._option.create("span").text("+").on("click", $.bind(this.onnew, this));
 			this._remove = this._option.create("span").text("-").on("click", $.bind(this.onremove, this));
 			this._action = this._option.create("span").addClass("item-action").ds("dmAction", this.action).attr("title", this.action).text("")
@@ -292,9 +329,14 @@ var sgDesignMenu = false;
 			
 			
 			this._menu = this._main.create("ul").addClass("submenu");
-			this._menu.on("drop", drop({type: 'submenu', hand: this._option, obj: this._main, menu: this._menu, ondrop: $.bind(this.ondrop, this), mode: this.mode}))
-				.on("dragover", function(event){event.preventDefault();
-			});
+			this._menu.on("drop", drop({
+					type: 'submenu',
+					hand: this._option,
+					obj: this._main,
+					menu: this._menu,
+					menuName: this._menuName,
+					ondrop: $.bind(this.ondrop, this), mode: this.mode}))
+				.on("dragover", function(event){event.preventDefault();});
 			
 			
 			
