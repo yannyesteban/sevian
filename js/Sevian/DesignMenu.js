@@ -20,7 +20,7 @@ var sgDesignMenu = false;
 			
 			
 			
-			if(main.type === "item" || main.type === "new"){
+			if(main.type === "item"){
 				event.dataTransfer.setData("text","");
 				dragObj = main;
 			}
@@ -38,12 +38,17 @@ var sgDesignMenu = false;
 	var dragOver = function(main){
 		return function(event){
 			
+			if(main.obj.ds("dmModeItem") === "new" && dragObj && dragObj.type === "item"){
+				return false;
+			}
+			
+			
 			event.preventDefault();
 			
 			
 			
 			
-			if(dragObj && (dragObj.type === "item" || dragObj.type === "new") && main.type === "item"){
+			if(dragObj && (dragObj.type === "item") && main.type === "item"){
 				
 				var hand = main.item.getHand();
 				var rect = hand.get().getBoundingClientRect();
@@ -83,17 +88,30 @@ var sgDesignMenu = false;
 			event.preventDefault();
 			//event.stopPropagation();
 			
+			db("D.R.O.P.");
+			if(main.mode === "new" && dragObj && dragObj.type === "item"){
+				db("er000000000orrrr")
+				return false;
+			}
+			
+			
+			db("DROP: "+main.type,"green","aqua");
+			
 			if(main.type === "submenu" && dragObj){
-				
-				db(main.menu)
+				for(var x in dragObj){
+					db(x+": "+dragObj[x], "blue")
+				}
+				db(dragObj.mode, "red")
 				main.menu.append(dragObj.obj);
 				if(main.ondrop){
 					main.ondrop(dragObj);		
 				}
-				
+				main.obj.removeClass("ul_over");
+				event.stopPropagation();
 			}
 			
 			if(main.type === "submenu"){
+				db("QUEEEEEE")
 				return false;
 			}
 			
@@ -103,20 +121,20 @@ var sgDesignMenu = false;
 					if((event.dataTransfer.getData("text")).match(/\.png/i)){
 						main.item.getImage().attr("src", event.dataTransfer.getData("text"));
 						if(main.ondrop){
-							main.ondrop();		
+							main.ondrop(dragObj);		
 						}
 						return false;
 					}
 				}
 			}
-			if(dragObj && (dragObj.type === "item" || dragObj.type === "new") && main.type === "item"){
+			if(dragObj && dragObj.type === "item" && main.type === "item"){
 				
-				var hand = main.item.getHand();
+				var hand = main.hand;
 				var rect = hand.get().getBoundingClientRect();
 				var diff = event.clientY - rect.top;
 				
 				var target = main.obj.get().parentNode;
-				//opt.obj.addClass("ul_over");
+				main.obj.removeClass("ul_over");
 				if((diff) < this.offsetHeight / 2){
 					target.insertBefore(dragObj.obj.get(), main.obj.get());
 				}else{
@@ -205,6 +223,7 @@ var sgDesignMenu = false;
 						type: this.type,
 						obj: this._main,
 						item: this,
+						mode: this.mode,
 					}
 				))
 				.on("dragleave", dragLeave(
@@ -228,6 +247,7 @@ var sgDesignMenu = false;
 						menu: this._menu,
 						hand: this._option,
 						item: this,
+						mode: this.mode,
 						ondrop: $.bind(this.ondrop, this),
 					}
 				));
@@ -256,7 +276,7 @@ var sgDesignMenu = false;
 			this._remove = this._option.create("span").text("-").on("click", $.bind(this.onremove, this));
 			this._action = this._option.create("span").addClass("item-action").text("...");
 			this._menu = this._main.create("ul").addClass("submenu");
-			this._menu.on("drop", drop({type: 'submenu', obj: this._main, menu: this._menu, ondrop: this.ondrop}))
+			this._menu.on("drop", drop({type: 'submenu', hand: this._option, obj: this._main, menu: this._menu, ondrop: this.ondrop, mode: this.mode}))
 				.on("dragover", function(event){event.preventDefault();})
 			;
 			
@@ -886,7 +906,7 @@ var sgDesignMenu = false;
 				main = this._menu;
 			}
 			var ME = this;
-			db(opt.caption+"....", "green")
+			//db(opt.caption+"....", "green")
 			this._item[opt.index] = new _item({
 				target: main,
 				index: (opt.index === false || opt.index === undefined)? this.length : opt.index,
