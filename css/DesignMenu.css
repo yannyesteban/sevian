@@ -38,6 +38,12 @@
   animation: m_open 2s ease-out forwards; }
 
 .design-menu {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   margin: 4px;
   border: 2px solid #bfbfbf;
   padding: 4px;
@@ -80,15 +86,18 @@
       margin: 1px;
       text-align: left; }
     .design-menu .option .item-action[data-dm-action=""], .design-menu .item-option .item-action[data-dm-action=""] {
-      background-color: aqua; }
+      background-color: rgba(255, 198, 0, 0.5); }
+      .design-menu .option .item-action[data-dm-action=""]:after, .design-menu .item-option .item-action[data-dm-action=""]:after {
+        content: "..."; }
     .design-menu .option .item-action, .design-menu .item-option .item-action {
       vertical-align: middle;
       display: inline-block;
       background-color: rgba(255, 255, 255, 0.18);
       width: 20px;
-      height: 20px;
       float: right;
       color: white; }
+      .design-menu .option .item-action:after, .design-menu .item-option .item-action:after {
+        content: "A"; }
   .design-menu .div-image {
     padding-top: 8px;
     position: relative;
@@ -139,6 +148,8 @@
       .design-menu .new-item .item-option input {
         background-color: rgba(255, 255, 255, 0.18);
         color: white; }
+      .design-menu .new-item .item-option span:not([data-dm-action]) {
+        pointer-events: none; }
   .design-menu .delete-zone {
     background: repeating-radial-gradient(#290325, #640c7b);
     color: white;
@@ -152,7 +163,7 @@
     min-height: 0px;
     transition: 0s all ease-out 0.2s; }
   .design-menu .ul_over > ul {
-    min-height: 35px;
+    min-height: 20px;
     transition: 0.3s all ease-out 0.5s; }
   .design-menu input[type='text'] {
     font-family: tahoma;

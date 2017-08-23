@@ -17,17 +17,22 @@ var sgDesignMenu = false;
 		return function(event){
 			
 			if(main.type === "item"){
+				main.obj.addClass("drag-start");
 				event.dataTransfer.setData("text","");
 				dragObj = main;
 			}
 			
 		};
 	};
-	var dragEnd = function(opt){
+	var dragEnd = function(main){
 		
 		return function(event){
 			//opt.obj.removeClass("drag-start");
 			db("dragEnd")
+			
+			if(main.type === "item"){
+				main.obj.removeClass("drag-start");
+			}
 			dragObj = false;
 		};
 	};
@@ -114,13 +119,19 @@ var sgDesignMenu = false;
 			if(dragObj === false){
 				
 				if(event.dataTransfer.getData("text") !== ""){
-					if((event.dataTransfer.getData("text")).match(/\.(png|gif|svg|jpg)/i)){
+					if((event.dataTransfer.getData("text")).match(/\.(png|gif|svg|jpg)$/i)){
 						main.item.getImage().attr("src", event.dataTransfer.getData("text"));
-						if(main.ondrop){
-							main.ondrop(dragObj);		
-						}
-						return false;
+						
+						
+					}else{
+						main.item.getAction().attr("title",event.dataTransfer.getData("text"))
+							.ds("dmAction", event.dataTransfer.getData("text"));
+						
 					}
+					if(main.ondrop){
+						main.ondrop(dragObj);		
+					}
+					return false;
 				}
 			}
 			if(dragObj && dragObj.type === "item" && main.type === "item"){
@@ -167,6 +178,9 @@ var sgDesignMenu = false;
 		
 		this.target = false;
 		this._target = false;
+		this.ondeleteimg = false;
+		this.ondeleteaction = function(){};
+		this.onchange = function(){};
 		for(var x in opt){
 			
 			if(opt[x] !== null){
@@ -246,9 +260,9 @@ var sgDesignMenu = false;
 						mode: this.mode,
 						ondrop: $.bind(this.ondrop, this),
 					}
-				));
+			));
 			
-			;
+			
 			
 			this._main
 				.on("dragover", function(event){
@@ -263,20 +277,24 @@ var sgDesignMenu = false;
 					event.stopPropagation();
 					
 					$(this).removeClass("ul_over");
-				})
+				});
 			
 			this._check = this._option.create("input").prop({"type": "radio", name: this.chkName});
-			this._image = this._option.create("img").attr("src", this.image).on("dragstart", dragStart({}));
-			this._text = this._option.create("input").attr("type", "text").value(this.caption);
+			this._image = this._option.create("img").attr("src", this.image)
+				.on("dblclick", this.ondeleteimg)
+				.on("dragstart", dragStart({}));
+			this._text = this._option.create("input").attr("type", "text").value(this.caption)
+				.on("change", this.onchange);
 			this._add = this._option.create("span").text("+").on("click", $.bind(this.onnew, this));
 			this._remove = this._option.create("span").text("-").on("click", $.bind(this.onremove, this));
-			this._action = this._option.create("span").addClass("item-action").text("...");
+			this._action = this._option.create("span").addClass("item-action").ds("dmAction", this.action).attr("title", this.action).text("")
+				.on("dblclick", this.ondeleteaction);
+			
+			
 			this._menu = this._main.create("ul").addClass("submenu");
 			this._menu.on("drop", drop({type: 'submenu', hand: this._option, obj: this._main, menu: this._menu, ondrop: $.bind(this.ondrop, this), mode: this.mode}))
-				.on("dragover", function(event){event.preventDefault();})
-			;
-			
-			
+				.on("dragover", function(event){event.preventDefault();
+			});
 			
 			
 			
@@ -296,6 +314,9 @@ var sgDesignMenu = false;
 		
 		getImage: function(){
 			return this._image;
+		},
+		getAction: function(){
+			return this._action;
 		},
 		remove: function(){
 			if(this.get().ds("dmModeItem") !== "new"){
@@ -737,25 +758,34 @@ var sgDesignMenu = false;
 				mode: "caption",
 				ondrop: function(dragObject){
 					
-					db(dragObject.obj.ds("dmModeItem"),"white","black")
-					if(dragObject.obj.ds("dmModeItem") === "new"){
+					
+					if(dragObject && dragObject.obj.ds("dmModeItem") === "new"){
 						dragObject.obj.ds("dmModeItem", "normal");
 						ME.addNewItem();
+					}
+					if(dragObject){
+						dragObject.obj.addClass("drop-end");
 					}
 					ME.getCode();
 				},
 				
-				onnew: function(event){
-					if(this.get().ds("dmModeItem") != "new"){
+				onnew: function(){
+					if(this.get().ds("dmModeItem") !== "new"){
 						ME._newItem.get().ds("dmModeItem", "normal");
+						
+						ME._newItem.get().addClass("drop-end");
 						this._menu.append(ME._newItem.get());
 						ME.addNewItem();
 					}
 					ME.getCode();
 				},
-				onremove: function(event){
+				onremove: function(){
 					this.remove();
 				},
+				ondeleteimg: function(){
+					this.src = "";
+					ME.getCode();
+				}
 				
 				
 			};
@@ -774,7 +804,7 @@ var sgDesignMenu = false;
 			
 			this.newUL = this._main.create("ul").addClass("new-item");
 			this.addNewItem();
-			
+			this.getCode();
 			return;
 			
 			var header = this._main.create("div").addClass("caption");
@@ -924,17 +954,23 @@ var sgDesignMenu = false;
 				mode: opt.mode || null,
 				ondrop: function(dragObject){
 					
-					db(dragObject.obj.ds("dmModeItem"),"white","black")
-					if(dragObject.obj.ds("dmModeItem") === "new"){
+					
+					if(dragObject && dragObject.obj.ds("dmModeItem") === "new"){
 						dragObject.obj.ds("dmModeItem", "normal");
 						ME.addNewItem();
 					}
+					
+					if(dragObject){
+						dragObject.obj.addClass("drop-end");
+					}
+					
 					ME.getCode();
 				},
 				
 				onnew: function(event){
 					if(this.get().ds("dmModeItem") != "new"){
 						ME._newItem.get().ds("dmModeItem", "normal");
+						ME._newItem.get().addClass("drop-end")
 						this._menu.append(ME._newItem.get());
 						ME.addNewItem();
 					}
@@ -942,6 +978,20 @@ var sgDesignMenu = false;
 				},
 				onremove: function(event){
 					this.remove();
+					ME.getCode();
+				},
+				ondeleteimg: function(){
+					this.src = "";
+					ME.getCode();
+				},
+				ondeleteaction: function(){
+					
+					
+					$(this).ds("dmAction", "");
+					ME.getCode();
+				},
+				
+				onchange: function(){
 					ME.getCode();
 				},
 				
