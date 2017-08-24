@@ -15,11 +15,22 @@
   100% {
     opacity: 0;
     visibility: hidden !important; } }
-div[data-m=''] {
-  background-color: #f37fff; }
+div.q {
+  border: 1px solid gray;
+  height: 100px;
+  margin: 10px;
+  width: 100px; }
 
-div:not([data-m='']) {
-  background-color: rgba(34, 79, 42, 0.65); }
+/* Empty attribute selector */
+div.q[data-attr=''] {
+  background: yellow; }
+
+div.q[data-attr='a'] {
+  background: yellow; }
+
+/* Not empty attribute selector */
+div.qq:not([data-attr='']) {
+  background: blue; }
 
 .img-drag[src=''] {
   border: 15px solid blue;
@@ -96,23 +107,19 @@ div:not([data-m='']) {
       font-weight: bold;
       margin: 1px;
       text-align: left; }
-    .design-menu .option ._item-action[data-dm-action=''], .design-menu .item-option ._item-action[data-dm-action=''] {
+    .design-menu .option .item-action:not([data-dm-action='']), .design-menu .item-option .item-action:not([data-dm-action='']) {
       background-color: rgba(255, 198, 0, 0.5); }
-      .design-menu .option ._item-action[data-dm-action='']:after, .design-menu .item-option ._item-action[data-dm-action='']:after {
+      .design-menu .option .item-action:not([data-dm-action='']):after, .design-menu .item-option .item-action:not([data-dm-action='']):after {
         content: "#"; }
-    .design-menu .option .item-action[data-dm-action=""], .design-menu .item-option .item-action[data-dm-action=""] {
+    .design-menu .option .item-action[data-dm-action=''], .design-menu .item-option .item-action[data-dm-action=''] {
       vertical-align: middle;
       display: inline-block;
       background-color: rgba(255, 255, 255, 0.18) !important;
       width: 20px;
       float: right;
       color: white; }
-      .design-menu .option .item-action[data-dm-action=""]:after, .design-menu .item-option .item-action[data-dm-action=""]:after {
+      .design-menu .option .item-action[data-dm-action='']:after, .design-menu .item-option .item-action[data-dm-action='']:after {
         content: "h"; }
-    .design-menu .option .item-action[data-d=""], .design-menu .item-option .item-action[data-d=""] {
-      background-color: white !important; }
-    .design-menu .option .item-action[data-d="2"], .design-menu .item-option .item-action[data-d="2"] {
-      background-color: #377338 !important; }
   .design-menu .div-image {
     padding-top: 8px;
     position: relative;

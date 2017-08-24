@@ -767,7 +767,7 @@ var sgDesignMenu = false;
 			if(!this._main){
 				this._main = $.create("div");
 			}
-this._main.create("div").ds("m","m").text("u");
+this._main.create("div").text("u").addClass("q").get().setAttribute("data-attr","");
 			this._main.create("div").ds("m","").text("..........")
 			
 			.on("drop", function(event){
