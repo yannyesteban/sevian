@@ -213,9 +213,11 @@ var sgDesignMenu = false;
 				.ds("dmModeItem", this.mode);
 			
 			
-			this._option = this._main.create("span").addClass("item-option");
+			this._option = this._main.create("span").addClass("item-option")
+				.attr("draggable", true)
+			;
 			
-			this._option.attr("draggable", "true")
+			this._option
 				.on("dragstart", dragStart(
 					{
 						type: this.type,
@@ -301,10 +303,13 @@ var sgDesignMenu = false;
 					option.attr("draggable", false);
 				})
 				.on("blur", function(){
+				db("blur")
 					//this.select();
-					option.attr("draggable", true);
+					//option.attr("draggable", true);
 				})
 			.on("dragstart", function(event){
+				db("k")
+				return false;
 				event.preventDefault();
 				event.stopPropagation();
 				event.cancelBubble =true;
@@ -514,7 +519,7 @@ var sgDesignMenu = false;
 	};
 	
 	
-	var Item = function(opt){
+	var XXItem = function(opt){
 		this.id = "";
 		this._target = false;
 		this.caption = false;
@@ -539,7 +544,7 @@ var sgDesignMenu = false;
 		this.create();
 		
 	};
-	Item.prototype = {
+	XXItem.prototype = {
 		
 		get: function(){
 			return this._main;	
@@ -610,7 +615,7 @@ var sgDesignMenu = false;
 			
 			
 			this._option
-				.attr("draggable", "true")
+				//.attr("draggable", "true")
 				.on("dragstart", _dragStart(this._main))
 				.on("dragend", _dragEnd(this._main))
 				.on("dragenter", _dragEnter(this._main))
@@ -762,8 +767,8 @@ var sgDesignMenu = false;
 			if(!this._main){
 				this._main = $.create("div");
 			}
-
-			this._main.create("div").text("..........")
+this._main.create("div").ds("m","m").text("u");
+			this._main.create("div").ds("m","").text("..........")
 			
 			.on("drop", function(event){
 				db("drop")
