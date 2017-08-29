@@ -157,13 +157,26 @@ div.q {
 			
 			
 		}
-		.item-action:not([data-dm-action='']){
+		.item-action{
+			&:after{
+				content: "...";
+			}
+			&.data-action{
+				background-color: aquamarine;
+				&:after{
+					content: "A";
+				}
+			}
+			
+		}
+		
+		._item-action:not([data-dm-action='']){
 			background-color: rgba(255,198,0,0.50);
 			&:after{
-				content: "#";
+				//content: "#";
 			}
 		}
-		.item-action[data-dm-action='']{
+		._item-action[data-dm-action='']{
 			vertical-align: middle;
 			display: inline-block;
 			//border:1px solid white;
@@ -173,7 +186,7 @@ div.q {
 			float: right;
 			color:white;
 			&:after{
-				content: "h";
+				//content: "h";
 			}
 		}
 		

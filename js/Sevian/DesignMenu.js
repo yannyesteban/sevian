@@ -28,7 +28,7 @@ var sgDesignMenu = false;
 		
 		return function(event){
 			//opt.obj.removeClass("drag-start");
-			db("dragEnd")
+			
 			
 			if(main.type === "item"){
 				main.obj.removeClass("drag-start");
@@ -38,12 +38,12 @@ var sgDesignMenu = false;
 	};
 	var dragOver = function(main){
 		return function(event){
-			//db(main.obj.ds("dmModeItem"),"aqua","blue")
+			
 			if(main.obj.ds("dmModeItem") === "new" && dragObj && dragObj.type === "item"){
 				return false;
 			}
 			if(dragObj && main.menuName !== dragObj.menuName){
-				db("ouch")
+			
 				return false;
 			}
 			
@@ -92,20 +92,17 @@ var sgDesignMenu = false;
 			event.preventDefault();
 			//event.stopPropagation();
 			
-			db("D.R.O.P.");
+			
 			if(main.obj.ds("dmModeItem") === "new" && dragObj && dragObj.type === "item"){
-				db("er000000000orrrr")
+				
 				return false;
 			}
 			
 			
-			db("DROP: "+main.type,"green","aqua");
+			
 			
 			if(main.type === "submenu" && dragObj){
-				for(var x in dragObj){
-					db(x+": "+dragObj[x], "blue")
-				}
-				db(dragObj.mode, "red")
+				
 				main.menu.append(dragObj.obj);
 				if(main.ondrop){
 					main.ondrop(dragObj);		
@@ -115,7 +112,7 @@ var sgDesignMenu = false;
 			}
 			
 			if(main.type === "submenu"){
-				db("QUEEEEEE")
+				
 				return false;
 			}
 			
@@ -128,7 +125,8 @@ var sgDesignMenu = false;
 						
 					}else{
 						main.item.getAction().attr("title",event.dataTransfer.getData("text"))
-							.ds("dmAction", event.dataTransfer.getData("text"));
+							.ds("dmAction", event.dataTransfer.getData("text"))
+							.addClass("data-action");
 						
 					}
 					if(main.ondrop){
@@ -296,42 +294,20 @@ var sgDesignMenu = false;
 			var option = this._option;
 			this._text = this._option.create("input").attr("type", "text").value(this.caption)
 				.on("change", this.onchange).on("dblclick", function(){
-					//this.select();
+					this.select();
 				})
-				.on("focus", function(){
-					//this.select();
-					option.attr("draggable", false);
-				})
-				.on("blur", function(){
-				db("blur")
-					//this.select();
-					//option.attr("draggable", true);
-				})
-			.on("dragstart", function(event){
-				db("k")
-				return false;
-				event.preventDefault();
-				event.stopPropagation();
-				event.cancelBubble =true;
-				event.dataTransfer.setData("text", false);
-			})
-			.on("dragover", function(event){
-				event.preventDefault();
-				event.stopPropagation();
-				event.cancelBubble =true;
-			})
-			.on("drag", function(event){
-				event.preventDefault();
-				event.stopPropagation();
-				event.cancelBubble =true;
-			})
-			
-			;
+				.on("mouseover", function(){
+				$.unSelect();
+				//this.setSelectionRange(this.value.length, this.value.length);
+				
+			});
 			this._add = this._option.create("span").text("+").on("click", $.bind(this.onnew, this));
 			this._remove = this._option.create("span").text("-").on("click", $.bind(this.onremove, this));
 			this._action = this._option.create("span").addClass("item-action").ds("dmAction", this.action).attr("title", this.action).text("")
 				.on("dblclick", this.ondeleteaction);
-			
+			if(this.action){
+				this._action.addClass("data-action");
+			}
 			
 			this._menu = this._main.create("ul").addClass("submenu");
 			this._menu.on("drop", drop({
@@ -369,338 +345,28 @@ var sgDesignMenu = false;
 			if(this.get().ds("dmModeItem") !== "new"){
 				
 				this.get().get().parentNode.removeChild(this.get().get());
-			}else{
-				db("error")
+			
 			}
 		},
-	};
-	
-	
-	
-	
-	var _dragItem = false;
-	
-	var _dragStart = function(item){
-		return function(event){
-			item.addClass("drag-start");
-			//event.dataTransfer.setData("nombre", "yanny");
-			event.dataTransfer.setData("text", "");
-			_dragItem = item;
-			
-		};
-	};
-	
-	var _dragEnd = function(item){
-		return function(event){
-			item.removeClass("drag-start");
-			
-			_dragItem = false;
-		};
-	};
-	
-	var _dragOver = function(item, _type){
 		
-		return function(event){
-			
-			
-			if(event.dataTransfer.getData("text") !== ""){
-				event.preventDefault();
+		
+		addOption: function(opt){
+			var btn = false;
+			if(this._option){
+				btn = this._option.create(opt.tagName || "span").text(opt.text || "")
+				.addClass(opt.className || false);
 				
-				return false;
+				for(var x in opt.events){
+					if(opt.hasOwnProperty(x)){
+						btn.on(x, $.bind(opt.events[x], this));
+					}
+					
+				}
 			}
-			
-			if(!_dragItem){
-				return false;
-			}
-			
-			if(item.ds("dmName") !== _dragItem.ds("dmName")){
-				return false;
-			}
-			
-			if(item.ds("dmModeItem") === "new"){
-				return false;
-			}
-			
-			
-			event.preventDefault();
-			if(item.id() === _dragItem.id()){
-				return false;
-			};
-			
-			
-			var elem = _dragItem.get();
-			var rect = item.get().getBoundingClientRect();
-			var diff = event.clientY - rect.top;
-			if((diff) < this.offsetHeight/2){
-				item.addClass("effect-up");
-				item.removeClass("effect-down");
-			}else{
-				item.addClass("effect-down");
-				item.removeClass("effect-up");
-			}
-			
-			
-		};
-	};
-
-	var _dragEnter = function(item){
-		return function(event){
-			event.preventDefault();
-		};
-	};
-	
-	var _dragLeave = function(item){
-		return function(event){
-			event.preventDefault();
-			item.removeClass("effect-down");
-			item.removeClass("effect-up");
-		};
-	};
-	
-	var _drop = function(item, menu, img){
-		
-		return function(event){
-			
-			event.preventDefault();
-			event.stopPropagation();
-			//db(event.dataTransfer.getData("nombre"),"red","yellow")
-			
-			if(event.dataTransfer.getData("text")!= ""){
-				
-				img.attr("src", event.dataTransfer.getData("text"));
-				return;
-			}
-			
-			item.removeClass("ul_over");
-			item.removeClass("effect-down");
-			item.removeClass("effect-up");
-			_dragItem.addClass("drop-end");
-			
-			
-			
-			if(item.ds("dmName") !== _dragItem.ds("dmName")){
-				return false;
-			}
-			
-			if(item.ds("dmModeItem") === "new"){
-				return false;
-			}
-			
-			if(item.id() === _dragItem.id()){
-				return false;
-			}
-			
-			
-			
-			
-			if(_dragItem.ds("dmModeItem") === "new"){
-				_dragItem.ds("dmModeItem", "normal");
-				menu.addNewItem();
-			}
-			
-			
-			
-			var target = item.get().parentNode;
-			var elem = _dragItem.get();
-			var rect = item.get().getBoundingClientRect();
-			var diff = event.clientY - rect.top;
-			
-			if((diff) < this.offsetHeight/2){
-				target.insertBefore(elem, item.get());
-				//db("UP", "aqua", "blue");
-			}else{
-				target.insertBefore(elem, item.get().nextSibling);
-				//db("down", "yellow", "orange");
-			}
-			menu.getCode();
-			//_dragItem.addClass("drop-end");
-			
-		};
-	};
-	
-	
-	var XXItem = function(opt){
-		this.id = "";
-		this._target = false;
-		this.caption = false;
-		this.menuName = false;
-		this._target = false;
-		this.image = "";
-		this.action = "";
-		
-		this._type = "ITEM.....";
-		for(var x in opt){
-			//if(opt.hasOwnProperty(x)){
-			
-				this[x] = opt[x];
-			//}
-			
 		}
-		this._menu = false;
-		if(this.target){
-			this._target = $(this.target);
-		}
-		
-		this.create();
-		
 	};
-	XXItem.prototype = {
-		
-		get: function(){
-			return this._main;	
-		},
-		
-		createMenu: function(){
-			if(!this._menu){
-				this._menu = this._main.create("UL").addClass("submenu");
-			}
-		},
-		
-		getMenu: function(){
-			if(!this._menu){
-				this.createMenu();
-			}
-			return this._menu;
-		},
-		
-		create: function(){
-			this._main = $.create("li").id(this.id)
-				.addClass("item").ds("dmIndex", this.index).ds("dsMenu","item").ds("dmName", this.menuName);
-			
-			this._option = this._main.create("div").addClass("option");
-			
-			this._option.create("input").attr("type", "radio").attr("name", this.chkName);
-			this._img = this._option.create("img").addClass("item-image").attr("src", this.image)
-			.on("dblclick", function(){
-				this.src = "";
-			});
-			this._option.create("input").attr("type", "text").value(this.caption)
-			.on("dblclick", function(){
-				this.select();
-			});
-			
-			this.createMenu();
-			this._option.create("input").attr("type", "button").value("+")
-			
-				.on("click", function(){
-					ME.menu._newItem.get().ds("dmModeItem", "normal");
-					ME._menu.append(ME.menu._newItem.get());
-					ME.menu.addNewItem();
-				});
-			this._option.create("input").attr("type", "button").value("-")
-				.on("click", function(){
-					ME.remove();
-				});
-			this._option.create("span").text("....").addClass("item-action").ds("dmAction", this.action)
-				.attr("title", this.action)
-				.on("dblclick", function(){
-					$(this).ds("dmAction", "");
-					this.title = "";
-				})
-				.on("dragover", function(event){
-					
-				
-					event.preventDefault();
-				})
-				.on("drop", function(event){
-					event.preventDefault();
-					if(event.dataTransfer.getData("text") !== ""){
-						$(this).ds("dmAction", event.dataTransfer.getData("text"));
-						this.title = event.dataTransfer.getData("text");
-						event.stopPropagation();
-						
-					}
-					//
-				});
-			
-			
-			this._option
-				//.attr("draggable", "true")
-				.on("dragstart", _dragStart(this._main))
-				.on("dragend", _dragEnd(this._main))
-				.on("dragenter", _dragEnter(this._main))
-				.on("dragover", _dragOver(this._main, this._type))
-				.on("dragleave", _dragLeave(this._main))
-				.on("drop", _drop(this._main, this.menu, this._img))
-			;
-
-			
-			this._main
-				.on("dragover", function(event){
-					if(event.dataTransfer.getData("text") !== ""){
-						event.preventDefault();
-						return false;
-					}
-					$(this).addClass("ul_over");
-				})
-				.on("dragleave", function(event){
-					$(this).removeClass("ul_over");
-
-				})
-				.on("drop", function(event){
-					$(this).removeClass("ul_over");
-
-				});
-			var ME = this;
-			this._menu
-				.on("drop", function(event){
-					event.preventDefault();
-					event.stopPropagation();
-				
-				
-				
-					this.appendChild(_dragItem.get());
-				
-				
-				
-					_dragItem.addClass("drop-end");
-					
-					if(_dragItem.ds("dmModeItem") === "new"){
-						_dragItem.ds("dmModeItem", "normal");
-						ME.menu.addNewItem();
-					}
-					
-					
-				
-				})
-				.on("dragover", function(event){
-					
-					if(!_dragItem){
-						event.preventDefault();
-						return false;
-					}
-				
-					if(ME._main.ds("dmName") !== _dragItem.ds("dmName")){
-						return false;
-					}
-					if(ME._main.ds("dmModeItem") === "new"){
-						return false;
-					}
-				
-					event.preventDefault();
-
-				});
-			
-			
-				//.id("name_"+this.id);
-			
-			
-			if(this._target){
-				this._target.append(this._main);
-			}
-			
-		},
-		
-		
-		remove: function(){
-			if(this.get().ds("dmModeItem") !== "new"){
-				db("ok")
-				this.get().get().parentNode.removeChild(this.get().get());
-			}else{
-				db("error")
-			}
-		},
-	};
+	
+	
 	
 	
 	var DesignMenu = function(opt){
@@ -767,23 +433,6 @@ var sgDesignMenu = false;
 			if(!this._main){
 				this._main = $.create("div");
 			}
-this._main.create("div").text("u").addClass("q").get().setAttribute("data-attr","");
-			this._main.create("div").ds("m","").text("..........")
-			
-			.on("drop", function(event){
-				db("drop")
-				event.preventDefault();
-			})
-			.on("dragover", function(event){
-				db("over")
-				event.preventDefault();
-			})
-			.attr("draggable", "true").addClass("container")
-			.on("dragstart", function(event){
-				 event.dataTransfer.setData("text", "");
-				//event.preventDefault();
-				//event.stopPropagation();
-			})
 			
 			
 			this._main.addClass("design-menu");
@@ -837,6 +486,15 @@ this._main.create("div").text("u").addClass("q").get().setAttribute("data-attr",
 				
 			};
 			this.item = new _item(opt);
+			this.item.addOption({
+				text:"R", 
+				events: {
+					click: function(){
+						
+						ME.reset();
+					}
+			}});
+			
 			//this.item.get().ds("dmModeItem","caption");
 			
 			
@@ -1034,7 +692,8 @@ this._main.create("div").text("u").addClass("q").get().setAttribute("data-attr",
 				ondeleteaction: function(){
 					
 					
-					$(this).ds("dmAction", "");
+					$(this).ds("dmAction", "").removeClass("data-action");
+					
 					ME.getCode();
 				},
 				
@@ -1103,6 +762,7 @@ this._main.create("div").text("u").addClass("q").get().setAttribute("data-attr",
 		},
 		
 		reset: function(){
+			db(1234747)
 			this.loadItems(this.data);
 		},
 		

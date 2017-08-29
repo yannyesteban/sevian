@@ -107,19 +107,21 @@ div.qq:not([data-attr='']) {
       font-weight: bold;
       margin: 1px;
       text-align: left; }
-    .design-menu .option .item-action:not([data-dm-action='']), .design-menu .item-option .item-action:not([data-dm-action='']) {
+    .design-menu .option .item-action:after, .design-menu .item-option .item-action:after {
+      content: "..."; }
+    .design-menu .option .item-action.data-action, .design-menu .item-option .item-action.data-action {
+      background-color: aquamarine; }
+      .design-menu .option .item-action.data-action:after, .design-menu .item-option .item-action.data-action:after {
+        content: "A"; }
+    .design-menu .option ._item-action:not([data-dm-action='']), .design-menu .item-option ._item-action:not([data-dm-action='']) {
       background-color: rgba(255, 198, 0, 0.5); }
-      .design-menu .option .item-action:not([data-dm-action='']):after, .design-menu .item-option .item-action:not([data-dm-action='']):after {
-        content: "#"; }
-    .design-menu .option .item-action[data-dm-action=''], .design-menu .item-option .item-action[data-dm-action=''] {
+    .design-menu .option ._item-action[data-dm-action=''], .design-menu .item-option ._item-action[data-dm-action=''] {
       vertical-align: middle;
       display: inline-block;
       background-color: rgba(255, 255, 255, 0.18) !important;
       width: 20px;
       float: right;
       color: white; }
-      .design-menu .option .item-action[data-dm-action='']:after, .design-menu .item-option .item-action[data-dm-action='']:after {
-        content: "h"; }
   .design-menu .div-image {
     padding-top: 8px;
     position: relative;
