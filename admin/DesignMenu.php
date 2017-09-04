@@ -38,7 +38,13 @@ class DesignMenu extends Sevian\Panel{
 		
 		$this->script = "loadMenu();";
 		
-		return $div->render().$div2->render();
+		$btn = new Sevian\HTML("input");
+		$btn->type = "button";
+		$btn->value = "ok";
+		
+		$btn->onclick = "m1.getSelectedItem();";
+		
+		return $div->render().$div2->render().$btn->render();
 		
 	}
 	

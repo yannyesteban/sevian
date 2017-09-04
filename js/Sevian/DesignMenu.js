@@ -6,7 +6,7 @@ if(!Sevian.Input){
 	Sevian.Input = {};
 }
 var sgDesignMenu = false;
-
+var m1;
 (function(namespace, $){
 	
 	var dragItem = false;
@@ -90,16 +90,13 @@ var sgDesignMenu = false;
 	var drop = function(main){
 		return function(event){
 			event.preventDefault();
-			//event.stopPropagation();
 			
-			
-			if(main.obj.ds("dmModeItem") === "new" && dragObj && dragObj.type === "item"){
-				
+			if(dragObj && main.menuName !== dragObj.menuName){
 				return false;
 			}
-			
-			
-			
+			if(main.obj.ds("dmModeItem") === "new" && dragObj && dragObj.type === "item"){
+				return false;
+			}
 			
 			if(main.type === "submenu" && dragObj){
 				
@@ -112,7 +109,6 @@ var sgDesignMenu = false;
 			}
 			
 			if(main.type === "submenu"){
-				
 				return false;
 			}
 			
@@ -121,13 +117,10 @@ var sgDesignMenu = false;
 				if(event.dataTransfer.getData("text") !== ""){
 					if((event.dataTransfer.getData("text")).match(/\.(png|gif|svg|jpg)$/i)){
 						main.item.getImage().attr("src", event.dataTransfer.getData("text"));
-						
-						
 					}else{
 						main.item.getAction().attr("title",event.dataTransfer.getData("text"))
 							.ds("dmAction", event.dataTransfer.getData("text"))
 							.addClass("data-action");
-						
 					}
 					if(main.ondrop){
 						main.ondrop(dragObj);		
@@ -155,12 +148,6 @@ var sgDesignMenu = false;
 				}
 				
 			}
-			//main.hand.removeClass("effect-down");
-			//main.hand.removeClass("effect-up");
-			
-			
-			
-			//menu.getCode();
 			
 		};
 	};
@@ -179,6 +166,7 @@ var sgDesignMenu = false;
 		
 		this.target = false;
 		this._target = false;
+		this.oncheck = false;
 		this.ondeleteimg = false;
 		this.ondeleteaction = function(){};
 		this.onchange = function(){};
@@ -285,7 +273,17 @@ var sgDesignMenu = false;
 					$(this).removeClass("ul_over");
 				});
 			
-			this._check = this._option.create("input").prop({"type": "radio", name: this.chkName});
+			this._check = this._option.create("input").prop({"type": "radio", name: this.chkName, value:this.index})
+			.on("change", this.oncheck({
+				index: this.index,
+				menuName: this.menuName,
+				obj: this._main,
+				menu: this._menu,
+				hand: this._option,
+				item: this,
+			}));
+			
+			
 			this._image = this._option.create("img").attr("src", this.image)
 				.on("dblclick", this.ondeleteimg)
 				.on("dragstart", dragStart({}));
@@ -301,8 +299,8 @@ var sgDesignMenu = false;
 				//this.setSelectionRange(this.value.length, this.value.length);
 				
 			});
-			this._add = this._option.create("span").text("+").on("click", $.bind(this.onnew, this));
-			this._remove = this._option.create("span").text("-").on("click", $.bind(this.onremove, this));
+			this._add = this._option.create("span").text("+").addClass("item-add").on("click", $.bind(this.onnew, this));
+			this._remove = this._option.create("span").text("-").addClass("item-remove").on("click", $.bind(this.onremove, this));
 			this._action = this._option.create("span").addClass("item-action").ds("dmAction", this.action).attr("title", this.action).text("")
 				.on("dblclick", this.ondeleteaction);
 			if(this.action){
@@ -315,7 +313,7 @@ var sgDesignMenu = false;
 					hand: this._option,
 					obj: this._main,
 					menu: this._menu,
-					menuName: this._menuName,
+					menuName: this.menuName,
 					ondrop: $.bind(this.ondrop, this), mode: this.mode}))
 				.on("dragover", function(event){event.preventDefault();});
 			
@@ -353,14 +351,11 @@ var sgDesignMenu = false;
 		addOption: function(opt){
 			var btn = false;
 			if(this._option){
-				btn = this._option.create(opt.tagName || "span").text(opt.text || "")
-				.addClass(opt.className || false);
-				
+				btn = this._option.create(opt.tagName || "span").text(opt.text || "").addClass(opt.className || false);
 				for(var x in opt.events){
-					if(opt.hasOwnProperty(x)){
+					if(opt.events.hasOwnProperty(x)){
 						btn.on(x, $.bind(opt.events[x], this));
 					}
-					
 				}
 			}
 		}
@@ -395,6 +390,15 @@ var sgDesignMenu = false;
 		this.events = {};
 		this.rules = {};
 		
+		this.oncheck = function(opt){
+			
+			return function(){
+				db(opt.index);
+			};
+			
+			
+		};
+		
 		this.modeInit = 1;
 		
 		this.placeholder = false;
@@ -421,11 +425,7 @@ var sgDesignMenu = false;
 	
 	DesignMenu.prototype = {
 		create: function(){
-			var 
-				data = false,
-				main = false,
-//				parent = false,
-				ME = this;
+			var ME = this;
 			
 			this.length = 0;
 			this._item = [];
@@ -435,11 +435,8 @@ var sgDesignMenu = false;
 			}
 			
 			
-			this._main.addClass("design-menu");
-			this._main.addClass(this.className);
-			
-			
-			this._input = this._main.create("textarea").attr("name", this.name);
+			this._main.addClass("design-menu").addClass(this.className);
+			this._input = this._main.create("input").attr("type", "hidden").attr("name", this.name);
 			
 			
 			if(this.target){
@@ -452,6 +449,8 @@ var sgDesignMenu = false;
 				chkName : this.name + "_chk",
 				type: "caption",
 				mode: "caption",
+				menuName: this.name,
+				oncheck: this.oncheck,
 				ondrop: function(dragObject){
 					
 					
@@ -476,12 +475,16 @@ var sgDesignMenu = false;
 					ME.getCode();
 				},
 				onremove: function(){
-					this.remove();
+					//this.remove();
 				},
 				ondeleteimg: function(){
 					this.src = "";
 					ME.getCode();
-				}
+				},
+				onchange: function(){
+					
+					ME.getCode();
+				},
 				
 				
 			};
@@ -490,124 +493,33 @@ var sgDesignMenu = false;
 				text:"R", 
 				events: {
 					click: function(){
-						
 						ME.reset();
 					}
+					
+					
 			}});
 			
-			//this.item.get().ds("dmModeItem","caption");
-			
-			
 			this._menu = this.item._menu;
-			
-			this.length = 0;
-			for(var x in this.data){
-				
-				this.add(this.data[x]);
-				 
-			}
-			
-			this.newUL = this._main.create("ul").addClass("new-item");
-			this.addNewItem();
-			this.getCode();
-			return;
-			
-			var header = this._main.create("div").addClass("caption");
-			header.create("input").attr("type","radio").attr("name", this.name + "_chk").attr("checked", true);
-			
-			header.create("input").attr("type", "text").addClass("caption").value(this.caption);
-			
-			header.create("input").attr("type", "button").value("+")
-			
-			.on("click", function(){
-				ME._newItem.get().ds("dmModeItem", "normal");
-				ME._menu.append(ME._newItem.get());
-				ME.addNewItem();
-			});
-			header.create("input").attr("type", "button").value("R")
-			
-			.on("click", function(){
-				ME.reset();
-			});
-			
-			header.on("dragover", function(event){
-				
-				if(ME.name !== _dragItem.ds("dmName")){
-						return false;
-					}
-				
-					event.preventDefault();	
-					
-				})
-				.on("drop", function(event){
-					event.preventDefault();
-					if(_dragItem.ds("dmModeItem") === "new"){
-						_dragItem.ds("dmModeItem", "normal");
-						ME.addNewItem();
-					}
-					ME._menu.append(_dragItem.get());
-					
-					
-					
-				});
-			
-			
-			this._menu = this._main.create("UL").addClass("menu");
-			this.length = 0;
-			for(var x in this.data){
-				
-				this.add(this.data[x]);
-				 
-			}
-			
-			
-			
-			if(this.target){
-				this._target = $(this.target);
-				this._target.append(this._main);
-			}
-			
-			
-			this.newUL = this._main.create("ul").addClass("new-item");
-			this.addNewItem();
-			
-			/*
-			var newLI = newUL.create("li");	
-			
-				newLI.create("input").attr("type","button").value("+");
-				newLI.create("input").attr("type","text").value("New Item")
-			;
-			*/
+			this.loadItems(this.data);
+
 			this._main.create("div").addClass("delete-zone").text("DELETE")
 				.on("dragover", function(event){
-					if(ME.name !== _dragItem.ds("dmName")){
-						return false;
-					}	
-				
-				
-					if(_dragItem.ds("dmModeItem") !== "new"){
+					if(dragObj && dragObj.obj.ds("dmModeItem") !== "new" && dragObj.type === "item"){
 						event.preventDefault();
 					}
+					return false;
 				})
 				.on("drop", function(event){
 					event.preventDefault();
 				
-					if(_dragItem.ds("dmModeItem") !== "new"){
-						_dragItem.get().parentNode.removeChild(_dragItem.get());
+					if(dragObj && dragObj.obj.ds("dmModeItem") !== "new" && dragObj.type === "item"){
+						dragObj.obj.get().parentNode.removeChild(dragObj.obj.get());
+						ME.getCode();
 					}
-				
 					
 				});
-			this.result = this._main.create("div").id("str").text(".....")
-				.on("click", function(){
-					this.innerHTML = ME.getCode();
-				});
-			
-			
-			
 			
 		},
-		
 		
 		loadItems: function(data){
 			this.length = 0;
@@ -617,19 +529,17 @@ var sgDesignMenu = false;
 			for(var x in data){
 				this.add(data[x]);
 			}	
+			if(!this.newUL){
+				this.newUL = this._main.create("ul").addClass("new-item");
+			}else{
+				this._newItem.get().get().parentNode.removeChild(this._newItem.get().get());
+			}
+			this.addNewItem();
+			this.getCode();
 			
 		},
 		addNewItem: function(){
-			
 			this._newItem = this.add({target:this.newUL, mode: "new", caption:"New Item "+(this.length + 1), index:this.length});
-			
-			//this._newItem.get().ds("dmModeItem","new");
-			
-			
-			
-			//var option = new Item({target:this.newUL, caption:"New Item "+this.length, index:this.length});
-			//this.length++;
-			
 		},
 		
 		add: function(opt){
@@ -657,6 +567,7 @@ var sgDesignMenu = false;
 				image: opt.image || "",
 				type: opt.type || null,
 				mode: opt.mode || null,
+				oncheck: this.oncheck,
 				ondrop: function(dragObject){
 					
 					
@@ -698,6 +609,7 @@ var sgDesignMenu = false;
 				},
 				
 				onchange: function(){
+					
 					ME.getCode();
 				},
 				
@@ -757,21 +669,23 @@ var sgDesignMenu = false;
 				
 				a.push(item);
 			}
-			this._input.value(JSON.stringify(a));
+			//this._input.value(JSON.stringify(a));
 			return a;
 		},
 		
 		reset: function(){
-			db(1234747)
 			this.loadItems(this.data);
 		},
 		
 		getCode: function(){
 			
-			return JSON.stringify(this.getItems(this._menu)); 
-		
+			var request = {
+				caption:this.item.get().query("input[type='text']").value,
+				image: this.item.get().query("img").getAttribute("src"),
+				items: this.getItems(this._menu),
+			}
+			this._input.value(JSON.stringify(request));
 			
-		
 		
 		},
 		
@@ -843,6 +757,14 @@ var sgDesignMenu = false;
 				this._main.get().select();
 			}
 			
+			
+		},
+		
+		getSelectedItem: function(){
+			
+			var s = this._main.query("input[type='radio']:checked");
+			
+			db(s.value)
 			
 		},
 		
@@ -931,7 +853,7 @@ function loadMenu(){
 	];
 	
 	//data = [];
-	new Sevian.Input.DesignMenu({
+	m1 = new Sevian.Input.DesignMenu({
 		name:"menu_1",
 		caption: "Menú Principal",
 		data: data,

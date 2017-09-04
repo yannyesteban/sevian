@@ -107,10 +107,16 @@ div.qq:not([data-attr='']) {
       font-weight: bold;
       margin: 1px;
       text-align: left; }
+    .design-menu .option .item-add, .design-menu .option .item-remove, .design-menu .item-option .item-add, .design-menu .item-option .item-remove {
+      cursor: pointer; }
+    .design-menu .option .item-add:hover, .design-menu .item-option .item-add:hover {
+      background-color: #19930b; }
+    .design-menu .option .item-remove:hover, .design-menu .item-option .item-remove:hover {
+      background-color: #cc0202; }
     .design-menu .option .item-action:after, .design-menu .item-option .item-action:after {
       content: "..."; }
     .design-menu .option .item-action.data-action, .design-menu .item-option .item-action.data-action {
-      background-color: aquamarine; }
+      background-color: #4b4b4b; }
       .design-menu .option .item-action.data-action:after, .design-menu .item-option .item-action.data-action:after {
         content: "A"; }
     .design-menu .option ._item-action:not([data-dm-action='']), .design-menu .item-option ._item-action:not([data-dm-action='']) {
@@ -178,7 +184,7 @@ div.qq:not([data-attr='']) {
     background: repeating-radial-gradient(#290325, #640c7b);
     color: white;
     text-align: center;
-    margin: 6px;
+    margin: 0px;
     padding: 4px; }
   .design-menu .drag-start {
     opacity: 0.5;

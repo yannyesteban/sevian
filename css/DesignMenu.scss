@@ -157,12 +157,25 @@ div.q {
 			
 			
 		}
+		.item-add, .item-remove{
+			cursor: pointer;
+		}
+		.item-add{
+			&:hover{
+				background-color: rgba(25,147,11,1.00);
+			}
+		}
+		.item-remove{
+			&:hover{
+				background-color: rgba(204,2,2,1.00);
+			}
+		}
 		.item-action{
 			&:after{
 				content: "...";
 			}
 			&.data-action{
-				background-color: aquamarine;
+				background-color: rgba(75,75,75,1.00);
 				&:after{
 					content: "A";
 				}
@@ -283,7 +296,7 @@ div.q {
 		background: repeating-radial-gradient(rgba(41,3,37,1.00), rgba(100,12,123,1));
 		color:white;
 		text-align: center;
-		margin:6px;
+		margin: 0px;
 		padding: 4px;
 	}
 	li.ul_over{
