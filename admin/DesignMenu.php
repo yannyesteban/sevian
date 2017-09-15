@@ -40,7 +40,7 @@ class DesignMenu extends Sevian\Panel{
 		
 		$btn = new Sevian\HTML("input");
 		$btn->type = "button";
-		$btn->value = "ok";
+		$btn->value = ".O.K.";
 		
 		$btn->onclick = "m1.getSelectedItem();";
 		
