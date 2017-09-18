@@ -71,6 +71,11 @@ $commands["procedure"] = [
 	"eparams"	=>	false
 ];
 
+$clsElement["form4"] = [
+	"file" 	=> "form4.php",
+	"class" => "form4"];
+
+
 $PATH = SS_PATH;
 
 $cssSheets = array(

@@ -105,6 +105,14 @@ $elements[] = array(
 	"designMode"=>false,
 	"fixed"		=>true,
 );
+$elements[] = array(
+	"panel"		=>6,
+	"element"	=>"form4",
+	"name"		=>"uno",
+	"method"	=>"toolbar",
+	"designMode"=>false,
+	"fixed"		=>true,
+);
 
 /*
 $elements[] = array(
