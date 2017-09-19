@@ -4,73 +4,75 @@
 class FileUp{
 	
 	public $field = "";
-	public $rename = false;
+	public $name = false;
 	public $path = "";
 	public $error = false;
 	
-	
-	public function delete($name){
-		unlink($this->path.$this->name);
+	public function delete($name=""){
 		
-		
+		if(is_file($this->path.$this->name)){
+			unlink($this->path.$this->name);
+			return true;
+		}else{
+			return false;
+		}
 		
 	}
 	
 	public function upload($name){
 		
-		
+		foreach ($_FILES["pictures"]["error"] as $key => $error) {
+			if ($error == UPLOAD_ERR_OK) {
+				$tmp_name = $_FILES["pictures"]["tmp_name"][$key];
+				// basename() puede evitar ataques de denegación de sistema de ficheros;
+				// podría ser apropiada más validación/saneamiento del nombre del fichero
+				$name = basename($_FILES["pictures"]["name"][$key]);
+				move_uploaded_file($tmp_name, "$uploads_dir/$name");
+			}
+		}
 	}
 	
 	public function load(){
+		print_r($_FILES[$this->field]);
+		foreach ($_FILES[$this->field]["error"] as $key => $error) {
+			if ($error == UPLOAD_ERR_OK) {
+				$tmp_name = $_FILES[$this->field]["tmp_name"][$key];
+				// basename() puede evitar ataques de denegación de sistema de ficheros;
+				// podría ser apropiada más validación/saneamiento del nombre del fichero
+				$name = basename($_FILES[$this->field]["name"][$key]);
+				echo $name."\n";
+				
+				//move_uploaded_file($tmp_name, "$uploads_dir/$name");
+			}
+		}
+		
 		if($_FILES[$this->field]["name"] == ""){
+			$this->error = true;
 			return false;
 		}
+		
 		$file = $_FILES[$this->field]["name"];
 		
 		$info = pathinfo($file);
-		
 		$ext = $info['extension'];
-		//echo $this->path.$this->field.$ext;
 		
-		
-		
-		$baseNamme = uniqid("f");
-		
-		$name = $this->path.$baseNamme.".".$ext;
-		
-		move_uploaded_file($_FILES[$this->field]["tmp_name"],$name);
-		
-		return ;
-		
-		$info = pathinfo($file);
-		
-
-		
-		$this->ext = "";
-
-		if(preg_match("/(.\w+)$/", $this->archivo_name, $c)){
-			$this->ext = $c[1];
-		}// end if
-
-
-		if($this->nombre==""){
-			$rand = substr((rand (0,9999)*10000),0,4);
-			$aux = date("YmdHis")."_".$rand;	
-			$this->nombre = $aux.$this->ext;
+		if($this->name){
+			$baseName = $this->name;
 		}else{
-			$archivo_x = pathinfo($this->nombre);
-			$this->nombre = $archivo_x["dirname"]."/".$archivo_x["filename"].$this->ext;
+			$baseName = uniqid("f");
+		}
 
-		}// end if
-	
-		if ($this->archivo_name == "" or move_uploaded_file($_FILES[$this->nombre_ele]["tmp_name"],$this->path.$this->nombre)){
-	
-			return $this->nombre;
-		}else{
+		
+		$name = $this->path.$baseName.".".$ext;
+		
+		if(move_uploaded_file($_FILES[$this->field]["tmp_name"], $name)){
+			return $name;
 			
-			$this->msg_error = C_ERROR_UPLOAD;
+		}else{
+			$this->error = true;
 			return false;
-		}// end if		
+		}
+	
 		
 	}
 	
@@ -93,12 +95,12 @@ class form4 extends Sevian\Panel{
 		$f->field = "archivo";
 		$f->path = "files/";
 		
-		$f->name = "x.jpg";
+		//$f->name = "esteban";
 		
-		echo $method;
+		//echo $method;
 		
 		
-		$f->delete();
+		//$f->delete();
 		$f->load();
 		
 	}
@@ -106,7 +108,7 @@ class form4 extends Sevian\Panel{
 	
 	public function render(){
 		
-		echo $this->method;
+		
 		
 		$main = new Sevian\HTML("div");
 		
@@ -116,6 +118,8 @@ class form4 extends Sevian\Panel{
 		
 		$input = $main->add("input");
 		$input->type = "file";
+		
+		$input->multiple = "multiple";
 		$input->name = "archivo";
 		
 		
@@ -124,7 +128,7 @@ class form4 extends Sevian\Panel{
 		
 		
 		$action = Sevian\Action::Send([
-			"async"=>true,
+			"async"=>false,
 			"panel"=>6,
 			"valid"=>false,
 			"params"=>[

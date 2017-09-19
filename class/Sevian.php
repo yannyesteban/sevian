@@ -461,8 +461,7 @@ class Sevian{
 			
 			));
 			
-			$form = new sgHTML(array("tagName"=>"form", "action"=>"", "name"=>"form_p$panel", "id"=>"form_p$panel"));
-			
+			$form = new sgHTML(array("tagName"=>"form", "action"=>"", "name"=>"form_p$panel", "id"=>"form_p$panel", "method"=> "POST", "enctype"=>"multipart/form-data"));
 			$form->add($elem);
 			$form->add($aux);
 			
