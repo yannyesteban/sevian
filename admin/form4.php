@@ -134,6 +134,15 @@ class form4 extends Sevian\Panel{
 		$input2 = $main->add('input');
 		$input2->type = 'button';
 		
+		$input3 = $main->add('input');
+		$input3->type = 'text';
+		$input3->id = 'input_upload';
+		$input3->placeholder = '...input_upload';
+		
+		$div3 = $main->add('div');
+		//$div3->class = 'upload';
+		$div3->id = 'main_upload';
+		
 		
 		$action = Sevian\Action::Send([
 			'async'=>false,

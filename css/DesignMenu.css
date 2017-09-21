@@ -32,6 +32,12 @@ div.q[data-attr='a'] {
 div.qq:not([data-attr='']) {
   background: blue; }
 
+.upload-main {
+  height: 100px;
+  width: 100px;
+  border: 1px solid red;
+  background-color: #f8f3b6; }
+
 .img-drag[src=''] {
   border: 15px solid blue;
   display: block; }

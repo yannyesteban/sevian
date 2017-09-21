@@ -103,5 +103,6 @@ $jsFiles[] = array("file" => "{$PATH}js/sgTab.js", "begin" => false);
 
 $jsFiles[] = array("file" => "{$PATH}js/Sevian/Menu.js", "begin" => false);
 $jsFiles[] = array("file" => "{$PATH}js/Sevian/DesignMenu.js", "begin" => false);
+$jsFiles[] = array("file" => "{$PATH}js/Sevian/Upload.js", "begin" => false);
 
 ?>
