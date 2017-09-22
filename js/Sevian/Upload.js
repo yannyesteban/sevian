@@ -46,24 +46,70 @@ var Upload = false;
 				
 			}
 			
+			var preview = $("panel_p6").create("div").get();
 			
 			this.main
+			
+				.on("click", function(){
+					//db("yan")
+					//$("#archivo").attr("value", "c:\www\wallpapers\105.jpg");
+				
+				})
+			
 				.on("dragover", function(event){
-				db(88888)
+				
 					event.preventDefault();
+					
+				
 				})
 				.on("drop", function(event){
-					var files = event.dataTransfer.files;
-				
-				
-				db(files[0]);
-				
-				for(var x in files[0]){
-					
-					db(x+"..."+files[x])
-				}
-				
 					event.preventDefault();
+					event.stopPropagation();
+					var files = event.target.files || event.dataTransfer.files;
+				
+				
+					db(files.length, "red");
+				
+				
+					//var d = $(this).create("input");
+					//d.attr("type", "file");
+					//d.attr("value", files);
+
+					//$("#archivo").style({display:"none"})
+					$("#archivo").attr("files", files);
+					for(var x =0;x<files.length;x++){
+
+						db(x+"..."+files[x].type, "green")
+					}
+				
+				for (var i = 0; i < files.length; i++) {
+						var file = files[i];
+						var imageType = /image.*/;
+
+						if (!file.type.match(imageType)) {
+						  continue;
+						}
+
+						var img = document.createElement("img");
+					  img.src = window.URL.createObjectURL(file);
+					  img.height = 60;
+					  img.onload = function() {
+						window.URL.revokeObjectURL(this.src);
+					  };
+					  preview.appendChild(img);
+					
+					/*
+						var img = document.createElement("img");
+						img.classList.add("obj");
+						img.file = file;
+						preview.appendChild(img);
+
+						var reader = new FileReader();
+						reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+						reader.readAsDataURL(file);
+						*/
+				}
+					
 				});
 			
 			

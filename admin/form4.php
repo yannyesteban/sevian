@@ -129,6 +129,7 @@ class form4 extends Sevian\Panel{
 		
 		$input->multiple = 'multiple';
 		$input->name = 'archivo';
+		$input->id = 'archivo';
 		
 		
 		$input2 = $main->add('input');
@@ -143,6 +144,11 @@ class form4 extends Sevian\Panel{
 		//$div3->class = 'upload';
 		$div3->id = 'main_upload';
 		
+		
+		$label = $main->add('label');
+		$label->for = 'archivo';
+		$label->innerHTML = 'arrastre aqui';
+		$label->id = 'label';
 		
 		$action = Sevian\Action::Send([
 			'async'=>false,

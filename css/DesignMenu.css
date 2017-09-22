@@ -302,3 +302,6 @@ div.qq:not([data-attr='']) {
     width: 80px;
     background-color: #1ebf5e;
     color: white; }
+
+img.obj {
+  width: 60px; }
