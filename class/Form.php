@@ -11,6 +11,24 @@ class Page extends HTML{
 	public $body = false;
 	
 	private $_caption = false;
+	private $_dataType = "data-page-type";
+	private $_mainType = "page";
+	
+	
+	public function setDataType($dataType){
+		$this->_dataType = $dataType;
+		
+	}
+	public function getDataType(){
+		return $this->_dataType;
+	}
+	public function setMainType($type){
+		$this->_mainType = $type;
+	}
+	public function getMainType(){
+		return $this->_mainType;
+	}
+	
 	
 	public function __construct	($opt = false){
 		
@@ -24,10 +42,11 @@ class Page extends HTML{
 			$this->setCaption($this->caption);
 		}
 
-		$this->{"data-page-type"} = "main";
-		
+		$this->{$this->getDataType()} = "main";
+		$this->{"data-main-type"} = $this->getMainType();
+		$this->addClass("ss-page");
 		$this->body = new HTML("div");
-		$this->body->{"data-page-type"} = "body";
+		$this->body->{$this->getDataType()} = "body";
 		$this->body->class = "body";
 		HTML::appendChild($this->body);
 		
@@ -37,7 +56,7 @@ class Page extends HTML{
 		
 		if(!$this->_caption){
 			$this->_caption = new HTML("header");
-			$this->_caption->{"data-page-type"} = "caption";
+			$this->_caption->{$this->getDataType()} = "caption";
 			$this->_caption->class = "caption";
 			
 			HTML::insertFirst($this->_caption);
@@ -244,7 +263,25 @@ class Tab{
 	
 }// end class
 
-class Form{
+class Form extends Page{
+	
+	
+	public function __construct($opt = false){
+		
+		$this->setDataType("data-form-type");
+		$this->setMainType("form");
+		
+		Page::__construct($opt);
+		
+		$this->addClass("ss-form");
+	}
+	
+	
+	public function addField($opt){
+		
+		
+	}
+	
 	
 	
 	

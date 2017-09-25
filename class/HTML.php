@@ -168,6 +168,16 @@ class HTML{
 
 	}// end function	
 
+	public function addClass($class = ""){
+		$this->class .= (($this->class)?" ":"").$class;
+		
+	}
+	
+	public function removeClass($class){
+		//
+		
+	}
+	
 	public function render(){
 
 		if($this->hide){

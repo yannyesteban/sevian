@@ -88,7 +88,8 @@ $cssSheets = array(
 	"{$PATH}css/sgTab.css",
 	"{$PATH}css/sgAjax.css",
 	"{$PATH}css/grid.css",
-	"{$PATH}css/DesignMenu.css"
+	"{$PATH}css/DesignMenu.css",
+	"{$PATH}css/Form.css"
 
 );
 
