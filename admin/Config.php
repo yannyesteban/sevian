@@ -35,11 +35,45 @@ $themes["sevian"] = [
 ];
 
 $clsInput["submit"] = [
-	"file" 	=> "sgInput.php",	
+	"file" 	=> "Input.php",	
 	"css" 	=> "",	
 	"js" 	=> "",	
-	"class" => "stdInput",
+	"class" => "Sevian\Input",
 	"type"  =>  "submit"];
+$clsInput["text"] = ["class" => "Sevian\Input",	"type"  =>  "text"];
+$clsInput["hidden"] = ["class" => "Sevian\Input",	"type"  =>  "hidden"];
+$clsInput["password"] = ["class" => "Sevian\Input",	"type"  =>  "password"];
+
+$clsInput["button"] = ["class" => "Sevian\Input",	"type"  =>  "button"];
+$clsInput["range"] = ["class" => "Sevian\Input",	"type"  =>  "range"];
+$clsInput["image"] = ["class" => "Sevian\Input",	"type"  =>  "image"];
+
+$clsInput["date"] = ["class" => "Sevian\DateInput",	"type"  =>  "calendar"];
+
+
+
+
+$clsInput["select"] = [
+	//"file" 	=> "",	
+	"css" 	=> "",	
+	"js" 	=> "",	
+	"class" => "Sevian\Input",
+	"type"  =>  "select"];
+$clsInput["multiple"] = [
+	//"file" 	=> "",	
+	"css" 	=> "",	
+	"js" 	=> "",	
+	"class" => "Sevian\Input",
+	"type"  =>  "select"];
+$clsInput["color"] = [
+	//"file" 	=> "Input.php",	
+	"css" 	=> "",	
+	"js" 	=> "",	
+	"class" => "Sevian\Input",
+	"type"  =>  "color"];
+
+
+
 $clsElement["form"] = [
 	"file" 	=> "SgForm.php",
 	"class" => "SgForm"];
@@ -105,5 +139,10 @@ $jsFiles[] = array("file" => "{$PATH}js/sgTab.js", "begin" => false);
 $jsFiles[] = array("file" => "{$PATH}js/Sevian/Menu.js", "begin" => false);
 $jsFiles[] = array("file" => "{$PATH}js/Sevian/DesignMenu.js", "begin" => false);
 $jsFiles[] = array("file" => "{$PATH}js/Sevian/Upload.js", "begin" => false);
+
+$jsFiles[] = array("file" => "{$PATH}js/sgCalendar.js", "begin" => false);
+$jsFiles[] = array("file" => "{$PATH}js/Sevian/Input.js", "begin" => false);
+$jsFiles[] = array("file" => "{$PATH}js/Sevian/Form.js", "begin" => false);
+
 
 ?>

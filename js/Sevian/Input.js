@@ -10,7 +10,7 @@ var ssInput = false;
 (function(namespace, $){
 	
 	
-	var ssInput = function(opt){
+	ssInput = function(opt){
 		
 		
 		this.type = "";
@@ -396,18 +396,20 @@ var ssDateInput = false;
 				
 			}else{
 				this._main = $.create("span");
-				this._input = this._main.create({tagName: "input", type: "text"});
+				this._input = this._main.create({tagName: "input", type: "hidden"});
 				
 			}
-			this.addClass(this.className);
+			
+			
 			if(!this._mask){
 				this._mask = this._main.create({tagName:"input", type:"text", placeholder:this.placeholder});
+			
 			}
 			
 			if(this.type === "calendar" || this.type === "text"){
 				this.createPopup();
 			}
-				
+			this.addClass(this.className);	
 			var ME = this;
 			this._mask.on("change", function(){
 				var aux = sgDate.dateFrom(this.value, ME.maskFormat);

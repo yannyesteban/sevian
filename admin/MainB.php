@@ -72,6 +72,8 @@ include("../class/Document.php");
 
 include("../class/Menu.php");
 
+include("../class/Input.php");
+include("../class/Tab.php");
 include("../class/Form.php");
 include("../class/Panel.php");
 include("../class2/sg_html.php");
@@ -91,6 +93,7 @@ Sevian\Connection::load($conections);
 
 $sevian = new Sevian(array(
 	"clsElement"	=> $clsElement,
+	"clsInput"		=> $clsInput,
 	"commands"		=> $commands,
 	"actions"		=> $actions,
 	"elements"		=> $elements,

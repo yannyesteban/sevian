@@ -19,6 +19,7 @@ var sgTab = false, Tab;
 		this.value = 0;
 		this.onOpen = function(index){};
 		this.onClose = function(index){};
+		this.pages = false;
 		
 		for(var x in opt){
 			this[x] = opt[x];
@@ -64,6 +65,16 @@ var sgTab = false, Tab;
 			if(this.target){
 				this._target = $(this.target);
 				this._target.append(this._main);
+			}
+			
+			if(this.pages){
+				for(var x in this.pages){
+					if(this.pages.hasOwnProperty(x)){
+						this.add(this.pages[x]);
+					}
+					
+				}
+				
 			}
 		},
 		

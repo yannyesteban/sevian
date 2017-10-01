@@ -176,6 +176,7 @@ class Sevian{
 	private $_commands = array();
 	private $_actions = array();
 	private $_clsElements = array();
+	private $_clsInputs = array();
 	private $_infoClasses = array();
 	//public $isAnonim
 		//is_authenticated
@@ -225,6 +226,10 @@ class Sevian{
 				$this->_infoClasses = $opt["clsElement"];
 			}
 			
+			if(isset($opt["clsInput"])){
+				$this->_infoInputs = $opt["clsInput"];
+			}
+			
 			
 			if(isset($opt["elements"])){
 				foreach($opt["elements"] as $k => $e){
@@ -245,6 +250,7 @@ class Sevian{
 				$this->_signs = $opt["signs"];
 			}
 			$this->cfg["INFO_CLASSES"] = &$this->_infoClasses;
+			$this->cfg["INFO_INPUTS"] = &$this->_infoInputs;
 			$this->cfg["LISTEN_PANEL"] = &$this->_pSigns;
 			$this->cfg["LISTEN"] = &$this->_signs;
 			$this->cfg["COMMANDS"] = &$this->_commands;
@@ -255,6 +261,7 @@ class Sevian{
 			$this->cfg["SW"] = ($this->cfg["SW"] == "1")? "0": "1";
 			
 			$this->_infoClasses = &$this->cfg["INFO_CLASSES"];
+			$this->_infoInputs = &$this->cfg["INFO_INPUTS"];
 			
 			$this->_info = &$this->cfg["INFO"];
 			$this->template = &$this->cfg["TEMPLATE"];
@@ -273,6 +280,10 @@ class Sevian{
 		
 		foreach($this->_infoClasses as $name => $info){
 			$this->setClassElement($name, $info);
+		}
+		
+		foreach($this->_infoInputs as $name => $info){
+			$this->setClassInput($name, $info);
 		}
 		
 		if($this->cfg["INIT"] and isset($opt["sequenceInit"])){
@@ -674,8 +685,21 @@ class Sevian{
 	}
 	
 	public function setClassElement($name, $info){
-		require_once($info["file"]);
+		//require_once($info["file"]);
+		
+		if(isset($info["file"]) and $info["file"] != ""){
+			require_once($info["file"]);
+		}
 		$this->_clsElement[$name] = $info["class"];
+	}
+	
+	public function setClassInput($name, $info){
+		
+		if(isset($info["file"]) and $info["file"] != ""){
+			require_once($info["file"]);
+		}
+		
+		$this->_clsInput[$name] = array("class"=>$info["class"], "type"=>$info["type"]);
 	}
 	
 	public function loadClsElement(){
@@ -699,6 +723,22 @@ class Sevian{
 			$obj = new SgPanel($info);
 			
 		}
+		return $obj;
+
+	}
+	public function sgInput($info){
+		
+		if(is_array($info)){
+			$info = new Sevian\InfoInput($info);
+		}
+		
+		if(isset($this->_clsInput[$info->input])){
+			$info->type = $this->_clsInput[$info->input]["type"];
+			$obj = new $this->_clsInput[$info->input]["class"]($info);
+		}else{
+			$obj = new Sevian\Input($info);
+		}
+
 		return $obj;
 
 	}

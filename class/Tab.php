@@ -1,111 +1,66 @@
 <?php
 
+
 namespace Sevian;
 
-
-
-class Page extends HTML{
-	
-	public $tagName = "section";
-	public $caption = false;
-	public $body = false;
-	
-	private $_caption = false;
-	private $_dataType = "data-page-type";
-	private $_mainType = "page";
+class InfoTabPage{
 	
 	
-	public function setDataType($dataType){
-		$this->_dataType = $dataType;
-		
-	}
-	public function getDataType(){
-		return $this->_dataType;
-	}
-	public function setMainType($type){
-		$this->_mainType = $type;
-	}
-	public function getMainType(){
-		return $this->_mainType;
-	}
+	public $title = "";
+	public $body = "";
+	public $class = "";
 	
-	
-	public function __construct	($opt = false){
+	public function __construct($opt = []) {
 		
 		if(is_array($opt)){
 			foreach($opt as $k => $v){
-				$this->$k = $v;	
-			}// next			
-		}// end if			
-		
-		if($this->caption){
-			$this->setCaption($this->caption);
+				$this->$k = $v;
+			}
 		}
+	}
+}
 
-		$this->{$this->getDataType()} = "main";
-		$this->{"data-main-type"} = $this->getMainType();
-		$this->addClass("ss-page");
-		$this->body = new HTML("div");
-		$this->body->{$this->getDataType()} = "body";
-		$this->body->class = "body";
-		HTML::appendChild($this->body);
-		
-	}// end fucntion
-	
-	public function setCaption($caption){
-		
-		if(!$this->_caption){
-			$this->_caption = new HTML("header");
-			$this->_caption->{$this->getDataType()} = "caption";
-			$this->_caption->class = "caption";
-			
-			HTML::insertFirst($this->_caption);
-		}
-		
-		$this->_caption->innerHTML = $caption;
-		return $this->_caption;
-		
-	}// end fucntion
-	
-	public function getCaption(){
-		return $this->_caption;
-	}// end fucntion
-	
-	public function getBody(){
-		return $this->_caption;
-	}// end fucntion
-	
-	public function appendChild($e){
-		return $this->body->appendChild($e);
-	}// end fucntion
-
-}// end class
-
-
-
-class TabNo{
+class Tab implements \JsonSerializable {
 	
 	
 	public $name ="";
-
-	public $_main = false;
-	public $_menu = false;
-	public $_body = false;
-
-	public $nTab = 0;
 	public $class = "";
+	
+	private $_main = false;
+	private $_menu = false;
+	private $_body = false;
+	
+	private $pages = [];
+	
+	
+	public $nTab = 0;
+	
 	
 	public $value = 0;
 	
 	public $css = "";
-	public $_tab = array();
-	public $body = array();
+	public $_tab = [];
+	public $body = [];
 	private $_ref = "tab";
+	private $tabs = [];
 	
-	public function __construct($name, $class = false) {
+	public function jsonSerialize() {
+        return [
+			"id"	=> "tab_4_01",
+			"class"	=> "summer",
+			"value"	=> 0
+		];
+    }
+	
+	public function __construct($opt = []) {
 		
-
-		$this->name = $name;
+		if(is_array($opt)){
+			foreach($opt as $k => $v){
+				$this->$k = $v;
+			}
+		}
+		
+		//$this->name = $name;
 		$this->_main = new HTML("div");
 		$this->_menu = new HTML("div");
 		$this->_body = new HTML("div");
@@ -124,10 +79,13 @@ class TabNo{
 		$this->_main->class = "sg-tab-main";
 		$this->_menu->class = "sg-tab-menu";
 		$this->_body->class = "sg-tab-body";
-		if($class !== false){
-			//$this->setClass($class);
 		
-		}// end if
+		
+		foreach($this->pages as $page){
+			$this->add($page);
+		}
+		
+		
 		
 	
 	}// end function
@@ -143,7 +101,14 @@ class TabNo{
 	public function getRef(){
 		return $this->_ref;	
 	}// end function
-	public function add($title = "", $body = false){
+	public function add($opt){
+		
+		
+		$opt = new InfoTabPage($opt);
+		
+		$title = $opt->title;
+		$body = $opt->body;
+		$class = $opt->class;
 		
 		
 		$this->_tab[$this->nTab] = new HTML("a");
@@ -239,7 +204,7 @@ class TabNo{
 			"bodyId" => "{$this->name}_body",
 			"value"	 => 0,
 		);
-		$json = json_encode($j);
+		$json = json_encode($j, JSON_PRETTY_PRINT);
 		
 		$script = "sgTab.load($json);";
 		//$script = "\n\t$ref = _sgTab.create({menu:'".$this->_menu->id."', body:'".$this->_body->id."'});";		
@@ -263,49 +228,4 @@ class TabNo{
 	
 }// end class
 
-class Form extends Page{
-	
-	
-	public function __construct($opt = false){
-		
-		$this->setDataType("data-form-type");
-		$this->setMainType("form");
-		
-		Page::__construct($opt);
-		
-		$this->addClass("ss-form");
-	}
-	
-	
-	public function addField($opt){
-		
-		
-	}
-	
-	
-	
-	
-}
-
-/*
-
-$f = new Form("form_p4");
-
-$f->setClass("clean1");
-
-$f->setCaption("personas");
-
-$f->setTab("x");
-
-$f->addTabPage("basico");
-
-$f->addField('{
-	"type"=>"text",
-	"name"=>"cedula"
-	"valid"=>true,
-	
-
-}');
-
-*/
 ?>
