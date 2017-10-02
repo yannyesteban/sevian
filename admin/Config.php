@@ -134,7 +134,7 @@ $jsFiles[] = array("file" => "{$PATH}js/sgWindow.js", "begin" => false);
 $jsFiles[] = array("file" => "{$PATH}js/sgDB.js", "begin" => true);
 $jsFiles[] = array("file" => "{$PATH}js/sgInit.js", "begin" => false);
 $jsFiles[] = array("file" => "{$PATH}js/sgSevian.js", "begin" => false);
-$jsFiles[] = array("file" => "{$PATH}js/sgTab.js", "begin" => false);
+$jsFiles[] = array("file" => "{$PATH}js/Sevian/Tab.js", "begin" => false);
 
 $jsFiles[] = array("file" => "{$PATH}js/Sevian/Menu.js", "begin" => false);
 $jsFiles[] = array("file" => "{$PATH}js/Sevian/DesignMenu.js", "begin" => false);

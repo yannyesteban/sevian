@@ -52,9 +52,9 @@ class FormB extends Sevian\Panel{
 			
 		]]);
 		
-		$tab->add(["title"=>"Nuevo", "body"=>"Ja nnn"]);
-		$tab->add(["title"=>"Opciones", "body"=>"Ok"]);
-		$tab->add(["title"=>"Config", "body"=>"Cool"]);
+		$tab->add(["title"=>"Nuevo", "child"=>"Ja nnn"]);
+		$tab->add(["title"=>"Opciones", "child"=>"Ok"]);
+		$tab->add(["title"=>"Config", "child"=>"Cool"]);
 		
 		
 		

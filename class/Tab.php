@@ -7,7 +7,7 @@ class InfoTabPage{
 	
 	
 	public $title = "";
-	public $body = "";
+	public $child = "";
 	public $class = "";
 	
 	public function __construct($opt = []) {
@@ -80,6 +80,7 @@ class Tab implements \JsonSerializable {
 		$this->_menu->class = "sg-tab-menu";
 		$this->_body->class = "sg-tab-body";
 		
+		$this->_main->id = "s";
 		
 		foreach($this->pages as $page){
 			$this->add($page);
@@ -107,7 +108,7 @@ class Tab implements \JsonSerializable {
 		$opt = new InfoTabPage($opt);
 		
 		$title = $opt->title;
-		$body = $opt->body;
+		$body = $opt->child;
 		$class = $opt->class;
 		
 		
@@ -200,13 +201,13 @@ class Tab implements \JsonSerializable {
 		
 		$j = array(
 			
-			"menuId" => "{$this->name}_menu",
-			"bodyId" => "{$this->name}_body",
-			"value"	 => 0,
+			"main" => "#s",
+			//"bodyId" => "{$this->name}_body",
+			"value"	 => 1,
 		);
 		$json = json_encode($j, JSON_PRETTY_PRINT);
 		
-		$script = "sgTab.load($json);";
+		$script = "var ttab = new Tab($json);";
 		//$script = "\n\t$ref = _sgTab.create({menu:'".$this->_menu->id."', body:'".$this->_body->id."'});";		
 		return $script;
 		
