@@ -4,11 +4,19 @@ table.sgGrid {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  overflow: auto; }
-  table.sgGrid thead {
-    flex: 0 0 auto;
-    overflow: auto;
-    overflow-x: hidden; }
-  table.sgGrid tbody {
-    flex: 1 1 auto;
-    overflow: auto; }
+  overflow: auto;
+}
+
+table.sgGrid thead {
+  flex: 0 0 auto;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+table.sgGrid tbody {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+ 
+
+ /*# sourceMappingURL= grid.css.map */

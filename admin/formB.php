@@ -65,7 +65,7 @@ class FormB extends Sevian\Panel{
 		
 		$this->script = $i->getScript().$g->getScript().$tab->getScript();
 		
-		echo(json_encode($tab, JSON_PRETTY_PRINT));
+		//echo(json_encode($tab, JSON_PRETTY_PRINT));
 		
 		/*
 		
