@@ -72,7 +72,7 @@ Sevian.Input = {};
 		this.locateTab = false;
 		this.locatePage = false;
 		
-		this.id = false;
+		//this.id = false;
 		this.target = false;
 		this.main = false;
 		

@@ -73,6 +73,9 @@ include("../class/Document.php");
 include("../class/Menu.php");
 
 include("../class/Input.php");
+
+include("../class/Page.php");
+
 include("../class/Tab.php");
 include("../class/Form.php");
 include("../class/Panel.php");

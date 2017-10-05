@@ -2,6 +2,77 @@
 
 namespace Sevian;
 
+class FormField extends HTML{
+
+	public $tagName = "div";
+	public $input = false;
+	public $name = false;
+
+	private $_body = false;
+	private $_input = false;
+	private $_caption = false;
+
+	private $_dataType = "data-page-type";
+	private $_mainType = "page";
+	
+	
+	public function setDataType($dataType){
+		$this->_dataType = $dataType;
+		
+	}
+	public function getDataType(){
+		return $this->_dataType;
+	}
+	public function setMainType($type){
+		$this->_mainType = $type;
+	}
+	public function getMainType(){
+		return $this->_mainType;
+	}
+
+	public function __construct($opt = []){
+
+
+		$this->_row = $this->add("div");
+
+		if($this->caption){
+			$this->setCaption($this->caption);
+		}
+		
+		$this->_body = $this->add("div");
+		$this->class = "form-field";
+		if($this->class){
+			$this->class = " ".$this->class;
+		}
+
+		global $sevian;
+		if($this->input){
+			$this->_input = $sevian->sgInput($this->input);
+			$this->_body->appendChild($input);
+		}
+		
+
+	}
+
+	public function setCaption($caption){
+
+		if(!$this->_caption){
+			$this->_caption = $this->add("label");
+			if($this->input["name"]){
+				$this->_caption->for = $this->input["name"];
+			}
+
+		}
+		$this->_caption->text = $caption;
+		return $this->_caption;
+	}
+
+	public function getInput(){
+		return $this->_input;
+	} 
+
+}
+
 class FieldSet extends HTML{
 	public $tagName = "fieldset";
 	public $caption = false;
@@ -27,7 +98,7 @@ class FieldSet extends HTML{
 
 }
 
-class Page extends HTML{
+class Page1 extends HTML{
 	
 	public $tagName = "section";
 	public $caption = false;
@@ -286,7 +357,7 @@ class TabNo{
 	
 }// end class
 
-class Form extends Page{
+class Form extends Page1{
 	
 	
 	public function __construct($opt = false){
@@ -294,7 +365,7 @@ class Form extends Page{
 		$this->setDataType("data-form-type");
 		$this->setMainType("form");
 		
-		Page::__construct($opt);
+		Page1::__construct($opt);
 		
 		$this->addClass("ss-form");
 	}
