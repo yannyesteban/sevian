@@ -57,9 +57,13 @@ class FormB extends Sevian\Panel{
 		$tab->add(["title"=>"Config", "child"=>"Cool"]);
 		
 		
+		$fs = new Sevian\FieldSet(["caption"=>"hola"]);
 		
+		$ii = new Sevian\HTML("input");
+		$ii->type = "text";
+		$fs->appendChild($ii);
 		
-		$html = $i->render().$g->render().$form->render().$tab->render();
+		$html = $i->render().$g->render().$form->render().$tab->render().$fs->render();
 		
 		
 		

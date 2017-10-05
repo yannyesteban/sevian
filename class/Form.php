@@ -2,7 +2,30 @@
 
 namespace Sevian;
 
+class FieldSet extends HTML{
+	public $tagName = "fieldset";
+	public $caption = false;
+	private $_caption = false;
+	public function __construct	($opt = false){
+		
+		if(is_array($opt)){
+			foreach($opt as $k => $v){
+				$this->$k = $v;	
+			}// next			
+		}// end if			
+		
+		if($this->caption){
+			$this->_caption = new HTML("legend");
+			$this->_caption->text = $this->caption;
+			$this->appendChild($this->_caption);
+		}
 
+		//$this->_body = new HTML("");
+		
+
+	}
+
+}
 
 class Page extends HTML{
 	
