@@ -1,11 +1,60 @@
 /* Scss Document */
+* {
+  box-sizing: border-box; }
+
+body {
+  font-family: tahoma;
+  font-size: 10pt;
+  color: #6B6B6B; }
+
+body, html {
+  margin: 0px;
+  height: 100%;
+  padding: 10px; }
+
+.form {
+  width: 30%;
+  background: linear-gradient(#f7f7f7, #e1e1e1);
+  border: 1px solid #DCDCDC;
+  padding: 5px;
+  margin: 0px;
+  box-shadow: 4px 4px 6px 1px #b7b7b7; }
+  .form .caption {
+    text-align: center;
+    font-weight: bold;
+    color: rgba(5, 55, 143, 0.5); }
+  .form .form-group {
+    display: flex;
+    flex-wrap: wrap; }
+    .form .form-group > * {
+      flex: 1 1 auto; }
+    .form .form-group .form-field {
+      background-color: rgba(232, 232, 232, 0.79);
+      border: 1px solid #FBFBFB;
+      margin: 2px;
+      padding: 5px; }
+      .form .form-group .form-field input, .form .form-group .form-field select {
+        border: 1px solid #DCDCDC;
+        padding: 4px; }
+      .form .form-group .form-field > * {
+        display: block; }
+  .form .form-nav {
+    border: 1px solid #FBFBFB;
+    background-color: rgba(27, 103, 194, 0.62);
+    margin: 2px;
+    padding: 5px;
+    text-align: right; }
+    .form .form-nav input {
+      border: 0px;
+      padding: 8px;
+      background: linear-gradient(#2368b0, #145aa3);
+      color: white; }
+      .form .form-nav input:hover {
+        background: linear-gradient(#c02d2d, #e04545);
+        cursor: pointer; }
+
 .ss-form .caption {
-  background-color: #338B21;
-}
+  background-color: #338B21; }
 
 .zelda {
-  background-color: #818080;
-}
- 
-
- /*# sourceMappingURL= Form.css.map */
+  background-color: #6D1C92; }
