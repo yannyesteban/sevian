@@ -89,8 +89,17 @@ class Form extends Page{
 	public $_fields = [];
 	
 	public $_page = false;
-	public $_table = false;
 	
+	
+
+	public $_pages = [];
+
+	public $tabs = [];
+	private $_tab = false;
+
+	private $_tables = [];
+	private $_table = false;
+
 	public function __construct($opt = false){
 		
 		$this->setDataType("data-form-type");
@@ -103,17 +112,56 @@ class Form extends Page{
 		$this->_page = $this;
 	}
 	
+	public function addTable(){
+        $this->_tables[] = $this->_table = $this->_page->add("div");
+		$this->_table->class = "form-group";
+		
+		return $this->_table;
+	}
+
+	private function addRow($row){
+		if(!$this->_table){
+			
+			$this->addTable();
+		}
+		
+		$this->_table->appendChild($row);
+
+	}
 	
 	public function addField($opt){
 		
 		$field = $this->_fields[] = new FormField($opt);
 		
-		$this->_page->addRow($field);
+		$this->addRow($field);
+		return $field;
 	}
 	
+	public function addPage($opt=[]){
+
+		$page = new Page($opt);
+		$this->_page->appendChild($page);
+		$this->_page = $page;
+		$this->_table = false;
+		return $page;
+	}
 	
+	public function addTab($opt = []){
+
+		$this->tabs[] = $tab = new Tab($opt);
+		$this->_page->appendChild($tab);
+		$this->_tab = $tab;
+		return $tab;
+	}
 	
-	
+	public function addTabPage($opt = []){
+
+		if($this->_tab){
+			$this->_table = false;
+			return $this->_page = $this->_tab->add($opt);
+		}
+		return false;
+	}
 }
 
 class FieldSet extends HTML{

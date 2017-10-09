@@ -375,6 +375,14 @@ Sevian.Input = {};
 			
 			this._setPage(this._body, false, false);
 			
+			if(this.tabs){
+				alert(88888)
+				for(var x in this.tabs){
+					if(this.tabs.hasOwnProperty(x)){
+						this.addTab(this.tabs[x]);
+					}
+				}
+			}
 			if(this.fields){
 				for(var x in this.fields){
 					if(this.fields.hasOwnProperty(x)){

@@ -14,6 +14,7 @@ class Page extends HTML{
 	private $_mainType = "page";
 	
 	private $_tables = [];
+	private $_table = false;
 	
 	public function setDataType($dataType){
 		$this->_dataType = $dataType;
@@ -70,13 +71,13 @@ class Page extends HTML{
 		
 	}
 
-	public function addTable(){
+	public function _addTable(){
         $this->_tables[] = $this->_table = $this->add("div");
 		$this->_table->class = "form-group";
 		return $this->_table;
 	}
 	
-	public function addRow($row){
+	public function _addRow($row){
 		if(!$this->_table){
 			
 			$this->addTable();

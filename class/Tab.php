@@ -46,7 +46,7 @@ class Tab implements \JsonSerializable {
 	
 	public function jsonSerialize() {
         return [
-			"id"	=> "tab_4_01",
+			"id"	=> $this->id,
 			"class"	=> "summer",
 			"value"	=> 0
 		];
@@ -80,7 +80,7 @@ class Tab implements \JsonSerializable {
 		$this->_menu->class = "sg-tab-menu";
 		$this->_body->class = "sg-tab-body";
 		
-		$this->_main->id = "s";
+		$this->_main->id = $this->id;
 		
 		foreach($this->pages as $page){
 			$this->add($page);
@@ -191,7 +191,7 @@ class Tab implements \JsonSerializable {
 	
 	
 	public function getScript(){
-		
+		return "";
 		$ref = $this->getRef();
 		if(!$ref = $this->getRef()){
 			//$ref = $this->name;	

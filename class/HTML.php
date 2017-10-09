@@ -1,8 +1,8 @@
 <?php
 /*****************************************************************
 creado: 18/12/2015 -> 0907/2017
-por: Yanny Nuñez
-Versión: 1.0
+por: Yanny Nuï¿½ez
+Versiï¿½n: 1.0
 *****************************************************************/
 namespace Sevian;
 
@@ -69,7 +69,7 @@ class HTML{
 	public function appendChild($ele){
 
 		if(is_object($ele)){
-			/* el elemento que se agrega debería tener el metodo: ->render()*/
+			/* el elemento que se agrega deberï¿½a tener el metodo: ->render()*/
 			return $this->_ele[] = $ele;
 		}else{
 			return $this->_ele[] = new TextNode($ele);
@@ -94,7 +94,7 @@ class HTML{
 	public function insertFirst($ele){
 		
 		if(is_object($ele)){
-			/* el elemento que se agrega debería tener el metodo: ->render()*/
+			/* el elemento que se agrega deberï¿½a tener el metodo: ->render()*/
 			$ele_x = $ele;
 		}else{
 			$ele_x = new TextNode($ele);
@@ -121,7 +121,7 @@ class HTML{
 		
 	}// end function
 	
-	/*se optiene el último elemento hijo*/
+	/*se optiene el ï¿½ltimo elemento hijo*/
 	public function lastChild(){
 
 		$n = count($this->_ele)-1;

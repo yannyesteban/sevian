@@ -56,14 +56,46 @@ $form->addField([
 		"input"=>["input"=>"text", "id"=>"x2", "name"=>"u","value"=>"1975-10-24", "className"=>"zelda"]]);
 		
 		
+		$form->addPage(["caption"=>"Opciones I"]);
+		$form->addField([
+			"caption"=>"Caution",
+			"name"=>"cedula22",
+		"input"=>["input"=>"text", "id"=>"x23", "name"=>"u33","value"=>"Hello !!!", "className"=>""]]);
+	
+		$form->addField([
+			"caption"=>"Warning",
+			"name"=>"cedula2",
+			"comment"=>"hello",
+		"input"=>["input"=>"text", "id"=>"x21", "name"=>"u21","value"=>"What !!!", "className"=>""]]);
 		
-		
-		
-		
+		$form->addPage(["caption"=>"Opciones II"]);
+		$form->addField([
+			"caption"=>"Warning II",
+			"name"=>"cedula2",
+			"comment"=>"hello",
+		"input"=>["input"=>"text", "id"=>"x21", "name"=>"u21","value"=>"What !!!", "className"=>""]]);
+
+$form->addTab(["id"=>"sss"]);
+$form->addTabPage(["title"=>"Tab 001"]);
+$form->addField([
+	"caption"=>"Warning VI",
+	"name"=>"cedula2",
+	"comment"=>"hello",
+"input"=>["input"=>"text", "id"=>"x21", "name"=>"u21","value"=>"What !!!", "className"=>""]]);
+
+$form->addTabPage(["title"=>"Tab 002"]);
+$form->addField([
+	"caption"=>"Revolution 45",
+	"name"=>"cedula2",
+	"comment"=>"hello",
+"input"=>["input"=>"text", "id"=>"x21", "name"=>"u21","value"=>"What !!!", "className"=>""]]);
 		$html = $form->render();
 		
 		$this->script = $form->getScript();
 		
+
+//echo json_encode($form, JSON_PRETTY_PRINT);exit;
+
 		return $html;
 		global $sevian;
 		$g = $sevian->sgInput(["input"=>"date", "id"=>"x", "name"=>"Nombre1","value"=>"1975-10-24", "className"=>"zelda"]);
