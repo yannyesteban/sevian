@@ -6,6 +6,12 @@ if(!Sevian){
 	
 }
 
+if(!Sevian.Input){
+	
+	Sevian.Input = {};
+	
+}
+
 var ssInput = false;
 (function(namespace, $){
 	
@@ -257,7 +263,7 @@ var ssInput = false;
 		
 	};
 	
-	namespace.Input = ssInput;
+	namespace.InputStd = ssInput;
 	
 	namespace.Input.Std = ssInput;
 	

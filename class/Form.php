@@ -34,11 +34,11 @@ class FormField extends HTML{
 	}
 
 	public function __construct($opt = []){
-		if(is_array($opt)){
-			foreach($opt as $k => $v){
-				$this->$k = $v;	
-			}
+		
+		foreach($opt as $k => $v){
+			$this->$k = $v;	
 		}
+		
 
 		//$this->_row = $this->add("div");
 
@@ -106,11 +106,9 @@ class Form extends Page{
 	
 	public function addField($opt){
 		
-		$this->_fields[$opt["name"]] = new FormField($opt);
+		$field = $this->_fields[] = new FormField($opt);
 		
-		
-		
-		$this->_page->addRow($this->_fields[$opt["name"]]);
+		$this->_page->addRow($field);
 	}
 	
 	

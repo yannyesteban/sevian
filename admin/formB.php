@@ -23,34 +23,43 @@ class FormB extends Sevian\Panel{
 			
 		];
 		$form = new Sevian\Form($opt);
-		
+		$form->addField([
+			"caption"=>"Edad",
+			"name"=>"cedula3",
+		"input"=>["input"=>"date", "id"=>"aq1", "name"=>"aq","value"=>"1975-10-24", "className"=>"zelda"]]);
+
+
+
 		$form->addField([
 			"caption"=>"Cédula",
 			"name"=>"cedula",
 		"input"=>["input"=>"date", "id"=>"x", "name"=>"Nombre1","value"=>"1975-10-24", "className"=>"zelda"]]);
-		/*
+		
 		$form->addField([
-			"caption"=>"Cédula",
+			"caption"=>"Nombre",
 			"name"=>"cedula2",
-		"input"=>["input"=>"date", "id"=>"x", "name"=>"u","value"=>"1975-10-24", "className"=>"zelda"]]);
-		
-		$form->addField([
-			"caption"=>"Cédula",
-			"name"=>"cedula3",
-		"input"=>["input"=>"date", "id"=>"x", "name"=>"y","value"=>"1975-10-24", "className"=>"zelda"]]);
-		
-		
-		$form->addField([
+		"input"=>["input"=>"date", "id"=>"x11", "name"=>"Nombre11","value"=>"1975-10-24", "className"=>"zelda"]]);
+$form->addField([
 			"caption"=>"TipoFecha",
 			"name"=>"tipo2",
-		"input"=>["input"=>"date", "id"=>"x11", "name"=>"x11","value"=>"1975-10-24", "className"=>"zelda", [
+		"input"=>["input"=>"select", "id"=>"x11", "name"=>"x11","value"=>"1975-10-24", "className"=>"zelda", "data"=>[
 			
 			[1, "yanny"],
 			[2, "esteban"],
 			[3, "nuñez"],
 			
 		]]]);
-		*/
+
+		$form->addField([
+			"caption"=>"Apellido",
+			"name"=>"cedula21",
+		"input"=>["input"=>"text", "id"=>"x2", "name"=>"u","value"=>"1975-10-24", "className"=>"zelda"]]);
+		
+		
+		
+		
+		
+		
 		$html = $form->render();
 		
 		$this->script = $form->getScript();

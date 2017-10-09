@@ -60,11 +60,11 @@ class Input extends InfoInput{
 	
 	
 	public function __construct($opt = array()){
-		if(is_array($opt)){
-			foreach($opt as $k => $v){
-				$this->$k = $v;	
-			}
+		
+		foreach($opt as $k => $v){
+			$this->$k = $v;	
 		}
+		
 	}
 	
 
@@ -116,7 +116,7 @@ class Input extends InfoInput{
 		$this->main = $main->id = $this->id;
 		$main->name = $this->name;
 		$json = json_encode($this, JSON_PRETTY_PRINT);
-		$main->script ="var i21 = new Sevian.Input($json);";
+		$main->script ="var i21 = new Sevian.InputStd($json);";
 		
 		
 		
@@ -139,7 +139,7 @@ class Input extends InfoInput{
 class DateInput extends InfoInput{
 	
 	
-	public function __construct($opt = array()){
+	public function __construct($opt = []){
 		
 		InfoInput::__construct($opt);
 	}

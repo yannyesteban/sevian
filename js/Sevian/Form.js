@@ -13,30 +13,33 @@ Sevian.Input = {};
 	var tip = false;
 	
 	(function(){
-		
-		var tipPopup = new popup({id:"yanny", className:"sg-tips-popup"});
-		
-		var _title = $.create("div").addClass("note-title");
-		var _body = $.create("div").addClass("note-body");
-
-		tipPopup.append(_title);	
-		tipPopup.append(_body);			
-
-		tip = {
+		$(window).on("load", function(){
+			var tipPopup = new popup({id:"yanny", className:"sg-tips-popup"});
 			
-			init: function(ref, title, body){
-				return function(event){
-					event.preventDefault();
-					event.returnValue = false;
-					event.cancelBubble = true;
-					_title.text(title);
-					_body.text(body);
-					
-					tipPopup.show({ref:ref, left:"front", top:"middle"});
-					
-				};	
-			},
-		};
+			var _title = $.create("div").addClass("note-title");
+			var _body = $.create("div").addClass("note-body");
+
+			tipPopup.append(_title);	
+			tipPopup.append(_body);			
+
+			tip = {
+				
+				init: function(ref, title, body){
+					return function(event){
+						event.preventDefault();
+						event.returnValue = false;
+						event.cancelBubble = true;
+						_title.text(title);
+						_body.text(body);
+						
+						tipPopup.show({ref:ref, left:"front", top:"middle"});
+						
+					};	
+				},
+			};
+
+		});
+		
 	}());
 	
 	var createInput = function(opt){
