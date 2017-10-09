@@ -2,13 +2,51 @@
 
 namespace Sevian;
 
-class Page{
-    public $tagName = "section";
+class Page extends HTML{
+    public $typePage = "normal"; // "fieldset"
+	public $tagName = "section";
+	public $captionTagName = "header";
     public $caption = false;
 
     public $_caption = false;
+	
+	private $_dataType = "data-page-type";
+	private $_mainType = "page";
+	
+	private $_tables = [];
+	
+	public function setDataType($dataType){
+		$this->_dataType = $dataType;
+	}
+	public function getDataType(){
+		return $this->_dataType;
+	}
+	public function setMainType($type){
+		$this->_mainType = $type;
+	}
+	public function getMainType(){
+		return $this->_mainType;
+	}
+	
     public function __construct($opt = []){
 
+		if(is_array($opt)){
+			foreach($opt as $k => $v){
+				$this->$k = $v;	
+			}
+		}
+		
+		
+		$this->{$this->getDataType()} = "main";
+		$this->{"data-main-type"} = $this->getMainType();
+		
+		
+		if($this->typePage == "fieldset"){
+			$this->tagName = "fieldset";
+			$this->captionTagName = "legend";
+		}
+		
+		
         if($this->caption !== false){
 
             $this->setcaption($this->caption);
@@ -32,6 +70,22 @@ class Page{
 		
 	}
 
+	public function addTable(){
+        $this->_tables[] = $this->_table = $this->add("div");
+		$this->_table->class = "form-group";
+		return $this->_table;
+	}
+	
+	public function addRow($row){
+		if(!$this->_table){
+			
+			$this->addTable();
+		}
+		
+		$this->_table->appendChild($row);
+		
+	}
+	
     public function addSection(){
 
         $section = new HTML("div");

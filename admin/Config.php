@@ -43,6 +43,7 @@ $clsInput["submit"] = [
 $clsInput["text"] = ["class" => "Sevian\Input",	"type"  =>  "text"];
 $clsInput["hidden"] = ["class" => "Sevian\Input",	"type"  =>  "hidden"];
 $clsInput["password"] = ["class" => "Sevian\Input",	"type"  =>  "password"];
+//$clsInput["select"] = ["class" => "Sevian\Input",	"type"  =>  "select"];
 
 $clsInput["button"] = ["class" => "Sevian\Input",	"type"  =>  "button"];
 $clsInput["range"] = ["class" => "Sevian\Input",	"type"  =>  "range"];

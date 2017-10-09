@@ -60,10 +60,10 @@ class Input extends InfoInput{
 	
 	
 	public function __construct($opt = array()){
-		foreach($opt as $k => $v){
-			
-				$this->$k = $v;
-			
+		if(is_array($opt)){
+			foreach($opt as $k => $v){
+				$this->$k = $v;	
+			}
 		}
 	}
 	

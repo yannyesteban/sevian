@@ -8,6 +8,9 @@ class FormField extends HTML{
 	public $input = false;
 	public $name = false;
 
+	public $caption = false;
+	
+	
 	private $_body = false;
 	private $_input = false;
 	private $_caption = false;
@@ -31,9 +34,13 @@ class FormField extends HTML{
 	}
 
 	public function __construct($opt = []){
+		if(is_array($opt)){
+			foreach($opt as $k => $v){
+				$this->$k = $v;	
+			}
+		}
 
-
-		$this->_row = $this->add("div");
+		//$this->_row = $this->add("div");
 
 		if($this->caption){
 			$this->setCaption($this->caption);
@@ -47,8 +54,11 @@ class FormField extends HTML{
 
 		global $sevian;
 		if($this->input){
+			
+			
+			
 			$this->_input = $sevian->sgInput($this->input);
-			$this->_body->appendChild($input);
+			$this->_body->appendChild($this->_input);
 		}
 		
 
@@ -71,6 +81,41 @@ class FormField extends HTML{
 		return $this->_input;
 	} 
 
+}
+
+class Form extends Page{
+	
+	
+	public $_fields = [];
+	
+	public $_page = false;
+	public $_table = false;
+	
+	public function __construct($opt = false){
+		
+		$this->setDataType("data-form-type");
+		$this->setMainType("form");
+		
+		Page::__construct($opt);
+		
+		$this->addClass("ss-form");
+		
+		$this->_page = $this;
+	}
+	
+	
+	public function addField($opt){
+		
+		$this->_fields[$opt["name"]] = new FormField($opt);
+		
+		
+		
+		$this->_page->addRow($this->_fields[$opt["name"]]);
+	}
+	
+	
+	
+	
 }
 
 class FieldSet extends HTML{
@@ -111,7 +156,6 @@ class Page1 extends HTML{
 	
 	public function setDataType($dataType){
 		$this->_dataType = $dataType;
-		
 	}
 	public function getDataType(){
 		return $this->_dataType;
@@ -174,8 +218,6 @@ class Page1 extends HTML{
 	}// end fucntion
 
 }// end class
-
-
 
 class TabNo{
 	
@@ -357,29 +399,7 @@ class TabNo{
 	
 }// end class
 
-class Form extends Page1{
-	
-	
-	public function __construct($opt = false){
-		
-		$this->setDataType("data-form-type");
-		$this->setMainType("form");
-		
-		Page1::__construct($opt);
-		
-		$this->addClass("ss-form");
-	}
-	
-	
-	public function addField($opt){
-		
-		
-	}
-	
-	
-	
-	
-}
+
 
 /*
 

@@ -12,10 +12,11 @@ body, html{
 	margin: 0px;
 	height: 100%;
 	padding: 10px;
+	
 }
 
-.form{
-	width: 30%;
+.ss-form, .form{
+	width: 100%;
 	background: linear-gradient(rgba(247,247,247,1.00), rgba(225,225,225,1.00)) ;
 	
 	border:1px solid #DCDCDC;
@@ -81,17 +82,10 @@ body, html{
 }
 
 
-.ss-form{
-	
-	.caption{
-		
-		background-color: #338B21;
-	}
-	
-	
-}
+
 
 
 .zelda{
 	background-color: #6D1C92;
+	color: rgba(251,191,255,1.00)
 }
