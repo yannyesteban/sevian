@@ -107,7 +107,7 @@ class Panel{
 		$opt->title = $this->title; 
 		
 		$json = json_encode($opt);
-		$this->script .= "sevian.setPanel($this->panel, false, $json);";
+		$this->script .= "sevian.setPanel($this->panel, false, $json);/*CAN*/";
 		return $this->script; 
 	}
 
