@@ -1,9 +1,9 @@
 <?php
 namespace Sevian;
 	
-include("DB/DBase.php");
-include("DB/Mysql.php");
-include("DB/Postgres.php");
+include 'DB/DBase.php';
+include 'DB/Mysql.php';
+include 'DB/Postgres.php';
 
 class Info{
 	
@@ -14,7 +14,6 @@ class Info{
 	public $pass	= false;
 	public $dbase	= false;
 	public $charset	= false;
-		
 		
 	public function __construct($opt = array()){
 		foreach($opt as $k => $v){
@@ -27,11 +26,11 @@ class Info{
 
 class Connection{
 	
-	static $_defaultName = "_default";
+	static $_defaultName = '_default';
 	
-	static $_connections = array();
+	static $_connections = [];
 	
-	static function load($conn = array()){
+	static function load($conn = []){
 		foreach($conn as $name => $info){
 			self::set($name, new Info($info));
 		}
@@ -52,17 +51,17 @@ class Connection{
 		$info = self::$_connections[$name];
 
 		switch(strtolower(trim($info->driver))){
-			case "mysqlx":
+			case 'mysqlx':
 				//$cn = new cls_mysql($server,$user,$password,$dbase,$port);
 				//return new cls_mysql($server, $user, $password, $dbase, $port, $charset);
 				return new cls_mysql($info->host, $info->user, $info->pass, $info->dbase, $info->port, $info->charset);
 				break;
-			case "mysql":
+			case 'mysql':
 				//$cn = new cls_mysql($server,$user,$password,$dbase,$port);
 				return new DB\Mysql($info->host, $info->user, $info->pass, $info->dbase, $info->port, $info->charset);
 				break;
 
-			case "postgres":
+			case 'postgres':
 				return new DB\Postgres($info->host, $info->user, $info->pass, $info->dbase, $info->port, $info->charset);
 				break;
 		}

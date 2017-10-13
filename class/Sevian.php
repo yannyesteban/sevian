@@ -311,7 +311,6 @@ class Sevian{
 		
 		
 	}
-	
 	public function setSes($key, $value){
 		$this->ses[$key] = $value;
 	}
@@ -330,7 +329,6 @@ class Sevian{
 	public function &getExp($key){
 		return $this->exp[$key];
 	}
-
 	public function &getVSes(){
 		return $this->ses;
 	}
@@ -380,26 +378,21 @@ class Sevian{
 	
 		
 	}
-	
 	public function addFragment($fragment){
 		$this->_fragments[] = $fragment;
 		
 	}
-	
 	public function getFragment(){
 		return $this->_fragments;
 		
 	}
-	
 	public function iMethod($panel, $method){
 		$elem = $this->getElement($info); 
 		$this->addRequest($elem->evalMethod($info));
 	}
-	
 	public function setSign($sign, $sequence){
 		$this->_signs[$sign] = $secuence;
 	}
-	
 	public function setPanelSign($panel, $sign, $sequence){
 		
 		if(!isset($this->_pSigns[$panel])){
@@ -407,15 +400,11 @@ class Sevian{
 		}
 		$this->_pSigns[$panel][$sign] = $sequence;
 	}
-	
 	public function resetPanelSigns($panel){
 		if(isset($this->_pSigns[$panel])){
 			unset($this->_pSigns[$panel]);
 		}
 	}
-	
-	
-	
 	public function evalSigns($signs){
 		
 		foreach($signs as $sing){
@@ -437,7 +426,6 @@ class Sevian{
 		
 		
 	}
-	
 	public function evalTemplate(){
 		$request = false;
 		
@@ -522,7 +510,6 @@ class Sevian{
 		
 		return $str;
 	}
-	
 	private function getFormPanel($info){
 		$aux = $this->configInputs(array(
 				"__sg_panel"	=> $info->panel,
@@ -543,7 +530,6 @@ class Sevian{
 		return $form;
 		
 	}
-	
 	public function requestPanels($info, $onlyUpdate = true){
 		
 		$request = array();
@@ -601,8 +587,6 @@ class Sevian{
 		
 		
 	}
-	
-	
 	public function evalPanels(){
 		
 		
@@ -628,14 +612,12 @@ class Sevian{
 
 		return json_encode($request);
 	}
-	
 	public function evalParams(){
 		if(isset($this->req["__sg_params"]) and $this->req["__sg_params"] != ""){
 			$this->sequence(json_decode($this->req["__sg_params"]));
 			
 		}
 	}
-	
 	public function sequence($seq){
 		
 		foreach($seq as $line){
@@ -683,7 +665,6 @@ class Sevian{
 		}
 		
 	}
-	
 	public function setClassElement($name, $info){
 		//require_once($info["file"]);
 		
@@ -692,7 +673,6 @@ class Sevian{
 		}
 		$this->_clsElement[$name] = $info["class"];
 	}
-	
 	public function setClassInput($name, $info){
 		
 		if(isset($info["file"]) and $info["file"] != ""){
@@ -701,7 +681,6 @@ class Sevian{
 		
 		$this->_clsInput[$name] = array("class"=>$info["class"], "type"=>$info["type"]);
 	}
-	
 	public function loadClsElement(){
 		
 		foreach($this->clsElement as $k => $v){
@@ -742,7 +721,6 @@ class Sevian{
 		return $obj;
 
 	}
-	
 	public function vars($q){
 		return sgTool::vars($q, array(
 			array(
@@ -784,7 +762,6 @@ class Sevian{
 		}
 
 	}
-	
 	public function evalAction($params, $value){
 	
 		if(isset($this->_commands[$params])){
