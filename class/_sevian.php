@@ -1,7 +1,8 @@
 <?php
 namespace Sevian;
 include 'Connection.php';
-
+include 'HTML.php';
+include 'Document.php';
 
 
 class S{
@@ -13,6 +14,10 @@ class S{
 	
 	private static $ins = false;
 	private static $onAjax = false;
+	
+	
+	public static $_js = [];
+	private static $_css = [];
 	
 	
 	
@@ -44,7 +49,13 @@ class S{
 		return self::$exp;
 	}
 	
-	
+	public static function jsInit($js = []){
+		
+		self::$_js = $js;
+		
+		
+		
+	}
 	public static function configInit($opt = []){
 		
 	}
@@ -112,7 +123,17 @@ class S{
 		$doc->addMeta($meta2);
 		*/
 
-		$doc->setTitle("Sevian 2017");
+		$doc->setTitle("Sevian 2018");
+		
+		
+		
+		foreach(self::$_js as $k=> $v){
+			
+			$doc->appendScriptDoc($v['file'], true);
+		}
+		
+		
+		return $doc->render();
 		
 		foreach($this->cssSheetsDefault as $v){
 			$doc->appendCssSheet($v);
@@ -163,7 +184,7 @@ class S{
 		self::init();
 		
 		
-		return "uno";
+		return self::htmlDoc();
 	}
 	
 	

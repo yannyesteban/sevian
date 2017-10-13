@@ -6,6 +6,8 @@ include 'configuration/inputs.php';
 include 'configuration/elements.php';
 include 'configuration/themes.php';
 include 'configuration/commands.php';
+
+include 'configuration/js.php';
 include 'init.php';
 
 
