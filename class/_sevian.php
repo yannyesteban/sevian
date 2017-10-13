@@ -3,7 +3,7 @@ namespace Sevian;
 include 'Connection.php';
 include 'HTML.php';
 include 'Document.php';
-
+include 'Structure.php';
 
 class S{
 	public static $cfg = [];
@@ -15,11 +15,8 @@ class S{
 	private static $ins = false;
 	private static $onAjax = false;
 	
-	
 	public static $_js = [];
 	private static $_css = [];
-	
-	
 	
 	public static function setSes($key, $value){
 		self::$ses[$key] = $value;
@@ -48,25 +45,22 @@ class S{
 	public static function &getVExp(){
 		return self::$exp;
 	}
-	
 	public static function jsInit($js = []){
-		
 		self::$_js = $js;
-		
-		
-		
+	}
+	public static function cssInit($css = []){
+		self::$_css = $css;
 	}
 	public static function configInit($opt = []){
 		
 	}
-	
 	public static function sessionInit(){
 		
 		
 		$ins = false;
 		
-		if(isset($_REQUEST["__sg_ins"])){
-			$ins = $_REQUEST["__sg_ins"];
+		if(isset($_REQUEST['__sg_ins'])){
+			$ins = $_REQUEST['__sg_ins'];
 		}else{
 			$ins = uniqid('p');
 		}
@@ -79,52 +73,49 @@ class S{
 		self::$cfg = &$_SESSION;
 		self::$req = &$_REQUEST;
 		
-		self::$ses = &self::$cfg["VSES"];
-		self::$onAjax = self::getReq("__sg_async");
+		self::$ses = &self::$cfg['VSES'];
+		self::$onAjax = self::getReq('__sg_async');
 		
 		
 	}
-	
 	public static function init($opt = []){
-		echo 4.1;
+		
 	}
-
 	public static function inputsLoad($inputs){
 		
 	}
-	
 	public static function elementsLoad($inputs){
 		
 	}
-	
 	public static function themesLoad($inputs){
 		
 	}
 	public static function commandsLoad($inputs){
 		
 	}
-	
-	
 	private static function htmlDoc(){
 		global $sevian;
 		
 		
 		$doc = new Document();
 		/*
-		$meta1 = new HTML("meta");
-		$meta1->{"http-equiv"} = "Content-Type";
-		$meta1->content = "text/html; charset=utf-8";
+		$meta1 = new HTML('meta');
+		$meta1->{'http-equiv'} = 'Content-Type';
+		$meta1->content = 'text/html; charset=utf-8';
 
-		$meta2 = new HTML("meta");
-		$meta2->name = "viewport";
-		$meta2->content = "width=device-width, initial-scale=1";
+		$meta2 = new HTML('meta');
+		$meta2->name = 'viewport';
+		$meta2->content = 'width=device-width, initial-scale=1';
 		
 		$doc->addMeta($meta1);
 		$doc->addMeta($meta2);
 		*/
 
-		$doc->setTitle("Sevian 2018");
+		$doc->setTitle('Sevian 2018');
 		
+		foreach(self::$_css as $v){
+			$doc->appendCssSheet($v);
+		}
 		
 		
 		foreach(self::$_js as $k=> $v){
@@ -140,12 +131,12 @@ class S{
 		}
 		
 		if(isset($this->themes[$this->theme])){
-			foreach($this->themes[$this->theme]["css"] as $v){
-				//$doc->appendCssSheet($this->themes[$this->theme]["path_css"].$v);
+			foreach($this->themes[$this->theme]['css'] as $v){
+				//$doc->appendCssSheet($this->themes[$this->theme]['path_css'].$v);
 				$doc->appendCssSheet($v);
 			}
-			foreach($this->themes[$this->theme]["templates"] as $k => $v){
-				//$this->_templates[$k] = $this->themes[$this->theme]["path_html"].$v;
+			foreach($this->themes[$this->theme]['templates'] as $k => $v){
+				//$this->_templates[$k] = $this->themes[$this->theme]['path_html'].$v;
 				$this->_templates[$k] = $v;
 			}
 		}
@@ -155,7 +146,7 @@ class S{
 		}
 		
 		foreach($this->jsFilesDefault as $v){
-			$doc->appendScriptDoc($v["file"], $v["begin"]);//
+			$doc->appendScriptDoc($v['file'], $v['begin']);//
 		}
 		
 		foreach($this->jsFiles as $v){
@@ -177,8 +168,6 @@ class S{
 		
 		return $doc->render();
 	}
-	
-	
 	public static function render(){
 		self::sessionInit();
 		self::init();
@@ -186,10 +175,6 @@ class S{
 		
 		return self::htmlDoc();
 	}
-	
-	
-	
-	
 }
 
 
