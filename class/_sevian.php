@@ -317,8 +317,8 @@ class S{
 	}
 	
 	public static function evalParams(){
-		if(isset($this->req["__sg_params"]) and $this->req["__sg_params"] != ""){
-			$this->sequence(json_decode($this->req["__sg_params"]));
+		if(isset(self::$req["__sg_params"]) and self::$req["__sg_params"] != ""){
+			self::$sequence(json_decode(self::$req["__sg_params"]));
 			
 		}
 	}
