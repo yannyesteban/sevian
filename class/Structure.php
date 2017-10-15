@@ -1,7 +1,9 @@
 <?php
 
-
-class Structure extends sgHTML{
+namespace Sevian;
+	
+	
+class Structure extends HTML{
 	public $template = "";
 	
 	private $_ele = array();

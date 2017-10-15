@@ -1,7 +1,17 @@
 <?php
 
 
+$structure = [
+	
+	"name"=>"ne",
+	"templates"=>"main1",
+	
+	
+];
+
+
 $init = [
+	'theme'=>'sevian',
 	'templateName' => 'main3',
 	'elements' => [
 		[

@@ -5,7 +5,23 @@ include 'HTML.php';
 include 'Document.php';
 include 'Structure.php';
 
+class InfoThemes{
+	
+	public $css = [];
+	public $js = [];
+	public $templates = [];
+	public function __construct($opt = array()){
+		foreach($opt as $k => $v){
+			if(property_exists($this, $k)){
+				$this->$k = $v;
+			}
+		}
+	}
+}
 class S{
+	public static $theme = [];
+	public static $templateName = '';
+	
 	public static $cfg = [];
 	
 	public static $ses = [];
@@ -17,6 +33,10 @@ class S{
 	
 	public static $_js = [];
 	private static $_css = [];
+	
+	private static $_templates = false;
+	private static $_themes = [];
+	
 	
 	public static function setSes($key, $value){
 		self::$ses[$key] = $value;
@@ -51,8 +71,12 @@ class S{
 	public static function cssInit($css = []){
 		self::$_css = $css;
 	}
-	public static function configInit($opt = []){
-		
+	public static function configInit($opt){
+		foreach($opt as $k => $v){
+			if(property_exists(__CLASS__, $k)){
+				self::$$k = $v;
+			}
+		}
 	}
 	public static function sessionInit(){
 		
@@ -84,16 +108,16 @@ class S{
 	public static function inputsLoad($inputs){
 		
 	}
-	public static function elementsLoad($inputs){
+	public static function elementsLoad($elements){
 		
 	}
-	public static function themesLoad($inputs){
-		
+	public static function themesLoad($themes){
+		self::$_themes = $themes;
 	}
 	public static function commandsLoad($inputs){
 		
 	}
-	private static function htmlDoc(){
+	public static function htmlDoc(){
 		global $sevian;
 		
 		
@@ -116,12 +140,25 @@ class S{
 		foreach(self::$_css as $v){
 			$doc->appendCssSheet($v);
 		}
-		
-		
 		foreach(self::$_js as $k=> $v){
-			
 			$doc->appendScriptDoc($v['file'], true);
 		}
+		if(isset(self::$_themes[self::$theme])){
+			
+			
+			echo ".";
+			$theme = new InfoThemes(self::$_themes[self::$theme]);
+			foreach($theme->css as $css){
+				$doc->appendCssSheet($css);
+
+			}
+			foreach($theme->templates as $k => $v){
+				self::$_templates[$k] = $v;
+			}
+			
+		}
+		
+		
 		
 		
 		return $doc->render();

@@ -1,9 +1,9 @@
 <?php
-
+$PATH = '../../themes/';
 $themes = [
 	'sevian' => [
 		'css' => [
-			'../themes/sevian/css/Sevian.css',
+			$PATH.'sevian/css/Sevian.css',
 			//'Main.css',
 			//'Window.css',
 			//'Menu.css',
@@ -16,10 +16,10 @@ $themes = [
 		'js' => [
 			'uno.js'],
 		'templates'	=> [
-			'main'	=> '../themes/sevian/html/main.html',
-			'main2'	=> '../themes/sevian/html/main2.html',
-			'main3'	=> '../themes/sevian/html/main3.php',
-			'main4'	=> '../themes/sevian/html/main4.php']]
+			'main'	=> $PATH.'sevian/html/main.html',
+			'main2'	=> $PATH.'sevian/html/main2.html',
+			'main3'	=> $PATH.'sevian/html/main3.php',
+			'main4'	=> $PATH.'sevian/html/main4.php']]
 	
 	
 ];
@@ -27,7 +27,7 @@ $themes = [
 
 
 
-Sevian\S::themesLoad($cls_elements);
+Sevian\S::themesLoad($themes);
 
 
 ?>
