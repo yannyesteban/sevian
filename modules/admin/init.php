@@ -4,7 +4,7 @@
 $structure = [
 	
 	"name"=>"ne",
-	"templates"=>"main1",
+	"templates"=>"main3",
 	
 	
 ];

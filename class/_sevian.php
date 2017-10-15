@@ -334,6 +334,90 @@ class S{
 		$div->text = self::getTemplate();
 		return $div;
 		
+		
+		$request = false;
+		
+		$str = new Structure();
+		
+		$str->setTemplate(self::$vars(self::getTemplate()));
+		
+		if(self::$_templateChanged){
+			self::$_strPanels = $str->getStrPanels();
+			foreach(self::$_strPanels as $panel){
+				if(!isset(self::$_info[$panel])){
+					self::setPanel(new InfoParam(array('panel' => $panel)));
+				}
+			}
+		}
+		
+		foreach(self::$_info as $panel => $e){
+			
+			self::resetPanelSigns($panel);
+			
+			$elem = self::getElement($e); 
+			
+			$aux = self::configInputs(array(
+				'__sg_panel'	=>$panel,
+				'__sg_sw'		=>self::$cfg['SW'],
+				'__sg_sw2'		=>self::$cfg['SW'],
+				'__sg_ins'		=>self::$ins,
+				'__sg_params'	=>'',
+				'__sg_async'	=>'',
+				'__sg_action'	=>self::$lastAction,
+				'__sg_thread'	=>''
+			
+			));
+			
+			$form = new HTML(array('tagName'=>'form', 'action'=>'', 'name'=>'form_p$panel', 'id'=>'form_p$panel', 'method'=> 'POST', 'enctype'=>'multipart/form-data'));
+			$form->add($elem);
+			$form->add($aux);
+			
+			if(isset(self::$strPanels[$panel])){
+				$div = new HTML(array('tagName'=>'div', 'id'=>'panel_p$panel'));
+				$div->add($form);
+				$str->addPanel($panel, $div);
+			}else{
+				
+				$win = new InfoWindow(array(
+					'caption'=>'hola $panel'	
+				));
+
+				$elem->setWinParams($win);
+
+				$request[] = new InfoRequest(array(
+					'panel'		=> $panel,
+					'targetId'	=> 'panel_p$panel',
+					'html'		=> $form->render(),
+					'script'	=> $form->getScript(),
+					'css'		=> $form->getCss(),
+					'typeAppend'=> 1,
+					'hidden'	=> false,
+					'title'		=> $elem->title,
+					'window'	=> $elem->getWinParams(),
+				));
+			}
+			
+		}
+		
+		$opt = new stdClass;
+		$opt->INS = self::$ins;
+		$opt->SW = self::$cfg['SW'];
+		$opt->mainPanel = 4;
+		
+		if($request){
+			$opt->request = $request;
+		}
+		
+		$opt->fragments = self::getFragment();
+		
+		$json = json_encode($opt);
+		
+		self::$script = '\nsevian.init($json);';
+		
+		self::$cfg['INFO'] = self::$_info;
+		
+		return $str;
+		
 	}
 	public static function htmlDoc(){
 		global $sevian;
