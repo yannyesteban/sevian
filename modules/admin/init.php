@@ -12,6 +12,7 @@ $structure = [
 
 $init = [
 	'theme'=>'sevian',
+	'title'=>'Sigefor 1.0',
 	'templateName' => 'main3',
 	'elements' => [
 		[

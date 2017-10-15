@@ -5,6 +5,90 @@ include 'HTML.php';
 include 'Document.php';
 include 'Structure.php';
 
+function hr($msg_x, $color_x='black',$back_x=''){
+	
+	//echo '**('.$GLOBALS['debug'].')**__';
+	
+	if(is_array($msg_x) or is_object($msg_x)){
+		
+		$msg_x = print_r($msg_x, true);
+	}
+	
+	
+	if(isset($_GET['ajax']) or isset($_POST['ajax'])){
+		$GLOBALS['debugN']++;
+		$GLOBALS['debug'] .= $GLOBALS['debugN'].': '.$msg_x.'\n';
+		
+		//echo $GLOBALS['debug'];
+		return;	
+		
+	}
+	
+	if ($color_x==''){
+		echo "<hr>$msg_x<hr>";
+	}else{
+		echo "<hr><span style=\"background-color:$back_x;color:$color_x;font-family:tahoma;font-size:9pt;font-weight:bold;\">$msg_x</span><hr>";
+	}// end if
+	
+}// end function
+
+class InfoWindow{
+	public $caption = false;
+	public $mode = 'custom';
+	public $width = '300px';
+	public $height = '300px';
+	public $visible = true;
+	public $className = false;
+	public $classImage = false;
+	public $icon = false;
+	
+	public function __construct($opt = array()){
+		foreach($opt as $k => $v){
+			if(property_exists($this, $k)){
+				$this->$k = $v;
+			}
+		}
+	}
+}
+class InfoRequest{
+
+	public $panel = false;
+	public $targetId = false;
+	public $html = false;
+	public $script = false;
+	public $css = false;
+	public $title = false;
+	public $typeAppend = 1;
+	public $hidden = false;
+	public $window = false;
+	
+	public function __construct($opt = array()){
+		foreach($opt as $k => $v){
+			$this->$k = $v;
+		}
+	}
+}
+class InfoParam{
+	public $panel = false;
+	public $element = '';
+	public $name = '';
+	public $method = '';
+	public $eparams = array();
+	public $async = false;
+	public $update = false;
+	public $debugMode = false;
+	public $designMode = false;
+	public $fixed = false;
+	
+	public function __construct($opt = array()){
+		foreach($opt as $k => $v){
+			if(property_exists($this, $k)){
+				$this->$k = $v;
+			}
+			
+		}
+	}
+}
 class InfoThemes{
 	
 	public $css = [];
@@ -19,6 +103,7 @@ class InfoThemes{
 	}
 }
 class S{
+	public static $title = 'SEVIAN 2017.10';
 	public static $theme = [];
 	public static $templateName = '';
 	
@@ -36,6 +121,21 @@ class S{
 	
 	private static $_templates = false;
 	private static $_themes = [];
+	private static $_template = false;
+	private static $_strPanels = false;
+	private static $_templateChanged = false;
+	
+	private static $_elements = [];
+	
+	
+	private static $_info = [];
+	private static $_infoClasses = [];
+	private static $_infoInputs = [];
+	private static $_pSigns = false;
+	private static $_signs = false;
+	private static $_commands = false;
+	private static $_actions = false;
+	
 	
 	
 	public static function setSes($key, $value){
@@ -81,17 +181,15 @@ class S{
 	public static function sessionInit(){
 		
 		
-		$ins = false;
+		
 		
 		if(isset($_REQUEST['__sg_ins'])){
-			$ins = $_REQUEST['__sg_ins'];
+			self::$ins = $_REQUEST['__sg_ins'];
 		}else{
-			$ins = uniqid('p');
+			self::$ins = uniqid('p');
 		}
-		
-		self::$ins = $ins;
 
-		session_name($ins);
+		session_name(self::$ins);
 		session_start();
 		
 		self::$cfg = &$_SESSION;
@@ -100,7 +198,88 @@ class S{
 		self::$ses = &self::$cfg['VSES'];
 		self::$onAjax = self::getReq('__sg_async');
 		
+		if(!isset(self::$cfg['INIT'])){
+			
+			self::$cfg['INIT'] = true;
+			self::$cfg['SW'] = 1;
+			self::$cfg['INFO'] = [];
+			self::$cfg['AUTH'] = false;
+			
+			self::$cfg['VSES'] = [];
+			self::$cfg['TEMPLATE'] = &self::$_template;
+			self::$cfg['STR_PANELS'] = &self::$_strPanels;
+			
+			self::$_infoClasses = self::$_elements;
+			
+			if(isset($opt['clsInput'])){
+				self::$_infoInputs = $opt['clsInput'];
+			}
+			
+			
+			if(isset($opt['elements'])){
+				foreach($opt['elements'] as $k => $e){
+					self::$setPanel(new InfoParam($e));
+				}
+			}
+			
+			if(isset($opt['commands'])){
+				self::$_commands = $opt['commands'];
+			}
+			if(isset($opt['actions'])){
+				self::$_actions = $opt['actions'];
+			}
+			
+			
+			
+			if(isset($opt['signs'])){
+				self::$_signs = $opt['signs'];
+			}
+			self::$cfg['INFO_CLASSES'] = &self::$_infoClasses;
+			self::$cfg['INFO_INPUTS'] = &self::$_infoInputs;
+			self::$cfg['LISTEN_PANEL'] = &self::$_pSigns;
+			self::$cfg['LISTEN'] = &self::$_signs;
+			self::$cfg['COMMANDS'] = &self::$_commands;
+			self::$cfg['ACTIONS'] = &self::$_actions;
+		}else{
+			self::$cfg['INIT'] = false;
+			
+			self::$cfg['SW'] = (self::$cfg['SW'] == '1')? '0': '1';
+			
+			self::$_infoClasses = &self::$cfg['INFO_CLASSES'];
+			self::$_infoInputs = &self::$cfg['INFO_INPUTS'];
+			
+			self::$_info = &self::$cfg['INFO'];
+			self::$template = &self::$cfg['TEMPLATE'];
+			self::$strPanels = &self::$cfg['STR_PANELS'];
+			
+			self::$_signs = &self::$cfg['LISTEN'];
+			
+			self::$_pSigns = &self::$cfg['LISTEN_PANEL'];
+			self::$_commands = &self::$cfg['COMMANDS'];
+			self::$_actions = &self::$cfg['ACTIONS'];
+		}
 		
+		foreach(self::$_info as $info){
+			$info->update = false;
+		}
+		
+		foreach(self::$_infoClasses as $name => $info){
+			self::setClassElement($name, $info);
+		}
+		
+		foreach(self::$_infoInputs as $name => $info){
+			self::setClassInput($name, $info);
+		}
+		
+		if(self::$cfg['INIT'] and isset($opt['sequenceInit'])){
+			self::sequence($opt['sequenceInit']);
+		}
+		
+		if(isset($opt['sequence'])){
+			self::sequence($opt['sequence']);
+		}
+		
+		self::evalParams();
 	}
 	public static function init($opt = []){
 		
@@ -109,12 +288,51 @@ class S{
 		
 	}
 	public static function elementsLoad($elements){
-		
+		self::$_elements;
 	}
 	public static function themesLoad($themes){
 		self::$_themes = $themes;
 	}
 	public static function commandsLoad($inputs){
+		
+	}
+	public static function vars($q){
+		return sgTool::vars($q, array(
+			array(
+				'token' 	=> '@',
+				'data' 		=> self::$ses,
+				'default' 	=> false
+			),
+			array(
+				'token'		=> '\#',
+				'data' 		=> self::$req,
+				'default' 	=> false
+			),
+			array(
+				'token' 	=> '&EX_',
+				'data' 		=> self::$exp,
+				'default' 	=> false
+			),
+		));
+	}
+	
+	public static function evalParams(){
+		if(isset($this->req["__sg_params"]) and $this->req["__sg_params"] != ""){
+			$this->sequence(json_decode($this->req["__sg_params"]));
+			
+		}
+	}
+	public static function setTemplate($template = ''){
+		self::$_template = $template;
+		self::$_templateChanged = true;
+	}
+	public static function getTemplate(){
+		return self::$_template;
+	}
+	public static function evalTemplate(){
+		$div = new HTML('div');
+		$div->text = self::getTemplate();
+		return $div;
 		
 	}
 	public static function htmlDoc(){
@@ -135,7 +353,7 @@ class S{
 		$doc->addMeta($meta2);
 		*/
 
-		$doc->setTitle('Sevian 2018');
+		$doc->setTitle(self::$title);
 		
 		foreach(self::$_css as $v){
 			$doc->appendCssSheet($v);
@@ -143,22 +361,30 @@ class S{
 		foreach(self::$_js as $k=> $v){
 			$doc->appendScriptDoc($v['file'], true);
 		}
+
+		$templates = [];
+		
 		if(isset(self::$_themes[self::$theme])){
-			
-			
-			echo ".";
 			$theme = new InfoThemes(self::$_themes[self::$theme]);
 			foreach($theme->css as $css){
 				$doc->appendCssSheet($css);
-
 			}
 			foreach($theme->templates as $k => $v){
 				self::$_templates[$k] = $v;
 			}
-			
+			$templates = $theme->templates;
 		}
 		
+		if(!self::getTemplate()){
+			if(self::$templateName and isset($templates[self::$templateName])){
+				self::setTemplate(file_get_contents($templates[self::$templateName]));
+			}else{
+				self::setTemplate(self::$template);
+			}
+		}
 		
+		$doc->body->add(self::evalTemplate());
+				
 		
 		
 		return $doc->render();
