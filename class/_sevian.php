@@ -1,9 +1,11 @@
 <?php
 namespace Sevian;
+include 'Tool.php';
 include 'Connection.php';
 include 'HTML.php';
 include 'Document.php';
 include 'Structure.php';
+include 'Panel.php';
 
 function hr($msg_x, $color_x='black',$back_x=''){
 	
@@ -107,6 +109,8 @@ class S{
 	public static $theme = [];
 	public static $templateName = '';
 	
+	public static $elements = [];
+	
 	public static $cfg = [];
 	
 	public static $ses = [];
@@ -128,15 +132,18 @@ class S{
 	private static $_elements = [];
 	
 	
-	private static $_info = [];
+	private static $_info = [];// se guarda la informacion de cada panel ;
+	
 	private static $_infoClasses = [];
 	private static $_infoInputs = [];
-	private static $_pSigns = false;
+	private static $_pSigns = [];
 	private static $_signs = false;
 	private static $_commands = false;
 	private static $_actions = false;
+	private static $_fragments = false;
+	private static $script = '';
 	
-	
+	private static $lastAction = false;
 	
 	public static function setSes($key, $value){
 		self::$ses[$key] = $value;
@@ -216,11 +223,11 @@ class S{
 			}
 			
 			
-			if(isset($opt['elements'])){
-				foreach($opt['elements'] as $k => $e){
-					self::$setPanel(new InfoParam($e));
-				}
+			
+			foreach(self::$elements as $k => $e){
+				self::setPanel(new InfoParam($e));
 			}
+
 			
 			if(isset($opt['commands'])){
 				self::$_commands = $opt['commands'];
@@ -297,7 +304,7 @@ class S{
 		
 	}
 	public static function vars($q){
-		return sgTool::vars($q, array(
+		return Tool::vars($q, array(
 			array(
 				'token' 	=> '@',
 				'data' 		=> self::$ses,
@@ -330,16 +337,16 @@ class S{
 		return self::$_template;
 	}
 	public static function evalTemplate(){
-		$div = new HTML('div');
+		/*$div = new HTML('div');
 		$div->text = self::getTemplate();
 		return $div;
-		
+		*/
 		
 		$request = false;
 		
 		$str = new Structure();
 		
-		$str->setTemplate(self::$vars(self::getTemplate()));
+		$str->setTemplate(self::vars(self::getTemplate()));
 		
 		if(self::$_templateChanged){
 			self::$_strPanels = $str->getStrPanels();
@@ -355,7 +362,7 @@ class S{
 			self::resetPanelSigns($panel);
 			
 			$elem = self::getElement($e); 
-			
+			hr($elem);
 			$aux = self::configInputs(array(
 				'__sg_panel'	=>$panel,
 				'__sg_sw'		=>self::$cfg['SW'],
@@ -399,7 +406,7 @@ class S{
 			
 		}
 		
-		$opt = new stdClass;
+		$opt = new \stdClass;
 		$opt->INS = self::$ins;
 		$opt->SW = self::$cfg['SW'];
 		$opt->mainPanel = 4;
@@ -418,6 +425,65 @@ class S{
 		
 		return $str;
 		
+	}
+	
+	private static function configInputs($_vconfig){
+		$div = new HTML('');
+		
+		foreach($_vconfig as $k => $v){
+			$input = $div->add(array(
+				'tagName'	=>	'input',
+				'type'		=>	'hidden',
+				'name'		=>	$k,
+				'value'		=>	$v
+			));
+		}
+	
+		return $div;
+		
+	}
+	public static function getFragment(){
+		return self::$_fragments;
+		
+	}
+	public static function sgElement($info){
+		
+		if(isset($this->_clsElement[$info->element])){
+			$obj = new $this->_clsElement[$info->element]($info);
+			
+		}else{
+			$obj = new SgPanel($info);
+			
+		}
+		return $obj;
+
+	}
+	public static function getElement($info){
+		if(isset(self::$_clsElement[$info->element])){
+			$obj = new self::$_clsElement[$info->element]($info);
+			
+		}else{
+			$obj = new Panel($info);
+			
+		}
+		return $obj;
+		//return $this->sgElement($info);
+		
+	}
+	public static function setPanel($info, $update = false){
+		
+		if($info->panel){
+			$info->update = $update;
+			self::$_info[$info->panel] = $info; 
+		}
+		
+		
+	}
+	public static function resetPanelSigns($panel){
+		
+		if(isset(self::$_pSigns[$panel])){
+			unset(self::$_pSigns[$panel]);
+		}
 	}
 	public static function htmlDoc(){
 		global $sevian;
