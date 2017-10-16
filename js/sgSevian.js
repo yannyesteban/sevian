@@ -457,8 +457,15 @@ var sevian = false;
 			};
 			this.send(opt);
 			//alert(this.SW);
-		}
+		},
 		
+		loadPanels: function(opt){
+			
+			for(var x in opt){
+				this.setPanel(opt[x].panel, opt[x].type, opt.main);
+			}
+			
+		}
 		
 	};
 		

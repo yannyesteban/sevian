@@ -144,6 +144,7 @@ class S{
 	private static $script = '';
 	
 	private static $_clsElement = [];
+	private static $_mainPanels = [];
 	
 	private static $lastAction = false;
 	
@@ -381,6 +382,8 @@ class S{
 			$form->add($elem);
 			$form->add($aux);
 			
+			self::setMainPanel($panel, "ImgDir", $elem->getMain());
+			
 			if(isset(self::$_strPanels[$panel])){
 				$div = new HTML(array('tagName'=>'div', 'id'=>'panel_p$panel'));
 				$div->add($form);
@@ -427,6 +430,16 @@ class S{
 		
 		return $str;
 		
+	}
+	
+	
+	public static function setMainPanel($panel, $type, $main){
+		
+		self::$_mainPanels[$panel] = [
+			"panel"=>$panel,
+			"type"=>$type,
+			"opt"=>$main
+		] ;
 	}
 	
 	private static function configInputs($_vconfig){
@@ -549,6 +562,11 @@ class S{
 		$doc->body->add(self::evalTemplate());
 				
 		$doc->appendScript(self::$script, true);
+		//hr(self::$_mainPanels, "green");
+		$json = json_encode(self::$_mainPanels);
+		$script = "sevian.loadPanels($json)";
+		
+		$doc->appendScript($script, true);
 		
 		return $doc->render();
 		

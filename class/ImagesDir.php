@@ -38,7 +38,7 @@ class ImagesDir extends Panel{
 			
 		}
 		
-		
+		S::setMainPanel($this->panel, "ImgDir", ["a"=>1]);
 		return $div->render();
 		
 		$partes_ruta = pathinfo('/www/htdocs/inc/lib.inc.php');

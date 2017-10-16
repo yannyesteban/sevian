@@ -48,6 +48,7 @@ class Panel{
 			$this->$k = $v;
 		}
 		
+		$this->_main = ["as"=>12474,"cd"=>8888];
 	}
 	
 	public function evalMethod($method = false){
@@ -101,6 +102,9 @@ class Panel{
 	
 	public function getScript(){
 		
+		return $this->script;
+		
+		
 		$opt = new \stdClass;
 		
 		$opt->panel = $this->panel; 
@@ -115,6 +119,11 @@ class Panel{
 		return $this->css; 
 	}
 
+	public function getMain(){
+		
+		return $this->_main;
+	}
+	
 	public function setJsonPanel($info){
 		
 		$this->_JsonPanel = $info;
