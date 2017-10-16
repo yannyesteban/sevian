@@ -2,7 +2,7 @@
 
 
 
-class SgMenu extends SgPanel{
+class SgMenu extends Sevian\Panel{
 	
 	
 	public $title = "MENU 4.0";

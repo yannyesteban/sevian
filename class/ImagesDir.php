@@ -18,7 +18,7 @@ class ImagesDir extends Panel{
 		
 		
 		$path = "C:\www\sevian\icons\png";
-		$path2 = "../icons/png";
+		$path2 = "../../icons/png";
 		$list = scandir($path);
 		
 		$div = new HTML("div");

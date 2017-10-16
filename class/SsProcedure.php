@@ -1,6 +1,6 @@
 <?php
 
-class SsProcedure extends SgPanel{
+class SsProcedure extends Sevian\Panel{
 	
 	public $title = "Procedure 1.0";
 	

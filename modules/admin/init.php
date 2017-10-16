@@ -17,7 +17,7 @@ $init = [
 	'elements' => [
 		[
 			'panel'		=> 4,
-			'element'	=> 'FormC',
+			'element'	=> 'ImagesDir',
 			'name'		=> 'uno',
 			'method'	=> 'toolbar',
 			'designMode'=> false,
@@ -25,7 +25,7 @@ $init = [
 		],
 		[
 			'panel'		=> 6,
-			'element'	=> 'FormC',
+			'element'	=> 'ImagesDir',
 			'name'		=> 'dos',
 			'method'	=> 'toolbar',
 			'designMode'=> false,

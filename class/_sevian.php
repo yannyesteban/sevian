@@ -143,6 +143,8 @@ class S{
 	private static $_fragments = false;
 	private static $script = '';
 	
+	private static $_clsElement = [];
+	
 	private static $lastAction = false;
 	
 	public static function setSes($key, $value){
@@ -257,7 +259,7 @@ class S{
 			
 			self::$_info = &self::$cfg['INFO'];
 			self::$template = &self::$cfg['TEMPLATE'];
-			self::$strPanels = &self::$cfg['STR_PANELS'];
+			self::$_strPanels = &self::$cfg['STR_PANELS'];
 			
 			self::$_signs = &self::$cfg['LISTEN'];
 			
@@ -295,7 +297,7 @@ class S{
 		
 	}
 	public static function elementsLoad($elements){
-		self::$_elements;
+		self::$_elements = $elements;
 	}
 	public static function themesLoad($themes){
 		self::$_themes = $themes;
@@ -352,7 +354,7 @@ class S{
 			self::$_strPanels = $str->getStrPanels();
 			foreach(self::$_strPanels as $panel){
 				if(!isset(self::$_info[$panel])){
-					self::setPanel(new InfoParam(array('panel' => $panel)));
+					self::setPanel(new InfoParam(['panel' => $panel]));
 				}
 			}
 		}
@@ -362,7 +364,7 @@ class S{
 			self::resetPanelSigns($panel);
 			
 			$elem = self::getElement($e); 
-			hr($elem);
+			
 			$aux = self::configInputs(array(
 				'__sg_panel'	=>$panel,
 				'__sg_sw'		=>self::$cfg['SW'],
@@ -379,7 +381,7 @@ class S{
 			$form->add($elem);
 			$form->add($aux);
 			
-			if(isset(self::$strPanels[$panel])){
+			if(isset(self::$_strPanels[$panel])){
 				$div = new HTML(array('tagName'=>'div', 'id'=>'panel_p$panel'));
 				$div->add($form);
 				$str->addPanel($panel, $div);
@@ -419,7 +421,7 @@ class S{
 		
 		$json = json_encode($opt);
 		
-		self::$script = '\nsevian.init($json);';
+		self::$script = "\nsevian.init($json);";
 		
 		self::$cfg['INFO'] = self::$_info;
 		
@@ -446,6 +448,14 @@ class S{
 		return self::$_fragments;
 		
 	}
+	public static function setClassElement($name, $info){
+		//require_once($info["file"]);
+		
+		if(isset($info['file']) and $info['file'] != ''){
+			require_once($info['file']);
+		}
+		self::$_clsElement[$name] = $info['class'];
+	}
 	public static function sgElement($info){
 		
 		if(isset($this->_clsElement[$info->element])){
@@ -459,10 +469,13 @@ class S{
 
 	}
 	public static function getElement($info){
+		
 		if(isset(self::$_clsElement[$info->element])){
+		
 			$obj = new self::$_clsElement[$info->element]($info);
 			
 		}else{
+		
 			$obj = new Panel($info);
 			
 		}
@@ -509,7 +522,7 @@ class S{
 			$doc->appendCssSheet($v);
 		}
 		foreach(self::$_js as $k=> $v){
-			$doc->appendScriptDoc($v['file'], true);
+			$doc->appendScriptDoc($v['file'], false);
 		}
 
 		$templates = [];
@@ -535,7 +548,7 @@ class S{
 		
 		$doc->body->add(self::evalTemplate());
 				
-		
+		$doc->appendScript(self::$script, true);
 		
 		return $doc->render();
 		
