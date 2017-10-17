@@ -23,9 +23,6 @@ $themes = [
 	
 	
 ];
-	
-
-
 
 Sevian\S::themesLoad($themes);
 
