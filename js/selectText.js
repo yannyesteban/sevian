@@ -534,11 +534,15 @@ var selectText;
 						
 					});
 					item.text(text);
+					/*
 					item.ds({
 						value: this.data[x][0],
 						text: this.data[x][1]
 					});
+					*/
+					item.ds("value", this.data[x][0]);
 					
+					item.ds("text", this.data[x][1]);
 					item.on("click", this._item_click(index));
 					item.on("mousemove", this._item_mousemove(index));
 					
