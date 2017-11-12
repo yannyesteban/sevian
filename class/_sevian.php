@@ -7,6 +7,12 @@ include 'Document.php';
 include 'Structure.php';
 include 'Panel.php';
 
+include 'Input.php';
+include 'Page.php';
+include 'Form.php';
+
+
+
 function hr($msg_x, $color_x='black',$back_x=''){
 	
 	//echo '**('.$GLOBALS['debug'].')**__';
@@ -382,7 +388,7 @@ class S{
 			$form->add($elem);
 			$form->add($aux);
 			
-			self::setMainPanel($panel, "ImgDir", $elem->getMain());
+			//self::setMainPanel($panel, "ImgDir", $elem->getMain());
 			
 			if(isset(self::$_strPanels[$panel])){
 				$div = new HTML(array('tagName'=>'div', 'id'=>'panel_p$panel'));
@@ -414,7 +420,7 @@ class S{
 		$opt = new \stdClass;
 		$opt->INS = self::$ins;
 		$opt->SW = self::$cfg['SW'];
-		$opt->mainPanel = 4;
+		$opt->mainPanel = 1;
 		
 		if($request){
 			$opt->request = $request;
@@ -422,7 +428,7 @@ class S{
 		
 		$opt->fragments = self::getFragment();
 		
-		$json = json_encode($opt);
+		$json = json_encode($opt, JSON_PRETTY_PRINT);
 		
 		self::$script = "\nsevian.init($json);";
 		
@@ -432,6 +438,22 @@ class S{
 		
 	}
 	
+	public static function sgInput($info){
+		
+		if(is_array($info)){
+			$info = new InfoInput($info);
+		}
+		
+		if(isset(self::$_clsInput[$info->input])){
+			$info->type = self::$_clsInput[$info->input]["type"];
+			$obj = new self::$_clsInput[$info->input]["class"]($info);
+		}else{
+			$obj = new Input($info);
+		}
+
+		return $obj;
+
+	}
 	
 	public static function setMainPanel($panel, $type, $main){
 		
@@ -559,11 +581,22 @@ class S{
 			}
 		}
 		
-		$doc->body->add(self::evalTemplate());
+		
+		$_body = self::evalTemplate()->render();
+		$_script = self::evalTemplate()->getScript();
+		$_css = self::evalTemplate()->getCss();
+		
+		$doc->appendCssStyle($_css);
+		$doc->appendScript($_script, true);
+		
+		$doc->body->text = $_body;
+		
+		
+		//$doc->body->add(self::evalTemplate());
 				
 		$doc->appendScript(self::$script, true);
 		//hr(self::$_mainPanels, "green");
-		$json = json_encode(self::$_mainPanels);
+		$json = json_encode(self::$_mainPanels, JSON_PRETTY_PRINT);
 		$script = "sevian.loadPanels($json)";
 		
 		$doc->appendScript($script, true);

@@ -36,7 +36,9 @@ class FormField extends HTML{
 	public function __construct($opt = []){
 		
 		foreach($opt as $k => $v){
-			$this->$k = $v;	
+			if(property_exists($this, $k)){
+				$this->$k = $v;	
+			}
 		}
 		
 
@@ -52,12 +54,12 @@ class FormField extends HTML{
 			$this->class = " ".$this->class;
 		}
 
-		global $sevian;
+		
 		if($this->input){
 			
 			
 			
-			$this->_input = $sevian->sgInput($this->input);
+			$this->_input = S::sgInput($this->input);
 			$this->_body->appendChild($this->_input);
 		}
 		
@@ -68,7 +70,7 @@ class FormField extends HTML{
 
 		if(!$this->_caption){
 			$this->_caption = $this->add("label");
-			if($this->input["name"]){
+			if(isset($this->input["name"]) and $this->input["name"]){
 				$this->_caption->for = $this->input["name"];
 			}
 

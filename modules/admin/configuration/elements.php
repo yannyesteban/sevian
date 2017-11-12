@@ -4,21 +4,24 @@ $cls_elements = [
 	'form' => [
 		'file' 	=> 'SgForm.php',
 		'class' => 'SgForm'],
-	'menu' => [
+	'menu' 		=> [
 		'file' 	=> 'SgMenu.php',
 		'class' => 'SgMenu'],
-	'fragment' => [
+	'fragment' 	=> [
 		'file' 	=> 'ssFragment.php',
 		'class' => 'ssFragment'],
 	'procedure' => [
 		'file' 	=> 'SsProcedure.php',
 		'class' => 'SsProcedure'],
-	'sgForm' => [
+	'sgForm' 	=> [
 		'file' 	=> 'Sigefor/Form.php',
-		'class' => 'Sigefor/Form.php'],
+		'class' => 'Sevian\Sigefor\Form'],
 	'ImagesDir' => [
 		'file' 	=> 'ImagesDir.php',
 		'class' => 'Sevian\ImagesDir'],
+	'menuX' 	=> [
+		'file' 	=> 'mMenu.php',
+		'class' => 'Sevian\mMenu'],
 	
 ];
 

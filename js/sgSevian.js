@@ -48,9 +48,11 @@ var sevian = false;
 	
 	var _sgPanel = function(opt){
 		
-		this.panel = 0;
 		
+		this.panel = 0;
+		this.title = "default";
 		for(var x in opt){
+			
 			this[x] = opt[x];
 		}
 		
@@ -254,7 +256,9 @@ var sevian = false;
 			
 			_p[panel] = this.sgObject(type, opt);
 			
-			if(panel === this.mainPanel){
+			if(panel === this.mainPanel && _p[panel].title){
+				
+				
 				document.title = _p[panel].title;
 			}
 			
@@ -462,7 +466,8 @@ var sevian = false;
 		loadPanels: function(opt){
 			
 			for(var x in opt){
-				this.setPanel(opt[x].panel, opt[x].type, opt.main);
+				
+				this.setPanel(opt[x].panel, opt[x].type, opt[x].opt);
 			}
 			
 		}

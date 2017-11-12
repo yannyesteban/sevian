@@ -48,7 +48,7 @@ class Panel{
 			$this->$k = $v;
 		}
 		
-		$this->_main = ["as"=>12474,"cd"=>8888];
+		
 	}
 	
 	public function evalMethod($method = false){
@@ -110,7 +110,7 @@ class Panel{
 		$opt->panel = $this->panel; 
 		$opt->title = $this->title; 
 		
-		$json = json_encode($opt);
+		$json = json_encode($opt, JSON_PRETTY_PRINT);
 		$this->script .= "sevian.setPanel($this->panel, false, $json);/*CAN*/";
 		return $this->script; 
 	}
