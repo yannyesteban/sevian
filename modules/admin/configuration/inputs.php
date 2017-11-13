@@ -40,6 +40,6 @@ $inputs = [
 		'type'  =>  'calendar'],
 ];
 
-Sevian\S::Inputsload($inputs);
+Sevian\S::inputsLoad($inputs);
 
 ?>

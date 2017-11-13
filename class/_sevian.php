@@ -136,6 +136,7 @@ class S{
 	private static $_templateChanged = false;
 	
 	private static $_elements = [];
+	private static $_inputs = [];
 	
 	
 	private static $_info = [];// se guarda la informacion de cada panel ;
@@ -300,7 +301,25 @@ class S{
 	public static function init($opt = []){
 		
 	}
+
+	public static function addClassInput($name, $info){
+
+		if(isset($info["file"]) and $info["file"] != ""){
+			require_once($info["file"]);
+		}
+
+		self::$_inputs[$name] = $info;
+
+
+	}
 	public static function inputsLoad($inputs){
+
+		foreach($inputs as $k => $v){
+
+			self::addClassInput($k, $v);
+		}
+
+
 		
 	}
 	public static function elementsLoad($elements){
@@ -444,9 +463,9 @@ class S{
 			$info = new InfoInput($info);
 		}
 		
-		if(isset(self::$_clsInput[$info->input])){
-			$info->type = self::$_clsInput[$info->input]["type"];
-			$obj = new self::$_clsInput[$info->input]["class"]($info);
+		if(isset(self::$_inputs[$info->input])){
+			$info->type = self::$_inputs[$info->input]["type"];
+			$obj = new self::$_inputs[$info->input]["class"]($info);
 		}else{
 			$obj = new Input($info);
 		}
