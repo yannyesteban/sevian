@@ -9,7 +9,7 @@ class InfoField{
 	public $title = "";
 	public $class = "";
 	public $params = "";
-	public $input = "";
+	public $input = ["input"=>"text"];
 	public $config = false;
 	public $data = false;
 	public $init_value = "";
@@ -186,9 +186,11 @@ class Form extends \Sevian\Panel{
 		$f = new \Sevian\Form();
 		$f->setCaption($this->title."...");
 		
-		foreach($this->fields as $k => $v){
-			echo "$k ";
-			$f->addField($v);
+		foreach($this->fields as $k => $field){
+			
+
+			$field->caption = $field->name;
+			$f->addField($field);
 			
 		}
 		
