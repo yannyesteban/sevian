@@ -8,7 +8,7 @@ $cn = [
 		'port'		=> '3306',
 		'user'		=> 'root',
 		'pass'		=> '123456',
-		'dbase'		=> 'sevian',
+		'dbase'		=> 'sevian_2017',
 		'charset'	=> 'utf-8'],
 	
 	'sevian_2017' => [
@@ -17,7 +17,7 @@ $cn = [
 		'port'		=> '3306',
 		'user'		=> 'root',
 		'pass'		=> '123456',
-		'dbase'		=> 'sevian_2017',
+		'dbase'		=> 'sevian',
 		'charset'	=> 'utf-8'],
 	
 	

@@ -1,11 +1,60 @@
 <?php
 namespace Sevian\Sigefor;
 
+class InfoField{
+	public $form = "";
+	public $field = "";
+	public $name = "";
+	public $method = "";
+	public $title = "";
+	public $class = "";
+	public $params = "";
+	public $input = "";
+	public $config = false;
+	public $data = false;
+	public $init_value = "";
+	public $default = "";
+
+	public $parent = false;
+	public $childs = false;
+	public $rules = false;
+	public $value = "";
+
+	public $info = false;
+	
+	public $mtype = false;
+	public $key = false;
+	public $serial = false;
+	public $length = false;
+	public $table = false;
+
+	public function __construct($opt = []){
+		
+		foreach($opt as $k => $v){
+			if(property_exists($this, $k)){
+				$this->$k = $v;	
+			}
+		}
+	}
+
+	public function update($opt = []){
+		self::__construct($opt);
+	}
+
+}
 
 class Form extends \Sevian\Panel{
+	public $form = false;
+	public $title = false;
+	public $class = false;
+	public $query = '';
+	public $params = '';
+	public $tabs = '';
+	public $pages = '';
+
+
+	public $jsonFile = 'form.json';
 	
-	public $jsonFile = "form.json";
-	public $query = "";
 	
 	public $fields = [];
 	
@@ -27,7 +76,8 @@ class Form extends \Sevian\Panel{
 	public function evalMethod($method = ""){
 		
 		
-		$this->loadForm();
+		//$this->loadForm();
+		$this->load();
 		
 		switch($method){
 				
@@ -52,14 +102,42 @@ class Form extends \Sevian\Panel{
 	
 	private function load(){
 		
-		$query = "SELECT * FROM _sg_forms WHERE form = '$this->name'";
+		$cn = $this->cn;
+
+		$cn->query = "SELECT * FROM _sg_forms WHERE form = '$this->name'";
 		
 		$result = $cn->execute();
 		
 		
 		if($rs = $cn->getDataAssoc($result)){
-			$titulo = $rs["title"];
+
+			foreach($rs as $k => $v){
+				$this->$k = $v;
+			}
+			
 		}
+
+		$info = $this->getInfoFields($this->query);
+
+		$fields = $info->fields;
+
+		foreach($fields as $k => $v){
+			$this->fields[$k] = new \Sevian\Sigefor\InfoField($v);
+		}
+
+		$q = "SELECT * FROM _sg_form_fields WHERE form = '$this->name'";
+
+		$result = $cn->execute($q);
+
+		while($rs = $cn->getDataAssoc($result)){
+			if(isset($this->fields[$rs["field"]])){
+				$this->fields[$rs["field"]]->update($rs);
+			}
+			
+		
+		}
+
+		//print_r($this->fields);
 		
 	}
 	
@@ -106,9 +184,10 @@ class Form extends \Sevian\Panel{
 	public function form(){
 		
 		$f = new \Sevian\Form();
-		$f->setCaption($this->title);
+		$f->setCaption($this->title."...");
 		
 		foreach($this->fields as $k => $v){
+			echo "$k ";
 			$f->addField($v);
 			
 		}
