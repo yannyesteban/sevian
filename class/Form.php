@@ -70,10 +70,11 @@ class FormField extends HTML{
 
 		if(!$this->_caption){
 			$this->_caption = $this->add("label");
+			/*
 			if(isset($this->input["name"]) and $this->input["name"]){
 				$this->_caption->for = $this->input["name"];
 			}
-
+*/
 		}
 		$this->_caption->text = $caption;
 		return $this->_caption;

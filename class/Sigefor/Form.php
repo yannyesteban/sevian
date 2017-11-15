@@ -19,7 +19,7 @@ class InfoField{
 	public $childs = false;
 	public $rules = false;
 	public $value = "";
-
+	public $events = false;
 	public $info = false;
 	
 	public $mtype = false;
@@ -28,6 +28,8 @@ class InfoField{
 	public $length = false;
 	public $table = false;
 
+
+	
 	public function __construct($opt = []){
 		
 		foreach($opt as $k => $v){
@@ -51,7 +53,7 @@ class Form extends \Sevian\Panel{
 	public $params = '';
 	public $tabs = '';
 	public $pages = '';
-
+	public $masterData = [];
 
 	public $jsonFile = 'form.json';
 	
@@ -188,7 +190,23 @@ class Form extends \Sevian\Panel{
 		
 		foreach($this->fields as $k => $field){
 			
+			$input = new \Sevian\InfoInput([
 
+				"type"=>"text",
+				"name"=>$field->name,
+				"id"=>$field->name."_p{$this->panel}",
+				"className"=>$field->class,
+				"events"=>$field->events,
+				"value"=>123,
+				"parent"=>$field->parent,
+				"childs"=>$field->childs,
+				"data"=>$field->data,
+				"masterData"=>$this->masterData,
+
+
+
+			]);
+			$field->input = $input;
 			$field->caption = $field->name;
 			$f->addField($field);
 			
