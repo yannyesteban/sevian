@@ -115,22 +115,26 @@ class Input extends InfoInput{
 		
 		$this->main = $main->id = $this->id;
 		$main->name = $this->name;
-		$json = json_encode($this, JSON_PRETTY_PRINT);
-		$main->script ="var i21 = new Sevian.InputStd($json);";
+		
+		$main->value = $this->value;
+		
+		$main->className = $this->className;
+		$main->events = $this->events;
+		
+		
+		//$json = json_encode($this, JSON_PRETTY_PRINT);
+		//$main->script ="var i21 = new Sevian.InputStd($json);";
 		
 		
 		
-		$this->_main = $main;
+		//$this->_main = $main;
 		
 		return $main->render();
 	}
 	
 	
-	public function getScript(){
-		if($this->_main){
-			
-			return $this->_main->getScript();
-		}
+	public function getScript1(){
+		
 	}
 	
 }
