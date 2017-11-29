@@ -77,7 +77,12 @@ var selectText;
 			this.get().readOnly = value;
 		},
 		disabled: function(value){
-			this.get().disabled = value;
+			if(value !== undefined){
+				this.get().disabled = value;
+			}else{
+				return this.get().disabled;
+			}
+			
 		},
 		focus: function(value){
 			this.get().focus();
