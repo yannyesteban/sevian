@@ -2,23 +2,23 @@
 namespace Sevian\Sigefor;
 
 class InfoField{
-	public $form = "";
-	public $field = "";
-	public $name = "";
-	public $method = "";
-	public $title = "";
-	public $class = "";
-	public $params = "";
-	public $input = ["input"=>"text"];
+	public $form = '';
+	public $field = '';
+	public $name = '';
+	public $method = '';
+	public $title = '';
+	public $class = '';
+	public $params = '';
+	public $input = ['input'=>'text'];
 	public $config = false;
 	public $data = false;
-	public $init_value = "";
-	public $default = "";
+	public $init_value = '';
+	public $default = '';
 
 	public $parent = false;
 	public $childs = false;
 	public $rules = false;
-	public $value = "";
+	public $value = '';
 	public $events = false;
 	public $info = false;
 	
@@ -69,13 +69,13 @@ class Form extends \Sevian\Panel{
 			$this->$k = $v;
 		}
 		
-		$this->main = new \Sevian\HTML("div");
+		$this->main = new \Sevian\HTML('div');
 		
 		$this->cn = \Sevian\Connection::get();
 	}
 	
 	
-	public function evalMethod($method = ""){
+	public function evalMethod($method = ''){
 		
 		
 		//$this->loadForm();
@@ -84,8 +84,18 @@ class Form extends \Sevian\Panel{
 		switch($method){
 				
 				
-			case "request":
+			case 'request':
 				$this->main = $this->form();
+				break;
+			case 'load':
+				break;
+			case 'list':
+				break;
+			case 'save':
+				break;
+			case 'delete':
+				break;
+			case 'get_field_data':
 				break;
 				
 				
@@ -132,8 +142,8 @@ class Form extends \Sevian\Panel{
 		$result = $cn->execute($q);
 
 		while($rs = $cn->getDataAssoc($result)){
-			if(isset($this->fields[$rs["field"]])){
-				$this->fields[$rs["field"]]->update($rs);
+			if(isset($this->fields[$rs['field']])){
+				$this->fields[$rs['field']]->update($rs);
 			}
 			
 		
@@ -186,22 +196,22 @@ class Form extends \Sevian\Panel{
 	public function form(){
 		
 		$f = new \Sevian\Form();
-		$f->setCaption($this->title."...");
+		$f->setCaption($this->title.'...');
 		
 		foreach($this->fields as $k => $field){
 			
 			$input = new \Sevian\InfoInput([
 
-				"type"=>"text",
-				"name"=>$field->name,
-				"id"=>$field->name."_p{$this->panel}",
-				"className"=>$field->class,
-				"events"=>$field->events,
-				"value"=>123,
-				"parent"=>$field->parent,
-				"childs"=>$field->childs,
-				"data"=>$field->data,
-				"masterData"=>$this->masterData,
+				'type'=>'text',
+				'name'=>$field->name,
+				'id'=>$field->name."_p{$this->panel}",
+				'className'=>$field->class,
+				'events'=>$field->events,
+				'value'=>123,
+				'parent'=>$field->parent,
+				'childs'=>$field->childs,
+				'data'=>$field->data,
+				'masterData'=>$this->masterData,
 
 
 
