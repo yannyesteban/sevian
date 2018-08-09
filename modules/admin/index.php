@@ -14,6 +14,5 @@ include 'configuration/js.php';
 
 
 
-
 echo Sevian\S::render();
 ?>
