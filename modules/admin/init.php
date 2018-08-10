@@ -33,7 +33,7 @@ $init = [
 		],
 		[
 			'panel'		=> 1,
-			'element'	=> 'menuX',
+			'element'	=> 'menuXX',
 			'name'		=> 'dos',
 			'method'	=> 'toolbar',
 			'designMode'=> false,
