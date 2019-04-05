@@ -59,6 +59,41 @@ $init = [
 	
 ];
 
+
+
+$init = [
+	'theme'=>'sevian',
+	'title'=>'COTA 2019',
+	'templateName' => 'cota_login',
+	'elements' => [
+		[
+			'panel'		=> 4,
+			'element'	=> 'sgForm',
+			'name'		=> 'uno_m',
+			'method'	=> 'request',
+			'designMode'=> true,
+			'fixed'		=> true,
+		],
+		
+	
+	],
+	
+	'sequences' => [
+	
+	
+	
+	],
+	'actions' => [
+	
+	
+	
+	],
+	
+	'css' => [],
+	
+	'js' => [],
+	
+];
 Sevian\S::configInit($init);
 
 ?>

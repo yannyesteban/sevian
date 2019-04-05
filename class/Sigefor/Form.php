@@ -196,7 +196,7 @@ class Form extends \Sevian\Panel{
 	public function form(){
 		
 		$f = new \Sevian\Form();
-		$f->setCaption($this->title.'...');
+		$f->setCaption($this->title);
 		
 		foreach($this->fields as $k => $field){
 			

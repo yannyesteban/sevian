@@ -45,7 +45,7 @@ $js = [
 	[
 		'file' 	=> "{$PATH}js/Sevian/Form.js",
 		'toEnd'	=> false],
-
+/*
 	[
 		'file' 	=> "https://code.jquery.com/jquery-3.3.1.slim.min.js",
 		'toEnd'	=> true],		
@@ -60,7 +60,7 @@ $js = [
 	[
 		'file' 	=> "{$PATH}js/Sevian/cota.js",
 		'toEnd'	=> true],
-
+*/
 	
 ];
 
