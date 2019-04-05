@@ -10,7 +10,7 @@ class mMenu extends Panel{
 		
 		$this->_main = ["type"=>"mMenu","name"=>"bicicleta","title"=>"Bélgica"];
 		s::setMainPanel($this->panel, "mMenu", $this->getMain());
-		return "QUE";
+		return "NOOOOO !!!";
 	}
 	
 	
@@ -20,7 +20,7 @@ class mMenu extends Panel{
 	
 	public function _getCss(){
 		
-		return "body{color:white!important}";
+		return "body{color:aqua!important}";
 	}
 	
 }
