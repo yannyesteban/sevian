@@ -121,14 +121,15 @@ class Document{
 
 					$meta2 = new HTML("meta");
 					$meta2->name = "viewport";
-					$meta2->content = "width=device-width, initial-scale=1";
+					$meta2->content = "width=device-width, initial-scale=1, shrink-to-fit=no";
 
 					$this->addMeta($meta1);
 					$this->addMeta($meta2);
 				}
 
 				$html = new HTML("html");
-
+				$this->body->appendChild($this->scriptDocEnd);
+				$this->body->appendChild($this->scriptEnd);
 				$body = $this->body->render();
 				
 				$this->appendCssStyle($this->body->getCss());
@@ -143,8 +144,8 @@ class Document{
 				$html->appendChild("\n");
 				$html->appendChild($body);
 				$html->appendChild("\n");
-				$html->appendChild($this->scriptDocEnd);
-				$html->appendChild($this->scriptEnd);
+				//$html->appendChild($this->scriptDocEnd);
+				//$html->appendChild($this->scriptEnd);
 				$html->appendChild("\n");
 
 				return $this->doctype."\n".$html->render();

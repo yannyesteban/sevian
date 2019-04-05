@@ -4,7 +4,7 @@ $PATH = "../../";
 
 $css = array(
 	"{$PATH}css/Menu.css",
-	
+	"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
 	//"{$PATH}css/sgMenu.css",
 	"{$PATH}css/sgWindow.css",
 	"{$PATH}css/sgCalendar.css",

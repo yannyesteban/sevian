@@ -576,7 +576,7 @@ class S{
 			$doc->appendCssSheet($v);
 		}
 		foreach(self::$_js as $k=> $v){
-			$doc->appendScriptDoc($v['file'], false);
+			$doc->appendScriptDoc($v['file'], $v['toEnd']);
 		}
 
 		$templates = [];

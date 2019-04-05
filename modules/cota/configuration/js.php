@@ -5,46 +5,62 @@ $PATH = "../../";
 $js = [
 	[
 		'file' 	=> "{$PATH}_js/_sgQuery.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/sgAjax.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/drag.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/sgWindow.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/sgDB.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/sgInit.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/sgSevian.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/Sevian/Tab.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/Sevian/Menu.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/Sevian/DesignMenu.js",
-		'begin'	=> false],
-	[
+		'toEnd'	=> false],
+	/*[
 		'file' 	=> "{$PATH}js/Sevian/Upload.js",
-		'begin'	=> false],
+		'toEnd'	=> false],*/
 	[
 		'file' 	=> "{$PATH}js/sgCalendar.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/Sevian/Input.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
 	[
 		'file' 	=> "{$PATH}js/Sevian/Form.js",
-		'begin'	=> false],
+		'toEnd'	=> false],
+
+	[
+		'file' 	=> "https://code.jquery.com/jquery-3.3.1.slim.min.js",
+		'toEnd'	=> true],		
+
+	[
+		'file' 	=> "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js",
+		'toEnd'	=> true],		
+	[
+		'file' 	=> "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js",
+		'toEnd'	=> true],		
+
+	[
+		'file' 	=> "{$PATH}js/Sevian/cota.js",
+		'toEnd'	=> true],
+
 	
 ];
 

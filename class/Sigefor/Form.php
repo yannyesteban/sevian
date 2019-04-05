@@ -113,7 +113,7 @@ class Form extends \Sevian\Panel{
 	}
 	
 	private function load(){
-		
+		return;
 		$cn = $this->cn;
 
 		$cn->query = "SELECT * FROM _sg_forms WHERE form = '$this->name'";

@@ -20,7 +20,8 @@ $themes = [
 			'main'	=> $PATH.'sevian/html/main.html',
 			'main2'	=> $PATH.'sevian/html/main2.html',
 			'main3'	=> $PATH.'sevian/html/main3.php',
-			'main4'	=> $PATH.'sevian/html/main4.php']]
+			'main4'	=> $PATH.'sevian/html/main4.php',
+			'cota'	=> $PATH.'sevian/html/main_cota.php']]
 	
 	
 ];
